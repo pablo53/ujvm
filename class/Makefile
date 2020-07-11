@@ -11,10 +11,14 @@ all.o: clsfile.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
-clsfile.o: clsfile.cpp clsfile.h
-	$(CC) $(CFLAGS) -c $(filter %.cpp,$^) -o $@
+clsfile.o: clsfile.cpp clsfile.h ../tools/endian
+	$(CC) $(CFLAGS) -D$(shell ../tools/endian) -c $(filter %.cpp,$^) -o $@
+
+../tools/%:
+	(cd ..; cd tools; make)
 
 clean:
 	rm -f *.o
+	(cd ..; cd tools; make clean)
 
 .PHONY: all clean

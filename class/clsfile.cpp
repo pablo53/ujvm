@@ -4,6 +4,16 @@
 
 #include "clsfile.h"
 
+#include "../defs/endian.h"
+
+
+ClassFile::ClassFile(u8 * buf, size_t buflen)
+{
+  magic = BE32T(buf, 0);
+  minor_ver = BE16T(buf, 4);
+  major_ver = BE16T(buf, 6);
+  // TODO...
+}
 
 ClassFile::ClassFile(u16 max_const_pool_cnt, u16 max_iface_cnt, u16 max_field_cnt, u16 max_method_cnt, u16 max_attr_cnt)
 {

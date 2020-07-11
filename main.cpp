@@ -7,4 +7,11 @@
 #include "defs/types.h"
 
 
+ClassFile load(void * buf)
+{
+  ClassFile clsf(0, 0, 0, 0, 0);
+  return clsf;
+}
+
+
 #endif
