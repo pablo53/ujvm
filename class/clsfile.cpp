@@ -7,7 +7,7 @@
 #include "../defs/endian.h"
 
 
-ClassFile::ClassFile(u8 * buf, size_t buflen)
+ClassFile::ClassFile(const u8 * buf, size_t buflen)
 {
   magic = BE32T(buf, 0);
   minor_ver = BE16T(buf, 4);
