@@ -2,12 +2,9 @@
 #define _CLSFILE_H
 
 
+#include "cpool.h"
+
 #include "../defs/types.h"
-
-
-class ConstPoolEntry
-{
-};
 
 class FieldInfo
 {

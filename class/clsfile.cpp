@@ -4,14 +4,15 @@
 
 #include "clsfile.h"
 
+#include "stm.h"
 #include "../defs/endian.h"
 
 
 ClassFile::ClassFile(const u8 * buf, size_t buflen)
 {
-  magic = BE32T(buf, 0);
-  minor_ver = BE16T(buf, 4);
-  major_ver = BE16T(buf, 6);
+  magic = readbe32(buf);
+  minor_ver = readbe16(buf);
+  major_ver = readbe16(buf);
   // TODO...
 }
 

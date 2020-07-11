@@ -7,12 +7,18 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: all.o
 
-all.o: clsfile.o
+all.o: clsfile.o cpool.o stm.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
-clsfile.o: clsfile.cpp clsfile.h ../tools/endian
-	$(CC) $(CFLAGS) -D$(shell ../tools/endian) -c $(filter %.cpp,$^) -o $@
+clsfile.o: clsfile.cpp clsfile.h stm.h ../defs/types.h ../defs/endian.h ../tools/endian
+	$(CC) $(CFLAGS) -D$(shell ../tools/endian) -c $< -o $@
+
+cpool.o: cpool.cpp cpool.h ../defs/types.h ../defs/endian.h ../tools/endian
+	$(CC) $(CFLAGS) -D$(shell ../tools/endian) -c $< -o $@
+
+stm.o: stm.cpp stm.h ../defs/types.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 ../tools/%:
 	(cd ..; cd tools; make)

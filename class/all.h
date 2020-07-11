@@ -3,6 +3,7 @@
 
 
 #include "clsfile.h"
+#include "cpool.h"
 
 
 #endif
