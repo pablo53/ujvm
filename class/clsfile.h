@@ -45,7 +45,7 @@ class ClassFile
   AttributeInfo * attributes; /* An array of iface_cnt indices of const_pool entries. */
   
   ClassFile(const u8 * buf, size_t buflen);
-  ClassFile(u16 max_const_pool_cnt, u16 max_iface_cnt, u16 max_field_cnt, u16 max_method_cnt, u16 max_attr_cnt);
+  void load(const u8 * buf, size_t buflen);
   ~ClassFile();
 };
 
