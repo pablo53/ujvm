@@ -4,69 +4,101 @@
 
 #include "cpool.h"
 
+#include "stm.h"
 #include "../defs/types.h"
 #include "../defs/endian.h"
+
+#include <cstring>
 
 
 CPInfo::~CPInfo()
 {
 }
 
-void CPUtf8Info::from(u8 * &buf)
+CPUtf8Info::CPUtf8Info()
 {
+  bytes = nullptr;
 }
 
-void CPClassInfo::from(u8 * &buf)
+void CPUtf8Info::from(const u8 * &buf)
 {
+  length = readbe16(buf);
+  delete[] bytes;
+  bytes = new u8[length];
+  memcpy(bytes, (void *)buf, length);
 }
 
-void CPIntegerInfo::from(u8 * &buf)
+void CPIntegerInfo::from(const u8 * &buf)
 {
+  bytes = readbe32(buf);
 }
 
-void CPFloatInfo::from(u8 * &buf)
+void CPFloatInfo::from(const u8 * &buf)
 {
+  bytes = readbe32(buf);
 }
 
-void CPLongInfo::from(u8 * &buf)
+void CPLongInfo::from(const u8 * &buf)
 {
+  high_bytes = readbe32(buf);
+  low_bytes = readbe32(buf);
 }
 
-void CPDoubleInfo::from(u8 * &buf)
+void CPDoubleInfo::from(const u8 * &buf)
 {
+  high_bytes = readbe32(buf);
+  low_bytes = readbe32(buf);
 }
 
-void CPStringInfo::from(u8 * &buf)
+void CPClassInfo::from(const u8 * &buf)
 {
+  name_idx = readbe16(buf);
 }
 
-void CPFieldRefInfo::from(u8 * &buf)
+void CPStringInfo::from(const u8 * &buf)
 {
+  str_idx = readbe16(buf);
 }
 
-void CPMethodRefInfo::from(u8 * &buf)
+void CPFieldRefInfo::from(const u8 * &buf)
 {
+  class_idx = readbe16(buf);
+  name_typ_idx = readbe16(buf);
 }
 
-void CPInterfaceMethodRefInfo::from(u8 * &buf)
+void CPMethodRefInfo::from(const u8 * &buf)
 {
+  class_idx = readbe16(buf);
+  name_typ_idx = readbe16(buf);
 }
 
-void CPNameTypeInfo::from(u8 * &buf)
+void CPInterfaceMethodRefInfo::from(const u8 * &buf)
 {
+  class_idx = readbe16(buf);
+  name_typ_idx = readbe16(buf);
 }
 
-void CPMethodHdlInfo::from(u8 * &buf)
+void CPNameTypeInfo::from(const u8 * &buf)
 {
+  name_idx = readbe16(buf);
+  desc_idx = readbe16(buf);
 }
 
-void CPMethodTypInfo::from(u8 * &buf)
+void CPMethodHdlInfo::from(const u8 * &buf)
 {
+  ref_kind = readbe8(buf);
+  ref_idx = readbe16(buf);
 }
 
-
-void CPInvokeDynamicInfo::from(u8 * &buf)
+void CPMethodTypInfo::from(const u8 * &buf)
 {
+  desc_idx = readbe16(buf);
+}
+
+void CPInvokeDynamicInfo::from(const u8 * &buf)
+{
+  boot_meth_attr_idx = readbe16(buf);
+  name_typ_idx = readbe16(buf);
 }
 
 
@@ -82,7 +114,7 @@ ConstPoolEntry::~ConstPoolEntry()
   info = nullptr;
 }
 
-void ConstPoolEntry::from(u8 * &buf)
+void ConstPoolEntry::from(const u8 * &buf)
 {
   delete info;
   switch (tag = *(buf++))
