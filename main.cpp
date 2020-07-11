@@ -7,9 +7,9 @@
 #include "defs/types.h"
 
 
-ClassFile load(void * buf)
+ClassFile load(void * buf, size_t len)
 {
-  ClassFile clsf(0, 0, 0, 0, 0);
+  ClassFile clsf((u8 *)buf, len);
   return clsf;
 }
 

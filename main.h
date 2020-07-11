@@ -5,7 +5,7 @@
 #include "class/clsfile.h"
 
 
-ClassFile load(void * buf);
+ClassFile load(void * buf, size_t len);
 
 
 #endif
