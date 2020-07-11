@@ -3,6 +3,8 @@
 
 
 #include "main.h"
+#include "class/all.h"
+#include "defs/types.h"
 
 
 #endif

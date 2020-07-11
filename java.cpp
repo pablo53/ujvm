@@ -3,6 +3,7 @@
 
 
 #include <stdio.h>
+#include "ujvm.h"
 
 
 int main(int args, char *argv[])
