@@ -61,6 +61,7 @@ class CPLongInfo : public CPInfo
   u32 low_bytes;
 
   virtual void from(const u8 * &buf);
+  u64 get(void);
 };
 
 class CPDoubleInfo : public CPInfo
@@ -70,6 +71,7 @@ class CPDoubleInfo : public CPInfo
   u32 low_bytes;
 
   virtual void from(const u8 * &buf);
+  f64 get(void);
 };
 
 class CPClassInfo : public CPInfo

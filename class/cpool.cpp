@@ -44,11 +44,22 @@ void CPLongInfo::from(const u8 * &buf)
   low_bytes = readbe32(buf);
 }
 
+u64 CPLongInfo::get(void)
+{
+  return ((((u64)high_bytes) << 32) | ((u64)low_bytes));
+}
+
 void CPDoubleInfo::from(const u8 * &buf)
 {
   high_bytes = readbe32(buf);
   low_bytes = readbe32(buf);
 }
+
+f64 CPDoubleInfo::get(void)
+{
+  return (f64) ((((u64)high_bytes) << 32) | ((u64)low_bytes));
+}
+
 
 void CPClassInfo::from(const u8 * &buf)
 {
