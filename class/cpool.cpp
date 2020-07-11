@@ -26,6 +26,7 @@ void CPUtf8Info::from(const u8 * &buf)
   delete[] bytes;
   bytes = new u8[length];
   memcpy(bytes, (void *)buf, length);
+  buf += length;
 }
 
 void CPIntegerInfo::from(const u8 * &buf)
