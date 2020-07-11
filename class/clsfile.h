@@ -45,8 +45,13 @@ class ClassFile
   AttributeInfo * attributes; /* An array of iface_cnt indices of const_pool entries. */
   
   ClassFile(const u8 * buf, size_t buflen);
-  void load(const u8 * buf, size_t buflen);
+  ClassFile(const ClassFile &) = delete; /* No implicit copying constructor */
+  ClassFile(ClassFile &&); /* Explicit moving constructor (no implicit one due to the existing destructor) */
   ~ClassFile();
+
+  protected:
+  void load(const u8 * buf, size_t buflen);
+  void unlink(void);
 };
 
 
