@@ -106,11 +106,13 @@ void CPMethodTypInfo::from(const u8 * &buf)
   desc_idx = readbe16(buf);
 }
 
+#if JVM_VER >= 9
 void CPDynamicInfo::from(const u8 * &buf)
 {
   boot_meth_attr_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
 }
+#endif
 
 void CPInvokeDynamicInfo::from(const u8 * &buf)
 {
@@ -118,6 +120,7 @@ void CPInvokeDynamicInfo::from(const u8 * &buf)
   name_typ_idx = readbe16(buf);
 }
 
+#if JVM_VER >= 9
 void CPModuleInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
@@ -127,6 +130,7 @@ void CPPackageInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
 }
+#endif
 
 ConstPoolEntry::ConstPoolEntry()
 {
@@ -184,18 +188,22 @@ void ConstPoolEntry::from(const u8 * &buf)
     case CONST_METHOD_TYPE:
       info = new CPMethodTypInfo();
       break;
+#if JVM_VER >= 9
     case CONST_DYNAMIC:
       info = new CPDynamicInfo();
       break;
+#endif
     case CONST_INVOKE_DYNAMIC:
       info = new CPInvokeDynamicInfo();
       break;
+#if JVM_VER >= 9
     case CONST_MODULE:
       info = new CPModuleInfo();
       break;
     case CONST_PACKAGE:
       info = new CPPackageInfo();
       break;
+#endif
     default:
       info = nullptr;
   };

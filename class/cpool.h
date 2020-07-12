@@ -18,11 +18,14 @@
 #define CONST_NAME_AND_TYPE        0x0c
 #define CONST_METHOD_HANDLE        0x0f
 #define CONST_METHOD_TYPE          0x10
+#if JVM_VER >= 9
 #define CONST_DYNAMIC              0x11
+#endif
 #define CONST_INVOKE_DYNAMIC       0x12
+#if JVM_VER >= 9
 #define CONST_MODULE               0x13
 #define CONST_PACKAGE              0x14
-
+#endif
 
 class CPInfo
 {
@@ -146,6 +149,7 @@ class CPMethodTypInfo : public CPInfo
   virtual void from(const u8 * &buf);
 };
 
+#if JVM_VER >= 9
 class CPDynamicInfo : public CPInfo
 {
   public:
@@ -154,6 +158,7 @@ class CPDynamicInfo : public CPInfo
 
   virtual void from(const u8 * &buf);
 };
+#endif
 
 class CPInvokeDynamicInfo : public CPInfo
 {
@@ -164,6 +169,7 @@ class CPInvokeDynamicInfo : public CPInfo
   virtual void from(const u8 * &buf);
 };
 
+#if JVM_VER >= 9
 class CPModuleInfo : public CPInfo
 {
   public:
@@ -179,6 +185,7 @@ class CPPackageInfo : public CPInfo
 
   virtual void from(const u8 * &buf);
 };
+#endif
 
 class ConstPoolEntry
 {

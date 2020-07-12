@@ -1,8 +1,8 @@
 CC=g++
 LD=ld
 ARCH?=$(shell getconf LONG_BIT)
-CFLAGS=-Wall -ansi -std=c++11 -pedantic -O0 -m$(ARCH) -fno-pic -fno-stack-protector -fno-elide-constructors -nostartfiles -nostdlib -nodefaultlibs
-CFLAGSSTD=-Wall -ansi -std=c++11 -pedantic -O0 -m$(ARCH) -fno-pic -no-pie -fno-stack-protector -fno-elide-constructors
+CFLAGS=-Wall -ansi -std=c++11 -pedantic -O0 -m$(ARCH) -fno-pic -fno-stack-protector -fno-elide-constructors -nostartfiles -nostdlib -nodefaultlibs -DJVM_VER=$(if $(JVM_VER),$(JVM_VER),8)
+CFLAGSSTD=-Wall -ansi -std=c++11 -pedantic -O0 -m$(ARCH) -fno-pic -no-pie -fno-stack-protector -fno-elide-constructors -DJVM_VER=$(if $(JVM_VER),$(JVM_VER),8)
 LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 
