@@ -61,7 +61,6 @@ f64 CPDoubleInfo::get(void)
   return (f64) ((((u64)high_bytes) << 32) | ((u64)low_bytes));
 }
 
-
 void CPClassInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
@@ -107,12 +106,27 @@ void CPMethodTypInfo::from(const u8 * &buf)
   desc_idx = readbe16(buf);
 }
 
+void CPDynamicInfo::from(const u8 * &buf)
+{
+  boot_meth_attr_idx = readbe16(buf);
+  name_typ_idx = readbe16(buf);
+}
+
 void CPInvokeDynamicInfo::from(const u8 * &buf)
 {
   boot_meth_attr_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
 }
 
+void CPModuleInfo::from(const u8 * &buf)
+{
+  name_idx = readbe16(buf);
+}
+
+void CPPackageInfo::from(const u8 * &buf)
+{
+  name_idx = readbe16(buf);
+}
 
 ConstPoolEntry::ConstPoolEntry()
 {
@@ -170,8 +184,17 @@ void ConstPoolEntry::from(const u8 * &buf)
     case CONST_METHOD_TYPE:
       info = new CPMethodTypInfo();
       break;
+    case CONST_DYNAMIC:
+      info = new CPDynamicInfo();
+      break;
     case CONST_INVOKE_DYNAMIC:
       info = new CPInvokeDynamicInfo();
+      break;
+    case CONST_MODULE:
+      info = new CPModuleInfo();
+      break;
+    case CONST_PACKAGE:
+      info = new CPPackageInfo();
       break;
     default:
       info = nullptr;

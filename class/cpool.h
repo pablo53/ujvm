@@ -18,7 +18,10 @@
 #define CONST_NAME_AND_TYPE        0x0c
 #define CONST_METHOD_HANDLE        0x0f
 #define CONST_METHOD_TYPE          0x10
+#define CONST_DYNAMIC              0x11
 #define CONST_INVOKE_DYNAMIC       0x12
+#define CONST_MODULE               0x13
+#define CONST_PACKAGE              0x14
 
 
 class CPInfo
@@ -143,11 +146,36 @@ class CPMethodTypInfo : public CPInfo
   virtual void from(const u8 * &buf);
 };
 
+class CPDynamicInfo : public CPInfo
+{
+  public:
+  u16 boot_meth_attr_idx;
+  u16 name_typ_idx;
+
+  virtual void from(const u8 * &buf);
+};
+
 class CPInvokeDynamicInfo : public CPInfo
 {
   public:
   u16 boot_meth_attr_idx;
   u16 name_typ_idx;
+
+  virtual void from(const u8 * &buf);
+};
+
+class CPModuleInfo : public CPInfo
+{
+  public:
+  u16 name_idx;
+
+  virtual void from(const u8 * &buf);
+};
+
+class CPPackageInfo : public CPInfo
+{
+  public:
+  u16 name_idx;
 
   virtual void from(const u8 * &buf);
 };
