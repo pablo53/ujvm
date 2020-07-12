@@ -5,6 +5,7 @@
 #include "clsfile.h"
 
 #include "stm.h"
+#include "../defs/types.h"
 #include "../defs/endian.h"
 
 
@@ -31,8 +32,8 @@ ClassFile::ClassFile(ClassFile && other)
   const_pool_cnt = other.const_pool_cnt;
   const_pool = other.const_pool;
   access_flags = other.access_flags;
-  thisClass = other.thisClass;
-  superClass = other.superClass;
+  this_class = other.this_class;
+  super_class = other.super_class;
   iface_cnt = other.iface_cnt;
   interfaces = other.interfaces;
   field_cnt = other.field_cnt;
@@ -55,6 +56,12 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   const_pool = new ConstPoolEntry[const_pool_cnt];
   for (u16 i = 1; i < const_pool_cnt; i++)
     const_pool[i - 1].from(buf);
+  access_flags = readbe16(buf);
+  this_class = readbe16(buf);
+  super_class = readbe16(buf);
+  iface_cnt = readbe16(buf);
+  delete[] interfaces;
+  interfaces = (iface_cnt > 1) ? new u16[iface_cnt - 1] : nullptr;
   // TODO...
 }
 

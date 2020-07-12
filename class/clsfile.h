@@ -33,8 +33,8 @@ class ClassFile
   u16 const_pool_cnt; /* Constant pool count (N+1). */
   ConstPoolEntry * const_pool; /* Indexed 1..N (1-based) */
   u16 access_flags;
-  u16 thisClass;      /* An index of a const_pool entry (of type "Class") */
-  u16 superClass;     /* An index of a const_pool entry (of type "Class") */
+  u16 this_class;     /* An index of a const_pool entry (of type "Class") */
+  u16 super_class;    /* An index of a const_pool entry (of type "Class") */
   u16 iface_cnt;      /* Interface count. */
   u16 * interfaces;   /* An array of iface_cnt indices of const_pool entries. */
   u16 field_cnt;      /* Field count. */

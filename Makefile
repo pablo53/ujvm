@@ -8,8 +8,8 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: ujvm.o
 
-java: java.cpp ujvm.o tools/endian
-	$(CC) $(CFLAGSSTD) -D$(shell tools/endian) $(filter-out tools/endian, $^) -o $@
+java: java.cpp ujvm.o jre/all.o tools/endian
+	$(CC) $(CFLAGSSTD) -D$(shell tools/endian) $< $(filter %.o, $^) -o $@
 
 ujvm.o: main.o class/all.o cpp2c/all.o
 	$(LD) $(LDFLAGS) -r $(filter %.o, $^) -o $@
@@ -24,6 +24,9 @@ class/all.o:
 cpp2c/all.o:
 	(cd cpp2c; make)
 
+jre/%:
+	(cd jre; make)
+
 tools/%:
 	(cd tools; make)
 
@@ -31,6 +34,7 @@ clean:
 	rm -f *.o java
 	(cd class; make clean)
 	(cd cpp2c; make clean)
+	(cd jre; make clean)
 	(cd tools; make clean)
 
 .PHONY: all clean
