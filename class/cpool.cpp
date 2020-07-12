@@ -39,6 +39,11 @@ void CPFloatInfo::from(const u8 * &buf)
   bytes = readbe32(buf);
 }
 
+f32 CPFloatInfo::get(void)
+{
+  return (f32) bytes;
+}
+
 void CPLongInfo::from(const u8 * &buf)
 {
   high_bytes = readbe32(buf);

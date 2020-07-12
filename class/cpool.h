@@ -58,6 +58,7 @@ class CPFloatInfo : public CPInfo
   u32 bytes;
 
   virtual void from(const u8 * &buf);
+  f32 get(void);
 };
 
 class CPLongInfo : public CPInfo
