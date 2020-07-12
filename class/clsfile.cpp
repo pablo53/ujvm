@@ -61,7 +61,9 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   super_class = readbe16(buf);
   iface_cnt = readbe16(buf);
   delete[] interfaces;
-  interfaces = (iface_cnt > 1) ? new u16[iface_cnt - 1] : nullptr;
+  interfaces = iface_cnt ? new u16[iface_cnt] : nullptr;
+  for (u16 i = 0; i < iface_cnt; i++)
+    interfaces[i] = readbe16(buf);
   // TODO...
 }
 

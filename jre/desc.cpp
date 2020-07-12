@@ -132,12 +132,12 @@ void desc_class_cpool(ClassFile &klz)
 
 void desc_class_interfaces(ClassFile &klz)
 {
-  std::cout << "Interfaces: " << std::endl;
-  for (u16 i = 1; i < klz.iface_cnt; i++)
+  std::cout << "Interfaces: ";
+  for (u16 i = 0; i < klz.iface_cnt; i++)
   {
-    if (i > 1)
+    if (i > 0)
       std::cout << ", ";
-    std::cout << "[" << std::dec << klz.interfaces[i - i] << "]";
+    std::cout << "[" << std::dec << klz.interfaces[i] << "]";
   }
   std::cout << std::endl;
 }
