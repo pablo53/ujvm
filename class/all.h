@@ -4,6 +4,7 @@
 
 #include "clsfile.h"
 #include "cpool.h"
+#include "sign.h"
 
 
 #endif
