@@ -20,7 +20,7 @@ void print_utf8(const u8 * buf, u16 buflen)
 void desc_class(ClassFile &klz)
 {
   std::cout << "Constant Pool:" << std::endl;
-  for (u16 i = 0; i < klz.const_pool_cnt; i++)
+  for (u16 i = 1; i < klz.const_pool_cnt; i++)
   {
     ConstPoolEntry *cpe = &klz.const_pool[i - 1];
     std::cout << "  [" << std::dec << i << "] ";
