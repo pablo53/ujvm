@@ -142,15 +142,14 @@ void desc_class_interfaces(ClassFile &klz)
   std::cout << std::endl;
 }
 
-void desc_class_attributes(AttributeInfo *attrs, u16 attr_cnt)
+void desc_attributes(AttributeInfo *attrs, u16 attr_cnt)
 {
-  std::cout << "  attributes:";
   if (attr_cnt)
   {
     std::cout << std::endl;
     for (u16 i = 0; i < attr_cnt; i++)
     {
-      std::cout << "    ";
+      std::cout << "  ";
       std::cout << "name:[" << std::dec << attrs[i].attr_name_idx << "] ";
       std::cout << "length:" << std::dec << attrs[i].attr_len << " ";
       if (attrs[i].attr_len)
@@ -175,8 +174,9 @@ void desc_class_fields(ClassFile &klz)
     std::cout << "<" << std::dec << (i + 1) << ">: ";
     std::cout << "access_flags:0x" << std::hex << fld->access_flags << " ";
     std::cout << "name:[" << std::dec << fld->name_idx << "] ";
-    std::cout << "desc:[" << std::dec << fld->desc_idx << "]" << std::endl;
-    desc_class_attributes(fld->attributes, fld->attr_cnt);
+    std::cout << "desc:[" << std::dec << fld->desc_idx << "] ";
+    std::cout << "attributes:";
+    desc_attributes(fld->attributes, fld->attr_cnt);
   }
 }
 
@@ -189,11 +189,19 @@ void desc_class_methods(ClassFile &klz)
     std::cout << "{" << std::dec << (i + 1) << "}: ";
     std::cout << "access_flags:0x" << std::hex << meth->access_flags << " ";
     std::cout << "name:[" << std::dec << meth->name_idx << "] ";
-    std::cout << "desc:[" << std::dec << meth->desc_idx << "]" << std::endl;
-    desc_class_attributes(meth->attributes, meth->attr_cnt);
+    std::cout << "desc:[" << std::dec << meth->desc_idx << "] ";
+    std::cout << "attributes:";
+    desc_attributes(meth->attributes, meth->attr_cnt);
   }
   std::cout << std::endl;
 }
+
+void desc_class_attributes(ClassFile &klz)
+{
+  std::cout << "Class attributes:";
+  desc_attributes(klz.attributes, klz.attr_cnt);
+}
+
 
 u8 * load_file(const char * fname, long &size)
 { /* TODO: check file errors */
@@ -228,6 +236,7 @@ void desc_class(ClassFile &klz)
   desc_class_interfaces(klz);
   desc_class_fields(klz);
   desc_class_methods(klz);
+  desc_class_attributes(klz);
 }
 
 #endif

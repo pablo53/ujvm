@@ -76,7 +76,11 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   methods = method_cnt ? new MethodInfo[method_cnt] : nullptr;
   for (u16 i = 0; i < method_cnt; i++)
     methods[i].from(buf);
-  // TODO...
+  attr_cnt = readbe16(buf);
+  delete[] attributes;
+  attributes = attr_cnt ? new AttributeInfo[attr_cnt] : nullptr;
+  for (u16 i = 0; i < attr_cnt; i++)
+    attributes[i].from(buf);
 }
 
 ClassFile::~ClassFile()
