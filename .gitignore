@@ -34,3 +34,6 @@
 # IDE
 .vscode/
 .idea/
+
+# Java
+*.class
