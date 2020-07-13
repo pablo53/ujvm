@@ -71,6 +71,11 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   fields = field_cnt ? new FieldInfo[field_cnt] : nullptr;
   for (u16 i = 0; i < field_cnt; i++)
     fields[i].from(buf);
+  method_cnt = readbe16(buf);
+  delete[] methods;
+  methods = method_cnt ? new MethodInfo[method_cnt] : nullptr;
+  for (u16 i = 0; i < method_cnt; i++)
+    methods[i].from(buf);
   // TODO...
 }
 

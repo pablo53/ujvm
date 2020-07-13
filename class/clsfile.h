@@ -4,13 +4,10 @@
 
 #include "cpool.h"
 #include "fld.h"
+#include "meth.h"
 #include "attr.h"
 
 #include "../defs/types.h"
-
-class MethodInfo
-{
-};
 
 /*
  * A class representing a raw *.class.

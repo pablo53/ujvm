@@ -181,6 +181,21 @@ void desc_class_fields(ClassFile &klz)
   std::cout << std::endl;
 }
 
+void desc_class_methods(ClassFile &klz)
+{
+  std::cout << "Methods: " << std::endl;
+  for (u16 i = 0; i < klz.field_cnt; i++)
+  {
+    MethodInfo *meth = &klz.methods[i];
+    std::cout << "{" << std::dec << (i + 1) << "}: ";
+    std::cout << "access_flags:0x" << std::hex << meth->access_flags << " ";
+    std::cout << "name:[" << std::dec << meth->name_idx << "] ";
+    std::cout << "desc:[" << std::dec << meth->desc_idx << "]" << std::endl;
+    desc_class_attributes(meth->attributes, meth->attr_cnt);
+  }
+  std::cout << std::endl;
+}
+
 u8 * load_file(const char * fname, long &size)
 { /* TODO: check file errors */
   size = 0;
@@ -213,6 +228,7 @@ void desc_class(ClassFile &klz)
   desc_class_cpool(klz);
   desc_class_interfaces(klz);
   desc_class_fields(klz);
+  desc_class_methods(klz);
 }
 
 #endif
