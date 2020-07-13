@@ -19,10 +19,10 @@ class FieldInfo
   FieldInfo(const FieldInfo &) = delete;
   FieldInfo(FieldInfo &&);
   ~FieldInfo();
+  void from(const u8 * &buf);
 
   protected:
   void unlink();
-  void from(const u8 * &buf);
 };
 
 

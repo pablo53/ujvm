@@ -69,6 +69,8 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   field_cnt = readbe16(buf);
   delete[] fields;
   fields = field_cnt ? new FieldInfo[field_cnt] : nullptr;
+  for (u16 i = 0; i < field_cnt; i++)
+    fields[i].from(buf);
   // TODO...
 }
 
