@@ -152,7 +152,14 @@ void desc_class_attributes(AttributeInfo *attrs, u16 attr_cnt)
     {
       std::cout << "    ";
       std::cout << "name:[" << std::dec << attrs[i].attr_name_idx << "] ";
-      std::cout << "length:" << std::dec << attrs[i].attr_len << std::endl;
+      std::cout << "length:" << std::dec << attrs[i].attr_len << " ";
+      if (attrs[i].attr_len)
+      {
+        std::cout << " content:";
+        for (u32 j = 0; j < attrs[i].attr_len; j++)
+          std::cout << (j ? "," : "") << std::hex << ((attrs[i].info[j] > 15) ? "" : "0") << (u16)attrs[i].info[j];
+      }
+      std::cout << std::endl;
     }
   }
   else
