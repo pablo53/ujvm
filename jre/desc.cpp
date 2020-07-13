@@ -155,7 +155,7 @@ void desc_class_attributes(AttributeInfo *attrs, u16 attr_cnt)
       std::cout << "length:" << std::dec << attrs[i].attr_len << " ";
       if (attrs[i].attr_len)
       {
-        std::cout << " content:";
+        std::cout << "content:";
         for (u32 j = 0; j < attrs[i].attr_len; j++)
           std::cout << (j ? "," : "") << std::hex << ((attrs[i].info[j] > 15) ? "" : "0") << (u16)attrs[i].info[j];
       }
@@ -178,13 +178,12 @@ void desc_class_fields(ClassFile &klz)
     std::cout << "desc:[" << std::dec << fld->desc_idx << "]" << std::endl;
     desc_class_attributes(fld->attributes, fld->attr_cnt);
   }
-  std::cout << std::endl;
 }
 
 void desc_class_methods(ClassFile &klz)
 {
   std::cout << "Methods: " << std::endl;
-  for (u16 i = 0; i < klz.field_cnt; i++)
+  for (u16 i = 0; i < klz.method_cnt; i++)
   {
     MethodInfo *meth = &klz.methods[i];
     std::cout << "{" << std::dec << (i + 1) << "}: ";
