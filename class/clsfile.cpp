@@ -4,6 +4,8 @@
 
 #include "clsfile.h"
 
+#include "attr.h"
+#include "fld.h"
 #include "stm.h"
 #include "../defs/types.h"
 #include "../defs/endian.h"
@@ -64,6 +66,9 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   interfaces = iface_cnt ? new u16[iface_cnt] : nullptr;
   for (u16 i = 0; i < iface_cnt; i++)
     interfaces[i] = readbe16(buf);
+  field_cnt = readbe16(buf);
+  delete[] fields;
+  fields = field_cnt ? new FieldInfo[field_cnt] : nullptr;
   // TODO...
 }
 

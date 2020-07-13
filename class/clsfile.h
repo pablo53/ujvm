@@ -3,18 +3,12 @@
 
 
 #include "cpool.h"
+#include "fld.h"
+#include "attr.h"
 
 #include "../defs/types.h"
 
-class FieldInfo
-{
-};
-
 class MethodInfo
-{
-};
-
-class AttributeInfo
 {
 };
 
