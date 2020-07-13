@@ -27,6 +27,9 @@ void desc_class_cpool(ClassFile &klz)
     std::cout << "  [" << std::dec << i << "] ";
     switch (cpe->tag)
     {
+    case CONST_NULL:
+      std::cout << "-";
+      break;
     case CONST_UTF8:
       {
         CPUtf8Info * utf8_info = (CPUtf8Info *)cpe->info;

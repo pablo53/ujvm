@@ -56,8 +56,14 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   const_pool_cnt = readbe16(buf);
   delete[] const_pool;
   const_pool = new ConstPoolEntry[const_pool_cnt];
+  int j;
   for (u16 i = 1; i < const_pool_cnt; i++)
-    const_pool[i - 1].from(buf);
+  {
+    j = const_pool[i - 1].from(buf);
+    while (j--)
+      if (++i < const_pool_cnt) /* protection against a corrupted class file */
+        (const_pool[i - 1]).empty(); /* See sec. 4.4.5 of JVM 8 specification. */
+  }
   access_flags = readbe16(buf);
   this_class = readbe16(buf);
   super_class = readbe16(buf);

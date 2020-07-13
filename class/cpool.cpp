@@ -20,23 +20,26 @@ CPUtf8Info::CPUtf8Info()
   bytes = nullptr;
 }
 
-void CPUtf8Info::from(const u8 * &buf)
+int CPUtf8Info::from(const u8 * &buf)
 {
   length = readbe16(buf);
   delete[] bytes;
   bytes = new u8[length];
   memcpy(bytes, (void *)buf, length);
   buf += length;
+  return 0;
 }
 
-void CPIntegerInfo::from(const u8 * &buf)
+int CPIntegerInfo::from(const u8 * &buf)
 {
   bytes = readbe32(buf);
+  return 0;
 }
 
-void CPFloatInfo::from(const u8 * &buf)
+int CPFloatInfo::from(const u8 * &buf)
 {
   bytes = readbe32(buf);
+  return 0;
 }
 
 f32 CPFloatInfo::get(void)
@@ -44,10 +47,11 @@ f32 CPFloatInfo::get(void)
   return (f32) bytes;
 }
 
-void CPLongInfo::from(const u8 * &buf)
+int CPLongInfo::from(const u8 * &buf)
 {
   high_bytes = readbe32(buf);
   low_bytes = readbe32(buf);
+  return 1;
 }
 
 u64 CPLongInfo::get(void)
@@ -55,10 +59,11 @@ u64 CPLongInfo::get(void)
   return ((((u64)high_bytes) << 32) | ((u64)low_bytes));
 }
 
-void CPDoubleInfo::from(const u8 * &buf)
+int CPDoubleInfo::from(const u8 * &buf)
 {
   high_bytes = readbe32(buf);
   low_bytes = readbe32(buf);
+  return 1;
 }
 
 f64 CPDoubleInfo::get(void)
@@ -66,90 +71,101 @@ f64 CPDoubleInfo::get(void)
   return (f64) ((((u64)high_bytes) << 32) | ((u64)low_bytes));
 }
 
-void CPClassInfo::from(const u8 * &buf)
+int CPClassInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
+  return 0;
 }
 
-void CPStringInfo::from(const u8 * &buf)
+int CPStringInfo::from(const u8 * &buf)
 {
   str_idx = readbe16(buf);
+  return 0;
 }
 
-void CPFieldRefInfo::from(const u8 * &buf)
+int CPFieldRefInfo::from(const u8 * &buf)
 {
   class_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
+  return 0;
 }
 
-void CPMethodRefInfo::from(const u8 * &buf)
+int CPMethodRefInfo::from(const u8 * &buf)
 {
   class_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
+  return 0;
 }
 
-void CPInterfaceMethodRefInfo::from(const u8 * &buf)
+int CPInterfaceMethodRefInfo::from(const u8 * &buf)
 {
   class_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
+  return 0;
 }
 
-void CPNameTypeInfo::from(const u8 * &buf)
+int CPNameTypeInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
   desc_idx = readbe16(buf);
+  return 0;
 }
 
-void CPMethodHdlInfo::from(const u8 * &buf)
+int CPMethodHdlInfo::from(const u8 * &buf)
 {
   ref_kind = readbe8(buf);
   ref_idx = readbe16(buf);
+  return 0;
 }
 
-void CPMethodTypInfo::from(const u8 * &buf)
+int CPMethodTypInfo::from(const u8 * &buf)
 {
   desc_idx = readbe16(buf);
+  return 0;
 }
 
 #if JVM_VER >= 9
-void CPDynamicInfo::from(const u8 * &buf)
+int CPDynamicInfo::from(const u8 * &buf)
 {
   boot_meth_attr_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
+  return 0;
 }
 #endif
 
-void CPInvokeDynamicInfo::from(const u8 * &buf)
+int CPInvokeDynamicInfo::from(const u8 * &buf)
 {
   boot_meth_attr_idx = readbe16(buf);
   name_typ_idx = readbe16(buf);
+  return 0;
 }
 
 #if JVM_VER >= 9
-void CPModuleInfo::from(const u8 * &buf)
+int CPModuleInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
+  return 0;
 }
 
-void CPPackageInfo::from(const u8 * &buf)
+int CPPackageInfo::from(const u8 * &buf)
 {
   name_idx = readbe16(buf);
+  return 0;
 }
 #endif
 
 ConstPoolEntry::ConstPoolEntry()
 {
-  tag = 0;
   info = nullptr;
+  empty();
 }
 
 ConstPoolEntry::~ConstPoolEntry()
 {
-  delete info;
-  info = nullptr;
+  empty();
 }
 
-void ConstPoolEntry::from(const u8 * &buf)
+int ConstPoolEntry::from(const u8 * &buf)
 {
   delete info;
   switch (tag = *(buf++))
@@ -212,8 +228,14 @@ void ConstPoolEntry::from(const u8 * &buf)
     default:
       info = nullptr;
   };
-  if (info)
-    info->from(buf);
+  return (info) ? info->from(buf) : 0;
+}
+
+void ConstPoolEntry::empty()
+{
+  tag = 0;
+  delete info;
+  info = nullptr;
 }
 
 

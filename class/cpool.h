@@ -5,6 +5,7 @@
 #include "../defs/types.h"
 
 
+#define CONST_NULL                 0x00
 #define CONST_UTF8                 0x01
 #define CONST_INTEGER              0x03
 #define CONST_FLOAT                0x04
@@ -30,7 +31,7 @@
 class CPInfo
 {
   public:
-  virtual void from(const u8 * &buf) = 0; /* Reads from buffer and move its pointer behinds it. */
+  virtual int from(const u8 * &buf) = 0; /* Reads from buffer and move its pointer behinds it. */
   virtual ~CPInfo();
 };
 
@@ -41,7 +42,7 @@ class CPUtf8Info : public CPInfo
   u8 * bytes;
 
   CPUtf8Info();
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPIntegerInfo : public CPInfo
@@ -49,7 +50,7 @@ class CPIntegerInfo : public CPInfo
   public:
   u32 bytes;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPFloatInfo : public CPInfo
@@ -57,7 +58,7 @@ class CPFloatInfo : public CPInfo
   public:
   u32 bytes;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
   f32 get(void);
 };
 
@@ -67,7 +68,7 @@ class CPLongInfo : public CPInfo
   u32 high_bytes;
   u32 low_bytes;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
   u64 get(void);
 };
 
@@ -77,7 +78,7 @@ class CPDoubleInfo : public CPInfo
   u32 high_bytes;
   u32 low_bytes;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
   f64 get(void);
 };
 
@@ -86,7 +87,7 @@ class CPClassInfo : public CPInfo
   public:
   u16 name_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPStringInfo : public CPInfo
@@ -94,7 +95,7 @@ class CPStringInfo : public CPInfo
   public:
   u16 str_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPFieldRefInfo : public CPInfo
@@ -103,7 +104,7 @@ class CPFieldRefInfo : public CPInfo
   u16 class_idx;
   u16 name_typ_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPMethodRefInfo : public CPInfo
@@ -112,7 +113,7 @@ class CPMethodRefInfo : public CPInfo
   u16 class_idx;
   u16 name_typ_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPInterfaceMethodRefInfo : public CPInfo
@@ -121,7 +122,7 @@ class CPInterfaceMethodRefInfo : public CPInfo
   u16 class_idx;
   u16 name_typ_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPNameTypeInfo : public CPInfo
@@ -130,7 +131,7 @@ class CPNameTypeInfo : public CPInfo
   u16 name_idx;
   u16 desc_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPMethodHdlInfo : public CPInfo
@@ -139,7 +140,7 @@ class CPMethodHdlInfo : public CPInfo
   u8 ref_kind;
   u16 ref_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPMethodTypInfo : public CPInfo
@@ -147,7 +148,7 @@ class CPMethodTypInfo : public CPInfo
   public:
   u16 desc_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 #if JVM_VER >= 9
@@ -157,7 +158,7 @@ class CPDynamicInfo : public CPInfo
   u16 boot_meth_attr_idx;
   u16 name_typ_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 #endif
 
@@ -167,7 +168,7 @@ class CPInvokeDynamicInfo : public CPInfo
   u16 boot_meth_attr_idx;
   u16 name_typ_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 #if JVM_VER >= 9
@@ -176,7 +177,7 @@ class CPModuleInfo : public CPInfo
   public:
   u16 name_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 
 class CPPackageInfo : public CPInfo
@@ -184,7 +185,7 @@ class CPPackageInfo : public CPInfo
   public:
   u16 name_idx;
 
-  virtual void from(const u8 * &buf);
+  virtual int from(const u8 * &buf);
 };
 #endif
 
@@ -197,7 +198,8 @@ class ConstPoolEntry
   ConstPoolEntry();
   ~ConstPoolEntry();
 
-  void from(const u8 * &buf); /* Reads from buffer and move its pointer behinds it. */
+  int from(const u8 * &buf); /* Reads from buffer and move its pointer behinds it. Returns the number of necessary dummy entries after this one. */
+  void empty(); /* Makes a dummy entry after long and double - ss per JVM 8 specification, sec. 4.4.5. */
 };
 
 
