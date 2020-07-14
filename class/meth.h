@@ -4,6 +4,7 @@
 
 #include "../defs/types.h"
 #include "attr.h"
+#include "cpool.h"
 
 
 class MethodInfo
@@ -13,13 +14,13 @@ class MethodInfo
   u16 name_idx;
   u16 desc_idx;
   u16 attr_cnt;
-  AttributeInfo * attributes;
+  AbstractAttributeInfo ** attributes;
 
   MethodInfo();
   MethodInfo(const MethodInfo &) = delete;
   MethodInfo(MethodInfo &&);
   ~MethodInfo();
-  void from(const u8 * &buf);
+  void from(const u8 * &, u16, ConstPoolEntry *);
 
   protected:
   void unlink();

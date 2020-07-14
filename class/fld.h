@@ -4,6 +4,7 @@
 
 #include "../defs/types.h"
 #include "attr.h"
+#include "cpool.h"
 
 
 class FieldInfo
@@ -13,13 +14,13 @@ class FieldInfo
   u16 name_idx;
   u16 desc_idx;
   u16 attr_cnt;
-  AttributeInfo * attributes;
+  AbstractAttributeInfo ** attributes;
 
   FieldInfo();
   FieldInfo(const FieldInfo &) = delete;
   FieldInfo(FieldInfo &&);
   ~FieldInfo();
-  void from(const u8 * &buf);
+  void from(const u8 * &buf, u16, ConstPoolEntry *);
 
   protected:
   void unlink();

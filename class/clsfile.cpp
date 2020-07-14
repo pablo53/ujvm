@@ -23,6 +23,7 @@ void ClassFile::unlink(void)
   interfaces = nullptr;
   fields = nullptr;
   methods = nullptr;
+  attr_cnt = 0;
   attributes = nullptr;
 }
 
@@ -76,17 +77,19 @@ void ClassFile::load(const u8 * buf, size_t buflen)
   delete[] fields;
   fields = field_cnt ? new FieldInfo[field_cnt] : nullptr;
   for (u16 i = 0; i < field_cnt; i++)
-    fields[i].from(buf);
+    fields[i].from(buf, const_pool_cnt, const_pool);
   method_cnt = readbe16(buf);
   delete[] methods;
   methods = method_cnt ? new MethodInfo[method_cnt] : nullptr;
   for (u16 i = 0; i < method_cnt; i++)
-    methods[i].from(buf);
-  attr_cnt = readbe16(buf);
-  delete[] attributes;
-  attributes = attr_cnt ? new AttributeInfo[attr_cnt] : nullptr;
+    methods[i].from(buf, const_pool_cnt, const_pool);
   for (u16 i = 0; i < attr_cnt; i++)
-    attributes[i].from(buf);
+    delete attributes[i];
+  delete[] attributes;
+  attr_cnt = readbe16(buf);
+  attributes = attr_cnt ? new AbstractAttributeInfo*[attr_cnt] : nullptr;
+  for (u16 i = 0; i < attr_cnt; i++)
+    attributes[i] = create_attr(buf, const_pool_cnt, const_pool);
 }
 
 ClassFile::~ClassFile()
@@ -95,6 +98,8 @@ ClassFile::~ClassFile()
   delete[] interfaces;
   delete[] fields;
   delete[] methods;
+  for (u16 i = 0; i < attr_cnt; i++)
+    delete attributes[i];
   delete[] attributes;
   unlink(); /* for, if the fly... */
 }

@@ -14,13 +14,13 @@ all.o: clsfile.o cpool.o fld.o meth.o attr.o stm.o
 clsfile.o: clsfile.cpp clsfile.h attr.h fld.h meth.h stm.h ../defs/types.h ../defs/endian.h ../tools/endian
 	$(CC) $(CFLAGS) -D$(shell ../tools/endian) -c $< -o $@
 
-meth.o: meth.cpp meth.h attr.h stm.h ../defs/types.h
+meth.o: meth.cpp meth.h attr.h stm.h cpool.h ../defs/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-fld.o: fld.cpp fld.h attr.h stm.h ../defs/types.h
+fld.o: fld.cpp fld.h attr.h stm.h cpool.h ../defs/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-attr.o: attr.cpp attr.h stm.h ../defs/types.h
+attr.o: attr.cpp attr.h stm.h cpool.h ../defs/types.h ../defs/utf8.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 cpool.o: cpool.cpp cpool.h ../defs/types.h ../defs/endian.h ../tools/endian

@@ -29,11 +29,11 @@ class ClassFile
   u16 iface_cnt;      /* Interface count. */
   u16 * interfaces;   /* An array of iface_cnt indices of const_pool entries. */
   u16 field_cnt;      /* Field count. */
-  FieldInfo * fields; /* An array of iface_cnt indices of const_pool entries. */
+  FieldInfo * fields; /* An array of field_cnt Field infos. */
   u16 method_cnt;       /* Method count. */
-  MethodInfo * methods; /* An array of iface_cnt indices of const_pool entries. */
-  u16 attr_cnt;               /* Method count. */
-  AttributeInfo * attributes; /* An array of iface_cnt indices of const_pool entries. */
+  MethodInfo * methods; /* An array of method_cnt Method infos. */
+  u16 attr_cnt;                        /* Attribute count. */
+  AbstractAttributeInfo ** attributes; /* An array of attr_cnt indices of pointers to Attribute infos. */
   
   ClassFile(const u8 * buf, size_t buflen);
   ClassFile(const ClassFile &) = delete; /* No implicit copying constructor */

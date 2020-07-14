@@ -145,7 +145,7 @@ void desc_class_interfaces(ClassFile &klz)
   std::cout << std::endl;
 }
 
-void desc_attributes(AttributeInfo *attrs, u16 attr_cnt)
+void desc_attributes(AbstractAttributeInfo *attrs[], u16 attr_cnt)
 {
   if (attr_cnt)
   {
@@ -153,13 +153,13 @@ void desc_attributes(AttributeInfo *attrs, u16 attr_cnt)
     for (u16 i = 0; i < attr_cnt; i++)
     {
       std::cout << "  ";
-      std::cout << "name:[" << std::dec << attrs[i].attr_name_idx << "] ";
-      std::cout << "length:" << std::dec << attrs[i].attr_len << " ";
-      if (attrs[i].attr_len)
+      std::cout << "name:[" << std::dec << attrs[i]->attr_name_idx << "] ";
+      std::cout << "length:" << std::dec << attrs[i]->attr_len << " ";
+      if (attrs[i]->attr_len)
       {
         std::cout << "content:";
-        for (u32 j = 0; j < attrs[i].attr_len; j++)
-          std::cout << (j ? "," : "") << std::hex << ((attrs[i].info[j] > 15) ? "" : "0") << (u16)attrs[i].info[j];
+        //TODO: for (u32 j = 0; j < attrs[i]->attr_len; j++)
+        //TODO:   std::cout << (j ? "," : "") << std::hex << ((attrs[i]->info[j] > 15) ? "" : "0") << (u16)attrs[i]->info[j];
       }
       std::cout << std::endl;
     }
