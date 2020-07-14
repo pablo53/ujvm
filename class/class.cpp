@@ -11,15 +11,10 @@
 #include "method.h"
 #include "attr.h"
 
-JavaClass::JavaClass(JavaClass && other)
-{
-}
-
 JavaClass::JavaClass(const ClassFile &)
 {
-  
+  // TODO
 }
-
 
 
 #endif
