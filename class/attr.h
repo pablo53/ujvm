@@ -18,6 +18,7 @@ class AbstractAttributeInfo
   AbstractAttributeInfo() = delete;
   AbstractAttributeInfo(AbstractAttributeInfo &) = delete;
   AbstractAttributeInfo(AbstractAttributeInfo &&) = delete;
+  virtual ~AbstractAttributeInfo();
 
   protected:
   AbstractAttributeInfo(u16, u32);
@@ -32,7 +33,7 @@ class AttributeInfo : public AbstractAttributeInfo
   AttributeInfo(u16, u32);
   AttributeInfo(const AttributeInfo &) = delete;
   AttributeInfo(AttributeInfo &&);
-  ~AttributeInfo();
+  virtual ~AttributeInfo();
 
   void from(const u8 * &buf);
 

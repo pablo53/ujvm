@@ -65,6 +65,9 @@ AbstractAttributeInfo::AbstractAttributeInfo(u16 attr_name_idx, u32 attr_len)
   this->attr_len = attr_len;
 }
 
+AbstractAttributeInfo::~AbstractAttributeInfo()
+{
+}
 
 AttributeInfo::AttributeInfo() : AbstractAttributeInfo(0, 0)
 {
