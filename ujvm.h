@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "classfmt/all.h"
+#include "class/all.h"
 
 
 #endif

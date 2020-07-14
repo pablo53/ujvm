@@ -1,5 +1,5 @@
-#ifndef _ATTR_CPP
-#define _ATTR_CPP
+#ifndef _CLASSFMT_ATTR_CPP
+#define _CLASSFMT_ATTR_CPP
 
 
 #include "attr.h"

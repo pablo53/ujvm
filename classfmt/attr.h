@@ -1,5 +1,5 @@
-#ifndef _ATTR_H
-#define _ATTR_H
+#ifndef _CLASSFMT_ATTR_H
+#define _CLASSFMT_ATTR_H
 
 
 #include "../defs/types.h"
