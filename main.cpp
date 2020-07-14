@@ -3,7 +3,7 @@
 
 
 #include "main.h"
-#include "class/all.h"
+#include "classfmt/all.h"
 #include "defs/types.h"
 
 

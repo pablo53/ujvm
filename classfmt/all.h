@@ -1,5 +1,5 @@
-#ifndef _CLASS_ALL_H
-#define _CLASS_ALL_H
+#ifndef _CLASSFMT_ALL_H
+#define _CLASSFMT_ALL_H
 
 
 #include "clsfile.h"

@@ -2,7 +2,7 @@
 #define _MAIN_H
 
 
-#include "class/clsfile.h"
+#include "classfmt/clsfile.h"
 
 
 ClassFile load(const void * buf, size_t len);
