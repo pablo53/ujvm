@@ -310,7 +310,10 @@ void desc_class(ClassFile &klz)
 void desc_class(JavaClass &klz)
 {
   std::cout << "Java Class: ";
-  print_utf8(klz.this_class->bytes, klz.this_class->length);
+  if (klz.this_class)
+    print_utf8(klz.this_class->bytes, klz.this_class->length);
+  else
+    std::cout << "(Unknown)";
   std::cout << std::endl << std::flush;
 }
 
