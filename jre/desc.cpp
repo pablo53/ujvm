@@ -18,7 +18,16 @@ void print_utf8(const u8 * buf, u16 buflen)
     std::cout << buf[i];
 }
 
-void desc_class_cpool(ClassFile &klz)
+static void desc_class_base(ClassFile &klz)
+{
+  std::cout << "Major ver.  : " << std::dec << klz.major_ver << std::endl;
+  std::cout << "Minor ver.  : " << std::dec << klz.minor_ver << std::endl;
+  std::cout << "Access flags: " << std::hex << klz.access_flags << std::endl;
+  std::cout << "This class  : " << std::dec << "[" << klz.this_class << "]" << std::endl;
+  std::cout << "Superclass  : " << std::dec << "[" << klz.super_class << "]" << std::endl;
+}
+
+static void desc_class_cpool(ClassFile &klz)
 {
   std::cout << "Constant Pool:" << std::endl;
   for (u16 i = 1; i < klz.const_pool_cnt; i++)
@@ -133,7 +142,7 @@ void desc_class_cpool(ClassFile &klz)
   }
 }
 
-void desc_class_interfaces(ClassFile &klz)
+static void desc_class_interfaces(ClassFile &klz)
 {
   std::cout << "Interfaces: ";
   for (u16 i = 0; i < klz.iface_cnt; i++)
@@ -145,7 +154,7 @@ void desc_class_interfaces(ClassFile &klz)
   std::cout << std::endl;
 }
 
-void desc_attributes(AttributeInfo *attrs, u16 attr_cnt)
+static void desc_attributes(AttributeInfo *attrs, u16 attr_cnt)
 {
   if (attr_cnt)
   {
@@ -168,7 +177,7 @@ void desc_attributes(AttributeInfo *attrs, u16 attr_cnt)
     std::cout << " -" << std::endl;
 }
 
-void desc_class_fields(ClassFile &klz)
+static void desc_class_fields(ClassFile &klz)
 {
   std::cout << "Fields: " << std::endl;
   for (u16 i = 0; i < klz.field_cnt; i++)
@@ -183,7 +192,7 @@ void desc_class_fields(ClassFile &klz)
   }
 }
 
-void desc_class_methods(ClassFile &klz)
+static void desc_class_methods(ClassFile &klz)
 {
   std::cout << "Methods: " << std::endl;
   for (u16 i = 0; i < klz.method_cnt; i++)
@@ -199,7 +208,7 @@ void desc_class_methods(ClassFile &klz)
   std::cout << std::endl;
 }
 
-void desc_class_attributes(ClassFile &klz)
+static void desc_class_attributes(ClassFile &klz)
 {
   std::cout << "Class attributes:";
   desc_attributes(klz.attributes, klz.attr_cnt);
@@ -235,6 +244,7 @@ ClassFile load_class(const char * fname)
 
 void desc_class(ClassFile &klz)
 {
+  desc_class_base(klz);
   desc_class_cpool(klz);
   desc_class_interfaces(klz);
   desc_class_fields(klz);
