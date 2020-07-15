@@ -11,12 +11,15 @@ all: ujvm.o
 java: java.cpp ujvm.o jre/all.o tools/endian
 	$(CC) $(CFLAGSSTD) -D$(shell tools/endian) $< $(filter %.o, $^) -o $@
 
-ujvm.o: main.o classfmt/all.o class/all.o cpp2c/all.o
+ujvm.o: main.o classfmt/all.o class/all.o classldr/all.o cpp2c/all.o
 	$(LD) $(LDFLAGS) -r $(filter %.o, $^) -o $@
 	rm -f $^
 
 main.o: main.cpp main.h tools/endian
 	$(CC) $(CFLAGS) -D$(shell tools/endian) -c $< -o $@
+
+classldr/all.o:
+	(cd classldr; make)
 
 class/all.o:
 	(cd class; make)

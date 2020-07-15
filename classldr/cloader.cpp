@@ -12,6 +12,10 @@ JavaClassLoader::JavaClassLoader(JavaClassLoader *parent)
   this->parent = parent;
 }
 
+JavaClassLoader::~JavaClassLoader()
+{
+}
+
 JavaClass * JavaClassLoader::resolveClassByName(JavaUtf8 *class_name)
 {
   JavaClass *jklz = findClassByName(class_name);
