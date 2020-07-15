@@ -2,6 +2,8 @@
 #define _CLOADER_H
 
 
+class JavaClassLoader; /* forward declaration - due to circular class dependencies */
+
 #include "../class/class.h"
 #include "../class/utf8.h"
 

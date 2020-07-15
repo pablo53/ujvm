@@ -2,12 +2,15 @@
 #define _CLASS_CLASS_H
 
 
+class JavaClass; /* forward declaration - due to circular class dependencies */
+
 #include "../classfmt/clsfile.h"
 #include "../classfmt/cpool.h"
 #include "utf8.h"
 #include "field.h"
 #include "method.h"
 #include "attr.h"
+#include "../classldr/cloader.h"
 
 /*
  * This is a representation of a Java class in runtime.
@@ -18,6 +21,7 @@ class JavaClass
 {
   public:
   bool error; /* status of class loading */
+  JavaClassLoader * class_loader;
 
   u16 const_pool_cnt; /* Constant pool count: N (not N+1, as in the underlying ClassFile!). */
   ConstPoolEntry * const_pool; /* Indexed 1..N (1-based) */
@@ -36,7 +40,7 @@ class JavaClass
   JavaClass() = delete;
   JavaClass(const JavaClass &) = delete;
   JavaClass(JavaClass &&) = delete;
-  JavaClass(ClassFile &); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
+  JavaClass(ClassFile &, JavaClassLoader * = nullptr); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
   JavaClass & operator=(const JavaClass &) = delete;
 
   protected:

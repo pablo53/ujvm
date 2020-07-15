@@ -11,7 +11,7 @@ all.o: class.o field.o method.o attr.o utf8.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
-class.o: class.cpp class.h utf8.h field.h method.h attr.h ../classfmt/clsfile.h ../classfmt/cpool.h ../defs/types.h
+class.o: class.cpp class.h utf8.h field.h method.h attr.h ../classfmt/clsfile.h ../classfmt/cpool.h ../classldr/cloader.h ../defs/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 field.o: field.cpp field.h attr.h ../defs/types.h ../classfmt/fld.h
