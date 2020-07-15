@@ -20,7 +20,27 @@ void print_utf8(const u8 * buf, u16 buflen)
 
 static void desc_class_base(ClassFile &klz)
 {
-  std::cout << "Major ver.  : " << std::dec << klz.major_ver << std::endl;
+  unsigned int jver = -1;
+  if (klz.major_ver >= 46)
+    jver = klz.major_ver - 44;
+  else if (klz.major_ver >= 45 && klz.minor_ver >= 3)
+    jver = 2;
+  else if (klz.major_ver >= 45)
+    jver = 1;
+  std::cout << "Major ver.  : " << std::dec << klz.major_ver;
+  if (jver >= 0)
+  {
+    std::cout << " (Java ";
+    if (jver <= 4)
+      std::cout << "1.";
+    std::cout << jver;
+    if (jver == 5)
+      std::cout << ".0";
+    else if (jver == 1)
+      std::cout << ".2";
+    std::cout << ")";
+  }
+  std::cout << std::endl;
   std::cout << "Minor ver.  : " << std::dec << klz.minor_ver << std::endl;
   std::cout << "Access flags: " << std::hex << klz.access_flags << std::endl;
   std::cout << "This class  : " << std::dec << "[" << klz.this_class << "]" << std::endl;
@@ -74,63 +94,96 @@ static void desc_class_cpool(ClassFile &klz)
       {
         CPClassInfo * class_info = (CPClassInfo *)cpe->info;
         std::cout << "CLASS             : ";
-        std::cout << std::dec << class_info->name_idx;
+        std::cout << "[" << std::dec << class_info->name_idx << "]";
       }
       break;
     case CONST_STRING:
       {
         CPStringInfo * string_info = (CPStringInfo *)cpe->info;
         std::cout << "STRING            : ";
-        std::cout << std::dec << string_info->str_idx;
+        std::cout << "[" << std::dec << string_info->str_idx << "]";
       }
       break;
     case CONST_FIELD_REF:
       {
         CPFieldRefInfo * fldref_info = (CPFieldRefInfo *)cpe->info;
         std::cout << "FIELD REF         : ";
-        std::cout << std::dec << fldref_info->class_idx << ", " << fldref_info->name_typ_idx;
+        std::cout << "[" << std::dec << fldref_info->class_idx << "], [" << std::dec << fldref_info->name_typ_idx << "]";
       }
       break;
     case CONST_METHOD_REF:
       {
         CPMethodRefInfo * methref_info = (CPMethodRefInfo *)cpe->info;
         std::cout << "METHOD REF        : ";
-        std::cout << std::dec << methref_info->class_idx << ", " << methref_info->name_typ_idx;
+        std::cout << "[" << std::dec << methref_info->class_idx << "], [" << methref_info->name_typ_idx << "]";
       }
       break;
     case CONST_INTERFACE_METHOD_REF:
       {
         CPInterfaceMethodRefInfo * imethref_info = (CPInterfaceMethodRefInfo *)cpe->info;
         std::cout << "I-FACE METHOD REF : ";
-        std::cout << std::dec << imethref_info->class_idx << ", " << imethref_info->name_typ_idx;
+        std::cout << "[" << std::dec << imethref_info->class_idx << "], [" << imethref_info->name_typ_idx << "]";
       }
       break;
     case CONST_NAME_AND_TYPE:
       {
         CPNameTypeInfo * nametyp_info = (CPNameTypeInfo *)cpe->info;
         std::cout << "NAME & TYPE       : ";
-        std::cout << std::dec << nametyp_info->name_idx << ", " << nametyp_info->desc_idx;
+        std::cout << "[" << std::dec << nametyp_info->name_idx << "], [" << nametyp_info->desc_idx << "]";
       }
       break;
     case CONST_METHOD_HANDLE:
       {
         CPMethodHdlInfo * methhdl_info = (CPMethodHdlInfo *)cpe->info;
-        std::cout << "METHOD HDLR       : ";
-        std::cout << std::hex << "0x" << (u16)methhdl_info->ref_kind << ", " << std::dec << methhdl_info->ref_idx;
+        std::cout << "METHOD HANDLE     : ";
+        switch (methhdl_info->ref_kind)
+        {
+        case 1:
+          std::cout << "getField";
+          break;
+        case 2:
+          std::cout << "getStatic";
+          break;
+        case 3:
+          std::cout << "getField";
+          break;
+        case 4:
+          std::cout << "putStatic";
+          break;
+        case 5:
+          std::cout << "invokeVirtual";
+          break;
+        case 6:
+          std::cout << "invokeStatic";
+          break;
+        case 7:
+          std::cout << "invokeSpecial";
+          break;
+        case 8:
+          std::cout << "newInvokeSpecial";
+          break;
+        case 9:
+          std::cout << "invokeInterface";
+          break;
+        default:
+          std::cout << "0x" << std::hex << (u16)methhdl_info->ref_kind;
+          break;
+        }
+        std::cout << ", [" << std::dec << methhdl_info->ref_idx << "]";
       }
       break;
     case CONST_METHOD_TYPE:
       {
         CPMethodTypInfo * methtyp_info = (CPMethodTypInfo *)cpe->info;
         std::cout << "METHOD TYPE       : ";
-        std::cout << std::dec << methtyp_info->desc_idx;
+        std::cout << "[" << std::dec << methtyp_info->desc_idx << "]";
       }
       break;
     case CONST_INVOKE_DYNAMIC:
       {
         CPInvokeDynamicInfo * invdyn_info = (CPInvokeDynamicInfo *)cpe->info;
         std::cout << "INVOKE DYN        : ";
-        std::cout << std::hex << invdyn_info->boot_meth_attr_idx << ", " << std::dec << invdyn_info->name_typ_idx;
+        std::cout << std::hex << invdyn_info->boot_meth_attr_idx << ", [" << std::dec << invdyn_info->name_typ_idx << "]";
       }
       break;
     // TODO
