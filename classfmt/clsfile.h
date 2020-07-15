@@ -47,5 +47,7 @@ class ClassFile
   void unlink(void);
 };
 
+CPUtf8Info * class_name_from_file(const ClassFile &clsfile);
+
 
 #endif

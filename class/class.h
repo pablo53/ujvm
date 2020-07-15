@@ -38,6 +38,9 @@ class JavaClass
   JavaClass(JavaClass &&) = delete;
   JavaClass(ClassFile &); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
   JavaClass & operator=(const JavaClass &) = delete;
+
+  protected:
+  JavaUtf8 * resolveClassName(const ClassFile & clsfile, int cpool_idx);
 };
 
 
