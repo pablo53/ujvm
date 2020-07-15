@@ -17,10 +17,12 @@
 class JavaClass
 {
   public:
+  bool error; /* status of class loading */
+
   u16 const_pool_cnt; /* Constant pool count: N (not N+1, as in the underlying ClassFile!). */
   ConstPoolEntry * const_pool; /* Indexed 1..N (1-based) */
   u16 access_flags;
-  JavaUtf8 this_class;     /* The Utf-8 name of this class. */
+  JavaUtf8 * this_class;   /* The Utf-8 name of this class. */
   JavaClass * super_class; /* A reference to Java Class repesenting the base class. */
   u16 iface_cnt;           /* Interface count. */
   JavaClass ** interfaces; /* An array of iface_cnt references to Java Classes representing the implementing interfaces. */
@@ -34,7 +36,7 @@ class JavaClass
   JavaClass() = delete;
   JavaClass(const JavaClass &) = delete;
   JavaClass(JavaClass &&) = delete;
-  JavaClass(const ClassFile &);
+  JavaClass(ClassFile &); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
   JavaClass & operator=(const JavaClass &) = delete;
 };
 

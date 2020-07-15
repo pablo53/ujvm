@@ -6,6 +6,6 @@
 
 ClassFile load_class(const char * fname);
 void desc_class(ClassFile &klz);
-
+void desc_class(JavaClass &klz);
 
 #endif

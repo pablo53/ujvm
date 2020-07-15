@@ -22,6 +22,12 @@ int main(int args, char *argv[])
   ClassFile klz = load_class(argv[1]);
   desc_class(klz);
   
+  JavaClass jklz(klz);
+  if (jklz.error)
+    std::cout << "Error loading class!" << std::endl;
+  else
+    desc_class(jklz);
+
   return 0;
 }
 

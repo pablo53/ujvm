@@ -15,7 +15,7 @@
  * Here, the number are converted accordingly to represent
  * the numbers as per the underlying architecture.
  * 
- * This is the 1nd-stage representation of a Java class.
+ * This is the 1st-stage representation of a Java class.
  */
 class ClassFile
 {

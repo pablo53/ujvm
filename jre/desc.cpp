@@ -240,6 +240,15 @@ void desc_class(ClassFile &klz)
   desc_class_fields(klz);
   desc_class_methods(klz);
   desc_class_attributes(klz);
+  std::cout << std::endl << std::flush;
+}
+
+
+void desc_class(JavaClass &klz)
+{
+  std::cout << "Java Class: ";
+  print_utf8(klz.this_class->bytes, klz.this_class->length);
+  std::cout << std::endl << std::flush;
 }
 
 #endif
