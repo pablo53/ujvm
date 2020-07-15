@@ -20,5 +20,7 @@ class JavaUtf8
   void unlink();
 };
 
+#define EQUAL_JSTRINGS(s1,s2) EQUAL_STRINGS((s1)->bytes, (s1)->length, (s2)->bytes, (s2)->length)
+
 
 #endif

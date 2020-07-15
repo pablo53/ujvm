@@ -7,11 +7,14 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: all.o
 
-all.o: cloader.o
+all.o: cloader.o fixcldr.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
 cloader.o: cloader.cpp cloader.h ../class/class.h ../class/utf8.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+fixcldr.o: fixcldr.cpp fixcldr.h cloader.h ../classfmt/clsfile.h ../class/class.h ../class/utf8.h ../defs/utf8.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 ../tools/%:
