@@ -285,12 +285,12 @@ u8 * load_file(const char * fname, long &size)
   return buf;
 }
 
-ClassFile load_class(const char * fname)
+ClassFile * load_class(const char * fname)
 {
   long bufsize;
   u8 *buf = load_file(fname, bufsize);
   const u8 *cbuf = buf;
-  ClassFile klz(cbuf, bufsize); /* cbuf will point to after the class binary */
+  ClassFile *klz = new ClassFile(cbuf, bufsize); /* cbuf will point to after the class binary */
   free((void *)buf); /* free the original pointer */
   return klz;
 }
@@ -310,6 +310,11 @@ void desc_class(ClassFile &klz)
 void desc_class(JavaClass &klz)
 {
   std::cout << "Java Class: ";
+  if (klz.error)
+  {
+    std::cout << " (Error loading class)" << std::endl << std::flush;
+    return;
+  }
   if (klz.this_class)
     print_utf8(klz.this_class->bytes, klz.this_class->length);
   else
