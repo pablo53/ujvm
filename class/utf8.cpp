@@ -20,6 +20,14 @@ JavaUtf8::JavaUtf8(JavaUtf8 &&other) : length(other.length), bytes(other.bytes)
   other.unlink();
 }
 
+JavaUtf8::JavaUtf8(const JavaUtf8 & other)
+{
+  length = other.length;
+  bytes = new u8[length];
+  if (bytes)
+    memcpy(bytes, other.bytes, length);
+  // TODO: else - OutOfMemoryError
+}
 
 JavaUtf8::JavaUtf8(const CPUtf8Info & cp_utf8)
 {

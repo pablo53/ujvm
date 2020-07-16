@@ -13,7 +13,7 @@ class JavaUtf8
   u8 * bytes; /* binary representation of size this->length */
 
   JavaUtf8(); /* initalizes empty string */
-  JavaUtf8(const JavaUtf8 &) = delete;
+  JavaUtf8(const JavaUtf8 &);
   JavaUtf8(JavaUtf8 &&);
   JavaUtf8(const CPUtf8Info & cp_utf8); /* initalizes string fom Constant Pool UTF8 entry */
   ~JavaUtf8();
