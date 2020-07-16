@@ -307,19 +307,42 @@ void desc_class(ClassFile &klz)
 }
 
 
-void desc_class(JavaClass &klz)
+void desc_class_name(JavaClass * klz)
 {
-  std::cout << "Java Class: ";
-  if (klz.error)
+  if (!klz)
   {
-    std::cout << " (Error loading class)" << std::endl << std::flush;
+    std::cout << "(None or Unresolved)";
     return;
   }
-  if (klz.this_class)
-    print_utf8(klz.this_class->bytes, klz.this_class->length);
-  else
-    std::cout << "(Unknown)";
+  if (klz->error)
+  {
+    std::cout << "(Error loading class)";
+    return;
+  }
+  if (!klz->this_class)
+  {
+    std::cout << "(No name)";
+    return;
+  }
+  print_utf8(klz->this_class->bytes, klz->this_class->length);
+}
+
+void desc_class_base(JavaClass &klz)
+{
+  std::cout << "Java Class: ";
+  desc_class_name(&klz);
+  std::cout << std::endl;
+  
+  std::cout << "Java Superclass: ";
+  desc_class_name(klz.super_class);
+  std::cout << std::endl;
+}
+
+void desc_class(JavaClass &klz)
+{
+  desc_class_base(klz);
   std::cout << std::endl << std::flush;
 }
+
 
 #endif

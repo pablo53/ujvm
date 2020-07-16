@@ -19,6 +19,9 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   const_pool = clsfile.const_pool;
   access_flags = clsfile.access_flags;
   this_class = resolveClassName(clsfile, clsfile.this_class);
+  JavaUtf8 *super_class_name = resolveClassName(clsfile, clsfile.super_class);
+  super_class = class_loader ? class_loader->resolveClassByName(super_class_name) : nullptr;
+  delete super_class_name;
   // TODO
   error = 0; /* now, this is ok */
 
