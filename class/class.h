@@ -41,10 +41,11 @@ class JavaClass
   JavaClass(const JavaClass &) = delete;
   JavaClass(JavaClass &&) = delete;
   JavaClass(ClassFile &, JavaClassLoader * = nullptr); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
+  ~JavaClass();
   JavaClass & operator=(const JavaClass &) = delete;
 
   protected:
-  JavaUtf8 * resolveClassName(const ClassFile & clsfile, int cpool_idx);
+  JavaUtf8 * resolveClassName(const ClassFile & clsfile, int cpool_idx); /* returns resolved class name (with ownership) */
 };
 
 

@@ -99,6 +99,21 @@ ClassFile::~ClassFile()
   unlink(); /* for, if the fly... */
 }
 
+ConstPoolEntry * ClassFile::get_const(u16 idx) const
+{
+  return (idx >= 1 && idx < const_pool_cnt) ? &const_pool[idx - 1] : nullptr;
+}
+
+CPUtf8Info * ClassFile::get_const_utf8(u16 idx) const
+{
+  ConstPoolEntry * cpe = get_const(idx);
+  if (!cpe)
+    return nullptr;
+  if (cpe->tag != CONST_UTF8)
+    return nullptr;
+  return (CPUtf8Info *)cpe->info;
+}
+
 CPUtf8Info * class_name_from_file(const ClassFile &clsfile)
 {
   if (clsfile.this_class >= 1 && clsfile.this_class < clsfile.const_pool_cnt)

@@ -20,7 +20,7 @@ field.o: field.cpp field.h attr.h ../defs/types.h ../classfmt/fld.h
 method.o: method.cpp method.h attr.h ../defs/types.h ../classfmt/meth.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-attr.o: attr.cpp attr.h ../defs/types.h ../classfmt/attr.h
+attr.o: attr.cpp attr.h utf8.h class.h ../defs/types.h ../defs/utf8.h ../classfmt/cpool.h ../classfmt/attr.h ../classfmt/clsfile.h ../classfmt/stm.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 utf8.o: utf8.cpp utf8.h ../classfmt/cpool.h ../defs/types.h ../defs/utf8.h

@@ -42,6 +42,9 @@ class ClassFile
   ClassFile(ClassFile &&); /* Explicit moving constructor (no implicit one due to the existing destructor) */
   ~ClassFile();
 
+  ConstPoolEntry * get_const(u16) const; /* get pointer to a Constant Pool entry (without ownership); null, if idx out of bound */
+  CPUtf8Info * get_const_utf8(u16) const; /* similar to the above, but gets UTF8 entry specifically or nullptr, if this is not UTF8 */
+
   protected:
   void load(const u8 * buf, size_t buflen);
   void unlink(void);

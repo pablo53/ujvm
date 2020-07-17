@@ -23,10 +23,19 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   super_class = class_loader ? class_loader->resolveClassByName(super_class_name) : nullptr;
   delete super_class_name;
   // TODO
+  attr_cnt = clsfile.attr_cnt;
+  attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr; // TODO: check, if memory allocated for attributes when attr_cnt > 0
+  for (int i = 0; i < attr_cnt; i++)
+    attributes[i] = convert2jattr(clsfile.attributes[i], clsfile);
   error = 0; /* now, this is ok */
 
   clsfile.const_pool_cnt = 1;   /* unlink orig */
   clsfile.const_pool = nullptr; /* unlink orig */
+}
+
+JavaClass::~JavaClass()
+{
+  // TODO
 }
 
 JavaUtf8 * JavaClass::resolveClassName(const ClassFile & clsfile, int cpool_idx)
