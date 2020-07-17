@@ -3,6 +3,8 @@
 
 
 #include "desc.h"
+#include "jdesc.h"
+#include "io.h"
 
 
 #endif

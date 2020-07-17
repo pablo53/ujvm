@@ -8,7 +8,7 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: ujvm.o
 
-java: java.cpp ujvm.o jre/all.o tools/endian
+java: java.cpp ujvm.h ujvm.o jre/all.h jre/all.o tools/endian
 	$(CC) $(CFLAGSSTD) -D$(shell tools/endian) $< $(filter %.o, $^) -o $@
 
 ujvm.o: main.o classfmt/all.o class/all.o classldr/all.o cpp2c/all.o
