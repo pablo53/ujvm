@@ -25,7 +25,8 @@ JavaAttribute::~JavaAttribute()
 
 JavaAttributeUnknown::JavaAttributeUnknown(const AttributeInfo &attr, const ClassFile &clsfile) : JavaAttribute(JATTR_UNKNOWN)
 {
-  name = new JavaUtf8(*class_name_from_file(clsfile));
+  CPUtf8Info * utf8_attr_name = clsfile.get_const_utf8(attr.attr_name_idx);
+  name = utf8_attr_name ? new JavaUtf8(*utf8_attr_name) : nullptr;
   length = attr.attr_len;
   info = new u8[length];
   if (info)
