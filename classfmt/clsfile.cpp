@@ -8,7 +8,6 @@
 #include "fld.h"
 #include "stm.h"
 #include "../defs/types.h"
-#include "../defs/endian.h"
 
 
 ClassFile::ClassFile(const u8 * buf, size_t buflen)

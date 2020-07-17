@@ -6,7 +6,6 @@
 
 #include "stm.h"
 #include "../defs/types.h"
-#include "../defs/endian.h"
 
 #include <cstring>
 
