@@ -58,7 +58,7 @@ static void desc_jclass_attribute(JavaAttribute * &attribute, JavaClass &klz, in
         print_utf8(jattr->name->bytes, jattr->name->length);
       else
         std::cout << "(No name)"; /* should not happen */
-      std::cout << std::endl;
+      std::cout << ":" << std::endl;
       std::cout << INDENT(indent + 2) << "-length: " << std::dec << jattr->length << std::endl;
       std::cout << INDENT(indent + 2) << "-content: ";
       for (int i = 0; i < jattr->length; i++)
@@ -69,11 +69,26 @@ static void desc_jclass_attribute(JavaAttribute * &attribute, JavaClass &klz, in
     break;
   case JATTR_CODE:
     {
-      std::cout << INDENT(indent) << "Code" << std::endl;
+      std::cout << INDENT(indent) << "Code:" << std::endl;
       JavaAttributeUnknown *jattr = (JavaAttributeUnknown *)attribute;
       // TODO
     }
+    break;
   // TODO
+#ifndef BASIC_JATTR_ONLY
+  case JATTR_SOURCE_FILE:
+    {
+      std::cout << INDENT(indent) << "SourceFile: ";
+      JavaAttributeSourceFile *jattr = (JavaAttributeSourceFile *)attribute;
+      if (jattr->src_file_name)
+        print_utf8(jattr->src_file_name->bytes, jattr->src_file_name->length);
+      else
+        std::cout << "(Unknown)";
+      std::cout << std::endl;
+    }
+    break;
+  // TODO
+#endif
   default: /* should not happen */
     {
       std::cout << INDENT(indent) << "???" << std::endl;
