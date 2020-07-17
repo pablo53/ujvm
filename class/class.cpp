@@ -24,16 +24,25 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   iface_cnt = clsfile.iface_cnt;
   interfaces = iface_cnt ? new JavaClass*[iface_cnt] : nullptr; // TODO: check, if memory allocated for attributes when iface_cnt > 0
   for (u16 i = 0; i < iface_cnt; i++)
-    ; // TODO
+  {
+    JavaUtf8 interface_name(*class_name_from_cpool(clsfile, clsfile.interfaces[i]));
+    interfaces[i] = class_loader ? class_loader->resolveClassByName(&interface_name) : nullptr; // TODO: handle unresolved interface
+  }
   // TODO
   attr_cnt = clsfile.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr; // TODO: check, if memory allocated for attributes when attr_cnt > 0
-  for (int i = 0; i < attr_cnt; i++)
+  for (u16 i = 0; i < attr_cnt; i++)
     attributes[i] = convert2jattr(clsfile.attributes[i], clsfile);
   error = 0; /* now, this is ok */
 
-  clsfile.const_pool_cnt = 1;   /* unlink orig */
-  clsfile.const_pool = nullptr; /* unlink orig */
+  /* unlink orig: */
+  clsfile.const_pool_cnt = 1;
+  clsfile.const_pool = nullptr;
+  clsfile.iface_cnt = 0;
+  clsfile.interfaces = nullptr;
+  // TODO
+  clsfile.attr_cnt = 0;
+  clsfile.attributes = nullptr;
 }
 
 JavaClass::~JavaClass()
