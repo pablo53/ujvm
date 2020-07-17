@@ -34,7 +34,7 @@ int main(int args, char *argv[])
   JavaClass *jklz = class_loader->resolveClassByName(&name);
   if (!jklz) { std::cerr << "Class not found!" << std::endl << std::flush; return ERR_NOT_FOUND; } /* should ot occur; do not care about freeing resources... */
 
-  desc_class(*jklz);
+  desc_jclass(*jklz);
 
   std::cout << std::flush;
   std::cerr << std::flush;

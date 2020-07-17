@@ -4,6 +4,6 @@
 
 #include "../ujvm.h"
 
-void desc_class(JavaClass &klz);
+void desc_jclass(JavaClass &klz);
 
 #endif
