@@ -113,23 +113,22 @@ CPUtf8Info * ClassFile::get_const_utf8(u16 idx) const
   return (CPUtf8Info *)cpe->info;
 }
 
+CPUtf8Info * class_name_from_cpool(const ClassFile &clsfile, const u16 cpool_idx) /* Class file, index to Class constant; no ownership */
+{
+  ConstPoolEntry *cpe = clsfile.get_const(cpool_idx); /* no ownership */
+  if (!cpe)
+    return nullptr;
+  if (cpe->tag != CONST_CLASS)
+    return nullptr;
+  CPClassInfo *info = (CPClassInfo *)cpe->info; /* no ownership */
+  if (!info) /* should not happen */
+    return nullptr; /* anyway... */
+  return clsfile.get_const_utf8(info->name_idx); /* no ownership, as per get_const_utf8() */
+}
+
 CPUtf8Info * class_name_from_file(const ClassFile &clsfile)
 {
-  if (clsfile.this_class >= 1 && clsfile.this_class < clsfile.const_pool_cnt)
-  {
-    ConstPoolEntry *cpe0 = &clsfile.const_pool[clsfile.this_class - 1];
-    if (!cpe0) return nullptr; /* Incorrect Constant Pool entry. */
-    if (cpe0->tag != CONST_CLASS) return nullptr; /* "This class" Constant Pool entry is not of CLASS type. */
-    CPClassInfo *info0 = (CPClassInfo *)cpe0->info;
-    if (info0->name_idx >= 1 && info0->name_idx < clsfile.const_pool_cnt)
-    {
-      ConstPoolEntry *cpe = &clsfile.const_pool[info0->name_idx - 1];
-      if (cpe->tag != CONST_UTF8) return nullptr; /* Constant Pool entry is not UTF8 */
-      return (CPUtf8Info *)cpe->info;
-    }
-    else return nullptr; /* Incorrect (out of bound) pointer to a Constat Pool entry. */
-  }
-  else return nullptr; /* Incorrect (out of bound) pointer to a Constat Pool entry. */  
+  return class_name_from_cpool(clsfile, clsfile.this_class);
 }
 
 

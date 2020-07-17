@@ -22,11 +22,20 @@ JavaUtf8::JavaUtf8(JavaUtf8 &&other) : length(other.length), bytes(other.bytes)
 
 JavaUtf8::JavaUtf8(const JavaUtf8 & other)
 {
-  length = other.length;
-  bytes = new u8[length];
-  if (bytes)
-    memcpy(bytes, other.bytes, length);
-  // TODO: else - OutOfMemoryError
+  if (&other)
+  {
+    length = other.length;
+    bytes = new u8[length];
+    if (bytes)
+      memcpy(bytes, other.bytes, length);
+    // TODO: else - OutOfMemoryError
+  }
+  else
+  {
+    length = 0;
+    bytes = nullptr;
+  }
+  
 }
 
 JavaUtf8::JavaUtf8(const CPUtf8Info & cp_utf8)

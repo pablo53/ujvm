@@ -18,10 +18,13 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   const_pool_cnt = clsfile.const_pool_cnt - 1; /* real number of entries, but including the "holes" caused by double and long primitives */
   const_pool = clsfile.const_pool;
   access_flags = clsfile.access_flags;
-  this_class = resolveClassName(clsfile, clsfile.this_class);
-  JavaUtf8 *super_class_name = resolveClassName(clsfile, clsfile.super_class);
-  super_class = class_loader ? class_loader->resolveClassByName(super_class_name) : nullptr;
-  delete super_class_name;
+  this_class = new JavaUtf8(*class_name_from_file(clsfile)); /* obvious ownership */
+  JavaUtf8 super_class_name(*class_name_from_cpool(clsfile, clsfile.super_class));
+  super_class = class_loader ? class_loader->resolveClassByName(&super_class_name) : nullptr;
+  iface_cnt = clsfile.iface_cnt;
+  interfaces = iface_cnt ? new JavaClass*[iface_cnt] : nullptr; // TODO: check, if memory allocated for attributes when iface_cnt > 0
+  for (u16 i = 0; i < iface_cnt; i++)
+    ; // TODO
   // TODO
   attr_cnt = clsfile.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr; // TODO: check, if memory allocated for attributes when attr_cnt > 0
@@ -36,15 +39,6 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
 JavaClass::~JavaClass()
 {
   // TODO
-}
-
-JavaUtf8 * JavaClass::resolveClassName(const ClassFile & clsfile, int cpool_idx)
-{
-  CPUtf8Info *info = class_name_from_file(clsfile);
-  JavaUtf8 *utf8 = new JavaUtf8(*info);
-  if (!utf8) return nullptr; /* OutOfMemory. */
-  // TODO: check that JavaUtf8 has allocated memory
-  return utf8;
 }
 
 

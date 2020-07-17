@@ -50,7 +50,8 @@ class ClassFile
   void unlink(void);
 };
 
-CPUtf8Info * class_name_from_file(const ClassFile &clsfile);
+CPUtf8Info * class_name_from_cpool(const ClassFile &clsfile, const u16 cpool_idx); /* Class file, index to Class constant; no ownership returned */
+CPUtf8Info * class_name_from_file(const ClassFile &clsfile); /* no ownership returned */
 
 
 #endif

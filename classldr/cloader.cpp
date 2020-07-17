@@ -18,6 +18,8 @@ JavaClassLoader::~JavaClassLoader()
 
 JavaClass * JavaClassLoader::resolveClassByName(JavaUtf8 *class_name)
 {
+  if (!class_name)
+    return nullptr;
   JavaClass *jklz = parent ? parent->resolveClassByName(class_name) : nullptr;
   return jklz ? jklz : findClassByName(class_name);
 }
