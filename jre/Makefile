@@ -11,10 +11,10 @@ all.o: desc.o jdesc.o io.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
-desc.o: desc.cpp desc.h io.h ../ujvm.h ../defs/types.h
+desc.o: desc.cpp desc.h io.h ../ujvm.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-jdesc.o: jdesc.cpp jdesc.h io.h ../ujvm.h ../defs/types.h
+jdesc.o: jdesc.cpp jdesc.h io.h ../ujvm.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 io.o: io.cpp io.h ../ujvm.h

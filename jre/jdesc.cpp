@@ -5,7 +5,6 @@
 #include "jdesc.h"
 #include "io.h"
 #include "../ujvm.h"
-#include "../defs/types.h"
 
 #include <iostream>
 

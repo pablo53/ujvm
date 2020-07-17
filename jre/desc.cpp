@@ -7,7 +7,6 @@
 #include "desc.h"
 #include "io.h"
 #include "../ujvm.h"
-#include "../defs/types.h"
 
 
 static void desc_class_base(ClassFile &klz)
