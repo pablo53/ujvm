@@ -16,7 +16,7 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   error = 1; /* it will be cleared once the class is successfully loaded */
   class_loader = classldr; /* If nullptr, then no resolution is possible. */
   const_pool_cnt = clsfile.const_pool_cnt - 1; /* real number of entries, but including the "holes" caused by double and long primitives */
-  const_pool = clsfile.const_pool;
+  const_pool = clsfile.const_pool; /* takes ownership... */
   access_flags = clsfile.access_flags;
   this_class = new JavaUtf8(*class_name_from_file(clsfile)); /* obvious ownership */
   JavaUtf8 super_class_name(*class_name_from_cpool(clsfile, clsfile.super_class));
@@ -48,7 +48,16 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
 
 JavaClass::~JavaClass()
 {
-  // TODO
+  delete[] const_pool;
+  for (u16 i = 0; i < field_cnt; i++)
+    delete fields[i];
+  delete[] fields;
+  for (u16 i = 0; i < method_cnt; i++)
+    delete methods[i];
+  delete[] methods;
+  for (u16 i = 0; i < attr_cnt; i++)
+    delete attributes[i];
+  delete[] attributes;
 }
 
 
