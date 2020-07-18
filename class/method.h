@@ -17,7 +17,7 @@ class JavaMethod
   public:
   u16 access_flags;
   JavaUtf8 * name; /* ownership here */
-  JavaType * type; /* returned type; ownership here */
+  JavaType * jtype; /* returned type; ownership here */
   u16 input_cnt;           /* number of input parameer in the signature */
   JavaType ** input_types; /* a table of input_cnt pointers to types representing the input params; ownership here */
   u16 attr_cnt;                /* Attribute count. */

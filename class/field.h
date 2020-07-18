@@ -17,7 +17,7 @@ class JavaField
   public:
   u16 access_flags;
   JavaUtf8 * name; /* ownership here */
-  JavaType * type; /* field type; ownership here */
+  JavaType * jtype; /* field type; ownership here */
   u16 attr_cnt;                /* Attribute count. */
   JavaAttribute ** attributes; /* An array of attr_cnt indices of pointers to Attributes. */
 
