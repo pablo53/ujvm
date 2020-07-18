@@ -7,7 +7,7 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: all.o
 
-all.o: class.o field.o method.o attr.o typ.o utf8.o
+all.o: class.o field.o method.o attr.o typ.o generic.o utf8.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
@@ -23,7 +23,10 @@ method.o: method.cpp method.h attr.h flags.h utf8.h typ.h ../defs/types.h ../cla
 attr.o: attr.cpp attr.h utf8.h class.h ../defs/types.h ../defs/utf8.h ../classfmt/cpool.h ../classfmt/attr.h ../classfmt/clsfile.h ../classfmt/stm.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-typ.o: typ.cpp typ.h class.h
+typ.o: typ.cpp typ.h class.h utf8.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+generic.o: generic.cpp generic.h utf8.h class.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 utf8.o: utf8.cpp utf8.h ../classfmt/cpool.h ../defs/types.h ../defs/utf8.h

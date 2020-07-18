@@ -6,11 +6,13 @@
 #include "../defs/utf8.h"
 #include "../classfmt/cpool.h"
 
+using jchar = u8;
+
 class JavaUtf8
 {
   public:
   u16 length; /* length of binary representation (not the UTF-8 string itself!) */
-  u8 * bytes; /* binary representation of size this->length */
+  jchar * bytes; /* binary representation of size this->length */
 
   JavaUtf8(); /* initalizes empty string */
   JavaUtf8(const JavaUtf8 &);

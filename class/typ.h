@@ -2,6 +2,9 @@
 #define _CLASS_TYP_H
 
 
+#include "class.h"
+#include "utf8.h"
+
 #define SIGN_ARRAY       '['
 #define SIGN_BOOL        'Z'
 #define SIGN_VOID        'V'
@@ -18,6 +21,8 @@
 class JavaType
 {
   public:
+  jchar sign; /* as per SIGN_* constants */
+  JavaClass * ref; /* for SIGN_CLASS, otherwise  */
 
   JavaType() = delete;
 };

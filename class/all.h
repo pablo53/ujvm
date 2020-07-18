@@ -9,6 +9,7 @@
 #include "field.h"
 #include "method.h"
 #include "flags.h"
+#include "generic.h"
 
 
 #endif
