@@ -5,6 +5,9 @@
 #include "method.h"
 
 #include "attr.h"
+#include "typ.h"
+#include "utf8.h"
+#include "flags.h"
 #include "../defs/types.h"
 #include "../classfmt/meth.h"
 #include "../classldr/cloader.h"

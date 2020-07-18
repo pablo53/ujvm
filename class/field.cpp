@@ -5,6 +5,9 @@
 #include "field.h"
 
 #include "attr.h"
+#include "typ.h"
+#include "utf8.h"
+#include "flags.h"
 #include "../defs/types.h"
 #include "../classfmt/fld.h"
 #include "../classldr/cloader.h"

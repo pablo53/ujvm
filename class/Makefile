@@ -7,20 +7,23 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: all.o
 
-all.o: class.o field.o method.o attr.o utf8.o
+all.o: class.o field.o method.o attr.o typ.o utf8.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
 class.o: class.cpp class.h utf8.h field.h method.h attr.h ../classfmt/clsfile.h ../classfmt/cpool.h ../classldr/cloader.h ../defs/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-field.o: field.cpp field.h attr.h ../defs/types.h ../classfmt/fld.h ../classldr/cloader.h
+field.o: field.cpp field.h attr.h flags.h utf8.h typ.h ../defs/types.h ../classfmt/fld.h ../classldr/cloader.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-method.o: method.cpp method.h attr.h ../defs/types.h ../classfmt/meth.h ../classldr/cloader.h
+method.o: method.cpp method.h attr.h flags.h utf8.h typ.h ../defs/types.h ../classfmt/meth.h ../classldr/cloader.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 attr.o: attr.cpp attr.h utf8.h class.h ../defs/types.h ../defs/utf8.h ../classfmt/cpool.h ../classfmt/attr.h ../classfmt/clsfile.h ../classfmt/stm.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+typ.o: typ.cpp typ.h class.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 utf8.o: utf8.cpp utf8.h ../classfmt/cpool.h ../defs/types.h ../defs/utf8.h
