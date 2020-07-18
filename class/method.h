@@ -8,6 +8,7 @@ class JavaMethod; /* forward declaration due to circular dependencies */
 #include "typ.h"
 #include "utf8.h"
 #include "../defs/types.h"
+#include "../classfmt/clsfile.h"
 #include "../classfmt/meth.h"
 #include "../classldr/cloader.h"
 
@@ -25,7 +26,7 @@ class JavaMethod
   JavaMethod() = delete;
   JavaMethod(const JavaMethod &) = delete;
   JavaMethod(JavaMethod &&) = delete;
-  JavaMethod(const MethodInfo &, JavaClassLoader * classldr); /* no ownership of ClassLoader taken over here... */
+  JavaMethod(const MethodInfo &, ClassFile &, JavaClassLoader *); /* no ownership ofClass Loader taken over here... */
   ~JavaMethod();
 };
 

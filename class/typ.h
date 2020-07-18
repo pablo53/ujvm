@@ -2,9 +2,14 @@
 #define _CLASS_TYP_H
 
 
-#include "class.h"
-#include "utf8.h"
+class JavaType; /* forward declaration due to circular dependencies */
 
+#include "class.h"
+#include "generic.h"
+#include "utf8.h"
+#include "../classldr/cloader.h"
+
+#define SIGN_UNKNOWN     '\000'
 #define SIGN_ARRAY       '['
 #define SIGN_BOOL        'Z'
 #define SIGN_VOID        'V'
@@ -22,9 +27,15 @@ class JavaType
 {
   public:
   jchar sign; /* as per SIGN_* constants */
-  JavaClass * ref; /* for SIGN_CLASS, otherwise  */
+  JavaClass * ref_class; /* for SIGN_CLASS, otherwise nullptr; no ownership  */
+  u16 generic_cnt;         /* number of generic type variables */
+  JavaGeneric ** generics; /* a table of generic_cnt Java Generics */
 
   JavaType() = delete;
+  JavaType(const JavaType &) = delete;
+  JavaType(JavaType &&) = delete;
+  JavaType(const JavaUtf8 &, JavaClassLoader *); /* from type signature; no ownership of Class loader taken */
+  ~JavaType();
 };
 
 

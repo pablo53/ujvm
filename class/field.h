@@ -8,6 +8,7 @@ class JavaField; /* forward declaration due to circular dependencies */
 #include "typ.h"
 #include "utf8.h"
 #include "../defs/types.h"
+#include "../classfmt/clsfile.h"
 #include "../classfmt/fld.h"
 #include "../classldr/cloader.h"
 
@@ -23,7 +24,7 @@ class JavaField
   JavaField() = delete;
   JavaField(const JavaField &) = delete;
   JavaField(JavaField &&) = delete;
-  JavaField(const FieldInfo &, JavaClassLoader * classldr); /* no ownership of ClassLoader taken over here... */
+  JavaField(const FieldInfo &, ClassFile &, JavaClassLoader *); /* no ownership of Class Loader taken over here... */
   ~JavaField();
 };
 

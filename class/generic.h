@@ -2,6 +2,8 @@
 #define _CLASS_GENERIC_H
 
 
+class JavaGeneric; /* forward declaration due to circular dependencies */
+
 #include "utf8.h"
 #include "class.h"
 
@@ -14,6 +16,7 @@ class JavaGeneric
   JavaGeneric() = delete;
   JavaGeneric(const JavaGeneric &) = delete;
   JavaGeneric(JavaGeneric &&) = delete;
+  // TODO
 };
 
 

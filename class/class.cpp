@@ -31,11 +31,11 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   field_cnt = clsfile.field_cnt;
   fields = field_cnt ? new JavaField*[field_cnt] : nullptr; // TODO: check, if memory allocated for attributes when field_cnt > 0
   for (u16 i = 0; i < field_cnt; i++)
-    fields[i] = new JavaField(clsfile.fields[i], class_loader);
+    fields[i] = new JavaField(clsfile.fields[i], clsfile, class_loader); // TODO: check if field names are unique
   method_cnt = clsfile.method_cnt;
   methods = method_cnt ? new JavaMethod*[method_cnt] : nullptr; // TODO: check, if memory allocated for attributes when method_cnt > 0
   for (u16 i = 0; i < method_cnt; i++)
-    methods[i] = new JavaMethod(clsfile.methods[i], class_loader);
+    methods[i] = new JavaMethod(clsfile.methods[i], clsfile, class_loader); // TODO: check if method names combined with their signatures are unique
   attr_cnt = clsfile.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr; // TODO: check, if memory allocated for attributes when attr_cnt > 0
   for (u16 i = 0; i < attr_cnt; i++)
