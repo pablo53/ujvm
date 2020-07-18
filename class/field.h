@@ -7,10 +7,18 @@ class JavaField; /* forward declaration due to circular dependencies */
 #include "attr.h"
 #include "../defs/types.h"
 #include "../classfmt/fld.h"
+#include "../classldr/cloader.h"
 
 class JavaField
 {
-  // TODO
+  public:
+  // TODO: JavaField's fields
+
+  JavaField() = delete;
+  JavaField(const JavaField &) = delete;
+  JavaField(JavaField &&) = delete;
+  JavaField(const FieldInfo &, JavaClassLoader * classldr); /* no ownership of ClassLoader taken over here... */
+  ~JavaField();
 };
 
 

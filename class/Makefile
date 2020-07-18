@@ -14,10 +14,10 @@ all.o: class.o field.o method.o attr.o utf8.o
 class.o: class.cpp class.h utf8.h field.h method.h attr.h ../classfmt/clsfile.h ../classfmt/cpool.h ../classldr/cloader.h ../defs/types.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-field.o: field.cpp field.h attr.h ../defs/types.h ../classfmt/fld.h
+field.o: field.cpp field.h attr.h ../defs/types.h ../classfmt/fld.h ../classldr/cloader.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-method.o: method.cpp method.h attr.h ../defs/types.h ../classfmt/meth.h
+method.o: method.cpp method.h attr.h ../defs/types.h ../classfmt/meth.h ../classldr/cloader.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 attr.o: attr.cpp attr.h utf8.h class.h ../defs/types.h ../defs/utf8.h ../classfmt/cpool.h ../classfmt/attr.h ../classfmt/clsfile.h ../classfmt/stm.h
