@@ -72,7 +72,7 @@ static void desc_jclass_attribute(JavaAttribute * &attribute, JavaClass &klz, in
       std::cout << ":" << std::endl;
       std::cout << INDENT(indent + 2) << "-length: " << std::dec << jattr->length << std::endl;
       std::cout << INDENT(indent + 2) << "-content: ";
-      for (int i = 0; i < jattr->length; i++)
+      for (u32 i = 0; i < jattr->length; i++)
         std::cout << (i ? " " : "") << HEX(2, jattr->info[i]);
       std::cout << std::endl;
       return;
