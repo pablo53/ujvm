@@ -108,6 +108,21 @@ static void desc_jclass_field(JavaField * fld)
     std::cout << "(None)" << std::endl;
     return;
   }
+  if (fld->access_flags & ACC_PUBLIC)
+    std::cout << "public ";
+  if (fld->access_flags & ACC_PRIVATE)
+    std::cout << "private ";
+  if (fld->access_flags & ACC_PROTECTED)
+    std::cout << "protected ";
+  if (fld->access_flags & ACC_STATIC)
+    std::cout << "static ";
+  if (fld->access_flags & ACC_FINAL)
+    std::cout << "final ";
+  if (fld->access_flags & ACC_VOLATILE)
+    std::cout << "volatile ";
+  if (fld->access_flags & ACC_TRANSIENT)
+    std::cout << "transient ";
+  // TODO: ACC_SYNTHETIC and ACC_ENUM
   desc_jclass_type(fld->jtype);
   std::cout << INDENT(1);
   if (fld->name)
