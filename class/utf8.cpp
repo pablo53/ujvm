@@ -53,6 +53,35 @@ JavaUtf8::~JavaUtf8()
   unlink(); /* por si las moscas */
 }
 
+u16 JavaUtf8::get_length() const
+{
+  return length; // TODO: this is of course not true, as UTF-8 characters can be wider than one byte (u8)
+}
+
+jchar JavaUtf8::get_jchar(u16 idx) const
+{
+  return (idx < get_length())
+      ? bytes[idx] // TODO: this obviously incorrect, as UTF-8 characters can be wider than one byte (u8)
+      : 0;
+}
+
+JavaUtf8 JavaUtf8::substring(u16 startIdx, u16 endIdx) const
+{
+  u16 len = get_length();
+  if ((startIdx < endIdx) && (startIdx < len))
+  {
+    if (endIdx > len)
+      endIdx = len;
+    JavaUtf8 s;
+    s.length = endIdx - startIdx; // TODO: again, in fact it can be greater than this, if there are characters wider than 1 byte
+    s.bytes = new u8[s.length];
+    memcpy(s.bytes, &bytes[startIdx], length); // TODO: again...
+    return s;
+  }
+  else
+    return JavaUtf8();
+}
+
 void JavaUtf8::unlink()
 {
   bytes = nullptr;

@@ -10,6 +10,9 @@ class JavaType; /* forward declaration due to circular dependencies */
 #include "../classldr/cloader.h"
 
 #define SIGN_UNKNOWN     '\000'
+#define SIGN_INPUT_BEGIN '('
+#define SIGN_INPUT_END   ')'
+
 #define SIGN_ARRAY       '['
 #define SIGN_BOOL        'Z'
 #define SIGN_VOID        'V'
@@ -35,7 +38,11 @@ class JavaType
   JavaType(const JavaType &) = delete;
   JavaType(JavaType &&) = delete;
   JavaType(const JavaUtf8 &, JavaClassLoader *); /* from type signature; no ownership of Class loader taken */
+  JavaType(const JavaUtf8 &, u16 &, JavaClassLoader *); /* from type signature using cursor; no ownership of Class loader taken */
   ~JavaType();
+
+  private:
+  void build(const JavaUtf8 &, u16 &, JavaClassLoader *);
 };
 
 

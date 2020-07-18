@@ -30,7 +30,7 @@ JavaField::JavaField(const FieldInfo & fld, ClassFile &cls, JavaClassLoader * cl
   attr_cnt = fld.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr;
   for (u16 i = 0; i < attr_cnt; i++)
-    attributes[i] = convert2jattr(cls.attributes[i], cls); /* ownership returned */
+    attributes[i] = convert2jattr(fld.attributes[i], cls); /* ownership returned */
 }
 
 JavaField::~JavaField()

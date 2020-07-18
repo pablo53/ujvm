@@ -28,6 +28,9 @@ class JavaMethod
   JavaMethod(JavaMethod &&) = delete;
   JavaMethod(const MethodInfo &, ClassFile &, JavaClassLoader *); /* no ownership ofClass Loader taken over here... */
   ~JavaMethod();
+
+  private:
+  void buildInputSignature(JavaUtf8 &, u16 &, u16, JavaClassLoader * &); /* returns true on successful parsing  */
 };
 
 
