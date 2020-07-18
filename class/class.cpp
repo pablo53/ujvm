@@ -19,8 +19,14 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
   const_pool = clsfile.const_pool; /* takes ownership... */
   access_flags = clsfile.access_flags;
   this_class = new JavaUtf8(*class_name_from_file(clsfile)); /* obvious ownership */
-  JavaUtf8 super_class_name(*class_name_from_cpool(clsfile, clsfile.super_class));
-  super_class = class_loader ? class_loader->resolveClassByName(&super_class_name) : nullptr;
+  CPUtf8Info * super_class_const = class_name_from_cpool(clsfile, clsfile.super_class); /* no ownership */
+  if (super_class_const)
+  {
+    JavaUtf8 super_class_name(*super_class_const);
+    super_class = class_loader ? class_loader->resolveClassByName(&super_class_name) : nullptr; // TODO: handle non-resolved superclass
+  }
+  else
+    super_class = nullptr; /* java/lang/Object has no direct superclass */
   iface_cnt = clsfile.iface_cnt;
   interfaces = iface_cnt ? new JavaClass*[iface_cnt] : nullptr; // TODO: check, if memory allocated for attributes when iface_cnt > 0
   for (u16 i = 0; i < iface_cnt; i++)
