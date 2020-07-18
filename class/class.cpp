@@ -28,21 +28,22 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
     JavaUtf8 interface_name(*class_name_from_cpool(clsfile, clsfile.interfaces[i]));
     interfaces[i] = class_loader ? class_loader->resolveClassByName(&interface_name) : nullptr; // TODO: handle unresolved interface
   }
-  // TODO
+  field_cnt = clsfile.field_cnt;
+  fields = field_cnt ? new JavaField*[field_cnt] : nullptr; // TODO: check, if memory allocated for attributes when field_cnt > 0
+  for (u16 i = 0; i < field_cnt; i++)
+    fields[i] = nullptr; // TODO
+  method_cnt = clsfile.method_cnt;
+  methods = method_cnt ? new JavaMethod*[method_cnt] : nullptr; // TODO: check, if memory allocated for attributes when method_cnt > 0
+  for (u16 i = 0; i < method_cnt; i++)
+    methods[i] = nullptr; // TODO
   attr_cnt = clsfile.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr; // TODO: check, if memory allocated for attributes when attr_cnt > 0
   for (u16 i = 0; i < attr_cnt; i++)
     attributes[i] = convert2jattr(clsfile.attributes[i], clsfile);
   error = 0; /* now, this is ok */
 
-  /* unlink orig: */
-  clsfile.const_pool_cnt = 1;
-  clsfile.const_pool = nullptr;
-  clsfile.iface_cnt = 0;
-  clsfile.interfaces = nullptr;
-  // TODO
-  clsfile.attr_cnt = 0;
-  clsfile.attributes = nullptr;
+  clsfile.const_pool_cnt = 1;   /* unlink orig */
+  clsfile.const_pool = nullptr; /* unlink orig */
 }
 
 JavaClass::~JavaClass()
