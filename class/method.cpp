@@ -16,7 +16,7 @@
 
 JavaMethod::JavaMethod(const MethodInfo & meth, ClassFile &cls, JavaClassLoader * classldr)
 {
-  if (&meth) return; // TODO: change to pointer and check non NULL outside
+  if (!&meth) return; // TODO: change to pointer and check non NULL outside
   access_flags = meth.access_flags;
   CPUtf8Info * meth_name_const = cls.get_const_utf8(meth.name_idx); /* no ownership */
   name = meth_name_const ? new JavaUtf8(*meth_name_const) : nullptr; /* obvious ownership */
