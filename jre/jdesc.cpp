@@ -52,7 +52,80 @@ static void desc_jclass_interfaces(JavaClass &klz)
   }
 }
 
-static void desc_jclass_attribute(JavaAttribute * &attribute, JavaClass &klz, int indent = 0)
+static void desc_jclass_type(JavaType * jtype)
+{
+  if (!jtype)
+  {
+    std::cout << "(No type)";
+    return;
+  }
+  switch (jtype->sign)
+  {
+  case SIGN_UNKNOWN:
+    std::cout << "(Unknown)";
+    break;
+  case SIGN_BOOL:
+    std::cout << "boolean";
+    break;
+  case SIGN_VOID:
+    std::cout << "void";
+    break;
+  case SIGN_CLASS:
+    desc_jclass_name(jtype->ref_class);
+    break;
+  case SIGN_BYTE:
+    std::cout << "byte";
+    break;
+  case SIGN_CHAR:
+    std::cout << "char";
+    break;
+  case SIGN_DOUBLE:
+    std::cout << "double";
+    break;
+  case SIGN_FLOAT:
+    std::cout << "float";
+    break;
+  case SIGN_SHORT:
+    std::cout << "short";
+    break;
+  case SIGN_INT:
+    std::cout << "int";
+    break;
+  case SIGN_LONG:
+    std::cout << "long";
+    break;
+  default: /* should not happen */
+    std::cout << "???";
+    return;
+  }
+}
+
+static void desc_jclass_field(JavaField * fld)
+{
+  std::cout << INDENT(2);
+  if (!fld)
+  {
+    std::cout << "(None)" << std::endl;
+    return;
+  }
+  desc_jclass_type(fld->jtype);
+  std::cout << INDENT(1);
+  if (fld->name)
+    print_utf8(fld->name->bytes, fld->name->length);
+  else
+    std::cout << "(No name)";
+  std::cout << std::endl;
+  // TODO
+}
+
+static void desc_jclass_fields(JavaClass &klz)
+{
+  std::cout << "Fields: " << std::endl;
+  for (u16 i = 0; i < klz.field_cnt; i++)
+    desc_jclass_field(klz.fields[i]);
+}
+
+static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int indent = 0)
 {
   if (!attribute)
   {
@@ -120,6 +193,7 @@ void desc_jclass(JavaClass &klz)
 {
   desc_jclass_base(klz);
   desc_jclass_interfaces(klz);
+  desc_jclass_fields(klz);
   desc_jclass_attributes(klz.attr_cnt, klz.attributes, klz);
   std::cout << std::endl << std::flush;
 }
