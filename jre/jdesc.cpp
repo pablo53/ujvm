@@ -41,6 +41,17 @@ static void desc_jclass_base(JavaClass &klz)
   std::cout << std::endl;
 }
 
+static void desc_jclass_interfaces(JavaClass &klz)
+{
+  std::cout << "Interfaces: " << std::endl;
+  for (int i = 0; i < klz.iface_cnt; i++)
+  {
+    std::cout << "  ";
+    desc_jclass_name(klz.interfaces[i]);
+    std::cout << std::endl;
+  }
+}
+
 static void desc_jclass_attribute(JavaAttribute * &attribute, JavaClass &klz, int indent = 0)
 {
   if (!attribute)
@@ -108,6 +119,7 @@ static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, J
 void desc_jclass(JavaClass &klz)
 {
   desc_jclass_base(klz);
+  desc_jclass_interfaces(klz);
   desc_jclass_attributes(klz.attr_cnt, klz.attributes, klz);
   std::cout << std::endl << std::flush;
 }
