@@ -44,7 +44,7 @@ static void desc_jclass_base(JavaClass &klz)
 static void desc_jclass_interfaces(JavaClass &klz)
 {
   std::cout << "Interfaces: " << std::endl;
-  for (int i = 0; i < klz.iface_cnt; i++)
+  for (u16 i = 0; i < klz.iface_cnt; i++)
   {
     std::cout << "  ";
     desc_jclass_name(klz.interfaces[i]);
