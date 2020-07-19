@@ -9,6 +9,14 @@
 #include <cstdlib>
 #include <cstdio>
 
+void print_utf8(const JavaUtf8 * utf8, const char * alt_text)
+{
+  if (utf8)
+    print_utf8(utf8->bytes, utf8->length);
+  else
+    std::cout << alt_text;
+}
+
 void print_utf8(const u8 * buf, u16 buflen)
 {
   for (u16 i = 0; i < buflen; i++)
