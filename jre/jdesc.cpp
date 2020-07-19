@@ -14,15 +14,17 @@ static void desc_jclass_name(JavaClass * klz)
 {
   if (!klz)
   {
-    std::cout << CLR_ERR "(None or Unresolved)" CLR_RESET;
+    std::cout << CLR_ERR "[None or Unresolved]" CLR_RESET;
     return;
   }
   if (klz->error)
   {
-    std::cout << CLR_ERR "(Error loading class)" CLR_RESET;
+    std::cout << CLR_ERR "[Error loading class]" CLR_RESET;
     return;
   }
-  print_utf8(klz->this_class, CLR_ERR "(No name)" CLR_RESET);
+  std::cout << CLR_NAME;
+  print_utf8(klz->this_class, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
+  std::cout << CLR_RESET;
 }
 
 static void desc_jclass_base(JavaClass &klz)
@@ -51,13 +53,13 @@ static void desc_jclass_type(JavaType * jtype)
 {
   if (!jtype)
   {
-    std::cout << CLR_ERR "(No type)" CLR_RESET;
+    std::cout << CLR_ERR "[No type]" CLR_RESET;
     return;
   }
   switch (jtype->sign)
   {
   case SIGN_UNKNOWN:
-    std::cout << CLR_ERR "(Unknown)" CLR_RESET;
+    std::cout << CLR_ERR "[Unknown]" CLR_RESET;
     break;
   case SIGN_BOOL:
     std::cout << CLR_KEYWORD "boolean" CLR_RESET;
@@ -100,7 +102,7 @@ static void desc_jclass_field(JavaField * fld)
   std::cout << INDENT(2);
   if (!fld)
   {
-    std::cout << CLR_ERR "(None)" CLR_RESET << std::endl;
+    std::cout << CLR_ERR "[None]" CLR_RESET << std::endl;
     return;
   }
   if (fld->access_flags & ACC_PUBLIC)
@@ -120,7 +122,9 @@ static void desc_jclass_field(JavaField * fld)
   // TODO: ACC_SYNTHETIC and ACC_ENUM
   desc_jclass_type(fld->jtype);
   std::cout << INDENT(1);
-  print_utf8(fld->name, CLR_ERR "(No name)" CLR_RESET);
+  std::cout << CLR_NAME;
+  print_utf8(fld->name, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
+  std::cout << CLR_RESET;
   std::cout << std::endl;
   // TODO
 }
@@ -137,7 +141,7 @@ static void desc_jclass_method(JavaMethod * jmeth)
   std::cout << INDENT(2);
   if (!jmeth)
   {
-    std::cout << CLR_ERR "(None)" CLR_RESET << std::endl;
+    std::cout << CLR_ERR "[None]" CLR_RESET << std::endl;
     return;
   }
   if (jmeth->access_flags & ACC_PUBLIC)
@@ -161,8 +165,16 @@ static void desc_jclass_method(JavaMethod * jmeth)
   // TODO: ACC_BRIDGE, ACC_VARARGS, and ACC_SYNTHETIC
   desc_jclass_type(jmeth->jtype);
   std::cout << " ";
-  print_utf8(jmeth->name, CLR_ERR "(No name)" CLR_RESET);
+  std::cout << CLR_NAME;
+  print_utf8(jmeth->name, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
+  std::cout << CLR_RESET;
   std::cout << CLR_OPERATOR "(" CLR_RESET;
+  for (u16 i = 0; i < jmeth->input_cnt; i++)
+  {
+    if (i)
+      std::cout << CLR_OPERATOR "," CLR_RESET " ";
+    desc_jclass_type(jmeth->input_types[i]);
+  }
   std::cout << CLR_OPERATOR ")" CLR_RESET;
   std::cout << std::endl;
   // TODO
@@ -179,7 +191,7 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
 {
   if (!attribute)
   {
-    std::cout << INDENT(indent) << CLR_ERR "(None)" CLR_RESET << std::endl;
+    std::cout << INDENT(indent) << CLR_ERR "[None]" CLR_RESET << std::endl;
     return;
   }
   switch (attribute->jattr_typ)
@@ -191,7 +203,7 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
       if (jattr->name)
         print_utf8(jattr->name->bytes, jattr->name->length);
       else
-        std::cout << CLR_ERR "(No name)" CLR_RESET; /* should not happen */
+        std::cout << CLR_ERR "[No name]" CLR_RESET; /* should not happen */
       std::cout << ":" << std::endl;
       std::cout << INDENT(indent + 2) << "-length: " << std::dec << jattr->length << std::endl;
       std::cout << INDENT(indent + 2) << "-content: ";
@@ -217,7 +229,7 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
       if (jattr->src_file_name)
         print_utf8(jattr->src_file_name->bytes, jattr->src_file_name->length);
       else
-        std::cout << CLR_ERR "(Unknown)" CLR_RESET;
+        std::cout << CLR_ERR "[Unknown]" CLR_RESET;
       std::cout << std::endl;
     }
     break;
