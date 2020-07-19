@@ -40,7 +40,7 @@ class JavaClass
   JavaClass() = delete;
   JavaClass(const JavaClass &) = delete;
   JavaClass(JavaClass &&) = delete;
-  JavaClass(ClassFile &, JavaClassLoader * = nullptr); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
+  JavaClass(ClassFile &, JavaClassLoader * = nullptr, JavaClass ** = nullptr); /* copying constructor, but 1st-stage ClassFile becomes inconsistent and must be destroyed after this */
   ~JavaClass();
   JavaClass & operator=(const JavaClass &) = delete;
 };

@@ -11,9 +11,11 @@
 #include "method.h"
 #include "attr.h"
 
-JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr)
+JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr, JavaClass ** this_ref)
 {
   error = 1; /* it will be cleared once the class is successfully loaded */
+  if (this_ref)
+    *this_ref = this; /* immediate return of pointer to this */
   class_loader = classldr; /* If nullptr, then no resolution is possible. */
   const_pool_cnt = clsfile.const_pool_cnt - 1; /* real number of entries, but including the "holes" caused by double and long primitives */
   const_pool = clsfile.const_pool; /* takes ownership... */
