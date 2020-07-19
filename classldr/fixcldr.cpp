@@ -45,6 +45,7 @@ JavaClass * JavaFixedPoolClassLoader::findClassByName(JavaUtf8 *class_name)
       if (has_name(cls_files[i], class_name))
       {
         JavaClass * newclass = new JavaClass(*(cls_files[i]), this);
+        classes[i] = newclass;
         delete cls_files[i]; /* JavaClass(ClassFile &) make its argument unusable */
         cls_files[i] = nullptr;
         return newclass;
