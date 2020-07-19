@@ -12,6 +12,10 @@ class JavaType; /* forward declaration due to circular dependencies */
 #define SIGN_UNKNOWN     '\000'
 #define SIGN_INPUT_BEGIN '('
 #define SIGN_INPUT_END   ')'
+#define SIGN_TYPE_BEGIN  '<'
+#define SIGN_TYPE_END    '>'
+#define SIGN_BOUND       ':'
+#define SIGN_THROWS      '^'
 
 #define SIGN_ARRAY       '['
 #define SIGN_BOOL        'Z'

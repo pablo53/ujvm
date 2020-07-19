@@ -42,7 +42,7 @@ JavaMethod::JavaMethod(const MethodInfo & meth, ClassFile &cls, JavaClassLoader 
   attr_cnt = meth.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr;
   for (u16 i = 0; i < attr_cnt; i++)
-    attributes[i] = convert2jattr(meth.attributes[i], cls); /* ownership returned */
+    attributes[i] = convert2jattr(meth.attributes[i], cls, classldr); /* ownership returned */
 }
 
 JavaMethod::~JavaMethod()

@@ -9,6 +9,7 @@ class JavaAttribute; /* forward declaration due to circular dependencies */
 #include "../defs/types.h"
 #include "../classfmt/attr.h"
 #include "../classfmt/clsfile.h"
+#include "../classldr/cloader.h"
 
 /* The following constants are used internally, and are not defined by JVM specification. */
 #define JATTR_UNKNOWN                                   0
@@ -84,6 +85,18 @@ class JavaAttributeCode : public JavaAttribute
   virtual ~JavaAttributeCode();
 };
 
+class JavaAttributeExceptions : public JavaAttribute
+{
+  public:
+  u16 exception_cnt;
+  JavaClass ** exceptions;
+  
+  JavaAttributeExceptions() = delete;
+  JavaAttributeExceptions(const JavaAttributeExceptions &) = delete;
+  JavaAttributeExceptions(AttributeInfo &, const ClassFile &, JavaClassLoader *); /* no ownership of ClassLoader taken */
+  virtual ~JavaAttributeExceptions();
+};
+
 #ifndef BASIC_JATTR_ONLY
 
 class JavaAttributeSourceFile : public JavaAttribute
@@ -98,7 +111,7 @@ class JavaAttributeSourceFile : public JavaAttribute
 
 #endif
 
-JavaAttribute * convert2jattr(AttributeInfo & attr_info, const ClassFile &clsfile); /* factory method */
+JavaAttribute * convert2jattr(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader); /* factory method */
 
 
 #endif

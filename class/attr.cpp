@@ -11,6 +11,7 @@
 #include "../classfmt/attr.h"
 #include "../classfmt/clsfile.h"
 #include "../classfmt/stm.h"
+#include "../classldr/cloader.h"
 
 #include <cstring>
 
@@ -60,6 +61,27 @@ JavaAttributeCode::~JavaAttributeCode()
 }
 
 
+JavaAttributeExceptions::JavaAttributeExceptions(AttributeInfo & attr, const ClassFile &clsfile, JavaClassLoader * clsloader) : JavaAttribute(JATTR_EXCEPTIONS)
+{
+  const u8 * info = attr.info;
+  exception_cnt = readbe16(info);
+  exceptions = exception_cnt ? new JavaClass*[exception_cnt] : nullptr;
+  u16 cp_entry_ex_class;
+  for (u16 i = 0; i < exception_cnt; i++)
+  {
+    cp_entry_ex_class = readbe16(info); // TODO: check, if also attr.attr_len not overflown
+    exceptions[i] = resolve_class_from_cpool(clsfile, cp_entry_ex_class, clsloader); // TODO: handle nulptr, if no classloader provided and it should resolve to the current class (very unlikely, though possible)
+  }
+}
+
+JavaAttributeExceptions::~JavaAttributeExceptions()
+{
+  for (u16 i = 0; i < exception_cnt; i++)
+    delete exceptions[i];
+  delete[] exceptions;
+}
+
+
 #ifndef BASIC_JATTR_ONLY
 
 JavaAttributeSourceFile::JavaAttributeSourceFile(const AttributeInfo &attr, const ClassFile &clsfile) : JavaAttribute(JATTR_SOURCE_FILE)
@@ -78,19 +100,24 @@ JavaAttributeSourceFile::~JavaAttributeSourceFile()
 #endif
 
 
-static JavaAttribute * convert_unknown(AttributeInfo & attr_info, const ClassFile &clsfile)
+static JavaAttribute * convert_unknown(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
 {
   return new JavaAttributeUnknown(attr_info, clsfile);
 }
 
-static JavaAttribute * convert_code(AttributeInfo & attr_info, const ClassFile &clsfile)
+static JavaAttribute * convert_code(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
 {
   return new JavaAttributeCode(attr_info, clsfile);
 }
 
+static JavaAttribute * convert_exceptions(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
+{
+  return new JavaAttributeExceptions(attr_info, clsfile, clsloader);
+}
+
 #ifndef BASIC_JATTR_ONLY
 
-static JavaAttribute * convert_source_file(AttributeInfo & attr_info, const ClassFile &clsfile)
+static JavaAttribute * convert_source_file(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
 {
   return new JavaAttributeSourceFile(attr_info, clsfile);
 }
@@ -98,23 +125,25 @@ static JavaAttribute * convert_source_file(AttributeInfo & attr_info, const Clas
 #endif
 
 static u8 name_code[] = { 'C', 'o', 'd', 'e' };
+static u8 name_exceptions[] = { 'E', 'x', 'c', 'e', 'p', 't', 'i', 'o', 'n', 's' };
 static u8 name_source_file[] = { 'S', 'o', 'u', 'r', 'c', 'e', 'F', 'i', 'l', 'e' };
 
 static struct Converter
 {
   u8 * name;
   u16 name_len;
-  JavaAttribute * (*converter)(AttributeInfo & attr_info, const ClassFile &clsfile);
+  JavaAttribute * (*converter)(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader);
 } converters[] =
 {
-  { name_code, sizeof(name_code), convert_code }, // TODO: uncomment
+  { name_code, sizeof(name_code), convert_code },
+  { name_exceptions, sizeof(name_exceptions), convert_exceptions },
 #ifndef BASIC_JATTR_ONLY
   { name_source_file, sizeof(name_source_file), convert_source_file },
 #endif
   { nullptr, 0, convert_unknown } /* The last one is default. */
 };
 
-JavaAttribute * convert2jattr(AttributeInfo & attr_info, const ClassFile &clsfile)
+JavaAttribute * convert2jattr(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
 {
   CPUtf8Info * cpinfo = clsfile.get_const_utf8(attr_info.attr_name_idx);
   Converter * converter = converters;
@@ -122,11 +151,11 @@ JavaAttribute * convert2jattr(AttributeInfo & attr_info, const ClassFile &clsfil
   {
     if (converter->name)
       if (EQUAL_STRINGS(converter->name, converter->name_len, cpinfo->bytes, cpinfo->length))
-        return converter->converter(attr_info, clsfile);
+        return converter->converter(attr_info, clsfile, clsloader);
       else
         ;
     else
-      return converter->converter(attr_info, clsfile);
+      return converter->converter(attr_info, clsfile, clsloader);
   } while (converter++->name);
 }
 

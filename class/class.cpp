@@ -21,21 +21,11 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr, JavaClass 
   const_pool = clsfile.const_pool; /* takes ownership... */
   access_flags = clsfile.access_flags;
   this_class = new JavaUtf8(*class_name_from_file(clsfile)); /* obvious ownership */
-  CPUtf8Info * super_class_const = class_name_from_cpool(clsfile, clsfile.super_class); /* no ownership */
-  if (super_class_const)
-  {
-    JavaUtf8 super_class_name(*super_class_const);
-    super_class = class_loader ? class_loader->resolveClassByName(&super_class_name) : nullptr; // TODO: handle non-resolved superclass
-  }
-  else
-    super_class = nullptr; /* java/lang/Object has no direct superclass */
+  super_class = resolve_class_from_cpool(clsfile, clsfile.super_class, classldr); /* only java/lang/Object can have no direct superclass */
   iface_cnt = clsfile.iface_cnt;
   interfaces = iface_cnt ? new JavaClass*[iface_cnt] : nullptr; // TODO: check, if memory allocated for attributes when iface_cnt > 0
   for (u16 i = 0; i < iface_cnt; i++)
-  {
-    JavaUtf8 interface_name(*class_name_from_cpool(clsfile, clsfile.interfaces[i]));
-    interfaces[i] = class_loader ? class_loader->resolveClassByName(&interface_name) : nullptr; // TODO: handle unresolved interface
-  }
+    interfaces[i] = resolve_class_from_cpool(clsfile, clsfile.interfaces[i], classldr);
   field_cnt = clsfile.field_cnt;
   fields = field_cnt ? new JavaField*[field_cnt] : nullptr; // TODO: check, if memory allocated for attributes when field_cnt > 0
   for (u16 i = 0; i < field_cnt; i++)
@@ -47,7 +37,7 @@ JavaClass::JavaClass(ClassFile & clsfile, JavaClassLoader * classldr, JavaClass 
   attr_cnt = clsfile.attr_cnt;
   attributes = attr_cnt ? new JavaAttribute*[attr_cnt] : nullptr; // TODO: check, if memory allocated for attributes when attr_cnt > 0
   for (u16 i = 0; i < attr_cnt; i++)
-    attributes[i] = convert2jattr(clsfile.attributes[i], clsfile);
+    attributes[i] = convert2jattr(clsfile.attributes[i], clsfile, classldr);
   error = 0; /* now, this is ok */
 
   clsfile.const_pool_cnt = 1;   /* unlink orig */
@@ -66,6 +56,20 @@ JavaClass::~JavaClass()
   for (u16 i = 0; i < attr_cnt; i++)
     delete attributes[i];
   delete[] attributes;
+}
+
+JavaClass * resolve_class_from_cpool(const ClassFile &clsfile, const u16 cpool_idx, JavaClassLoader * classldr)
+{
+  if (!classldr)
+    return nullptr; /* should never pass nullptr here, as this does not make anz sense */
+  CPUtf8Info * class_name_const = class_name_from_cpool(clsfile, clsfile.super_class); /* no ownership */
+  if (class_name_const)
+  {
+    JavaUtf8 class_name(*class_name_const);
+    return classldr->resolveClassByName(&class_name); /* no ownership returned */
+  }
+  else
+    return nullptr; // TODO: sth's wrong with the underlying class file.
 }
 
 

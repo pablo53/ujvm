@@ -132,6 +132,18 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
       // TODO
     }
     break;
+  case JATTR_EXCEPTIONS:
+    {
+      std::cout << INDENT(indent) << "Exceptions:" << std::endl;
+      JavaAttributeExceptions *jattr = (JavaAttributeExceptions *)attribute;
+      for (u16 i = 0; i < jattr->exception_cnt; i++)
+      {
+        std::cout << INDENT(indent + 2);
+        desc_jclass_name(jattr->exceptions[i]);
+        std::cout << CLR_RESET << std::endl;
+      }
+    }
+    break;
   // TODO
 #ifndef BASIC_JATTR_ONLY
   case JATTR_SOURCE_FILE:

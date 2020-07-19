@@ -45,5 +45,6 @@ class JavaClass
   JavaClass & operator=(const JavaClass &) = delete;
 };
 
+JavaClass * resolve_class_from_cpool(const ClassFile &clsfile, const u16 cpool_idx, JavaClassLoader * classldr);
 
 #endif
