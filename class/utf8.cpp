@@ -22,7 +22,7 @@ JavaUtf8::JavaUtf8(JavaUtf8 &&other) : length(other.length), bytes(other.bytes)
 
 JavaUtf8::JavaUtf8(const JavaUtf8 & other)
 {
-  if (&other)
+  if (&other) // TODO: pointer should be check outside, before entering constructor
   {
     length = other.length;
     bytes = new u8[length];
@@ -35,7 +35,6 @@ JavaUtf8::JavaUtf8(const JavaUtf8 & other)
     length = 0;
     bytes = nullptr;
   }
-  
 }
 
 JavaUtf8::JavaUtf8(const CPUtf8Info & cp_utf8)
@@ -74,8 +73,13 @@ JavaUtf8 JavaUtf8::substring(u16 startIdx, u16 endIdx) const
       endIdx = len;
     JavaUtf8 s;
     s.length = endIdx - startIdx; // TODO: again, in fact it can be greater than this, if there are characters wider than 1 byte
-    s.bytes = new u8[s.length];
-    memcpy(s.bytes, &bytes[startIdx], length); // TODO: again...
+    if (s.length)
+    {
+      s.bytes = new u8[s.length];
+      memcpy(s.bytes, &bytes[startIdx], length); // TODO: again...
+    }
+    else
+      s.bytes = nullptr;
     return s;
   }
   else
