@@ -76,7 +76,7 @@ JavaUtf8 JavaUtf8::substring(u16 startIdx, u16 endIdx) const
     if (s.length)
     {
       s.bytes = new u8[s.length];
-      memcpy(s.bytes, &bytes[startIdx], length); // TODO: again...
+      memcpy(s.bytes, &bytes[startIdx], s.length); // TODO: again...
     }
     else
       s.bytes = nullptr;
