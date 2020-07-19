@@ -24,10 +24,20 @@ void JavaType::build(const JavaUtf8 &signature, u16 &cur, JavaClassLoader * clas
   generic_cnt = 0; // TODO
   generics = nullptr; // TODO
   ref_class = nullptr;
+  arr_dim = 0;
   u16 endIdx = signature.get_length();
   if (cur < endIdx)
   {
-    sign = signature.get_jchar(cur++);
+    while (cur < endIdx)
+    {
+      sign = signature.get_jchar(cur++);
+      if (sign != SIGN_ARRAY)
+        break;
+      else
+        if (arr_dim < 255)
+          arr_dim++;
+        else ; // TODO: incorrect type format; dimension numbers above 255 are illegal in Java
+    }
     if (sign == SIGN_CLASS)
     {
       u16 cur2 = cur;
@@ -38,7 +48,7 @@ void JavaType::build(const JavaUtf8 &signature, u16 &cur, JavaClassLoader * clas
           adjust = 1;
           break;
         }
-      JavaUtf8 class_name = signature.substring(cur, cur2 - adjust);
+      JavaUtf8 class_name = signature.substring(cur, cur2 - adjust); // TODO: if not adjust, then source UTF8 must have been incorrectly formatted
       cur = cur2;
       ref_class = classldr ? classldr->resolveClassByName(&class_name) : nullptr; /* sth's wrong, if Class Loader hasn't been provided */
     }

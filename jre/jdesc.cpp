@@ -93,8 +93,10 @@ static void desc_jclass_type(JavaType * jtype)
     break;
   default: /* should not happen */
     std::cout << CLR_ERR "???" CLR_RESET;
-    return;
+    break;
   }
+  for (u8 i = 0; i < jtype->arr_dim; i++)
+    std::cout << "[]";
 }
 
 static void desc_jclass_field(JavaField * fld)

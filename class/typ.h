@@ -31,6 +31,7 @@ class JavaType
   public:
   jchar sign; /* as per SIGN_* constants */
   JavaClass * ref_class; /* for SIGN_CLASS, otherwise nullptr; no ownership  */
+  u8 arr_dim; /* number of array dimensions, if any (0 = scalar value) */
   u16 generic_cnt;         /* number of generic type variables */
   JavaGeneric ** generics; /* a table of generic_cnt Java Generics */
 
