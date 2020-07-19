@@ -10,6 +10,7 @@ all: ujvm.o
 
 java: java.cpp ujvm.h ujvm.o jre/all.h jre/all.o
 	$(CC) $(CFLAGSSTD) $< $(filter %.o, $^) -o $@
+	strip --strip-unneeded java
 
 ujvm.o: main.o classfmt/all.o class/all.o classldr/all.o cpp2c/all.o
 	$(LD) $(LDFLAGS) -r $(filter %.o, $^) -o $@
