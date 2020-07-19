@@ -31,11 +31,15 @@ void JavaType::build(const JavaUtf8 &signature, u16 &cur, JavaClassLoader * clas
     if (sign == SIGN_CLASS)
     {
       u16 cur2 = cur;
-      while (cur < endIdx)
-        if (signature.get_jchar(cur++) == SIGN_CLASS_TERM)
+      u16 adjust = 0; // number of jchars to adjust, if the type name ends with ';' (SIGN_CLASS_TERM)
+      while (cur2 < endIdx)
+        if (signature.get_jchar(cur2++) == SIGN_CLASS_TERM)
+        {
+          adjust = 1;
           break;
-      // TODO: check, if last character was ';'
-      JavaUtf8 class_name = signature.substring(cur, cur2);
+        }
+      JavaUtf8 class_name = signature.substring(cur, cur2 - adjust);
+      cur = cur2;
       ref_class = classldr ? classldr->resolveClassByName(&class_name) : nullptr; /* sth's wrong, if Class Loader hasn't been provided */
     }
   }
