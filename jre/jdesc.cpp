@@ -99,96 +99,6 @@ static void desc_jclass_type(JavaType * jtype)
     std::cout << "[]";
 }
 
-static void desc_jclass_field(JavaField * fld)
-{
-  std::cout << INDENT(2);
-  if (!fld)
-  {
-    std::cout << CLR_ERR "[None]" CLR_RESET << std::endl;
-    return;
-  }
-  if (fld->access_flags & ACC_PUBLIC)
-    std::cout << CLR_KEYWORD "public " CLR_RESET;
-  if (fld->access_flags & ACC_PRIVATE)
-    std::cout << CLR_KEYWORD "private " CLR_RESET;
-  if (fld->access_flags & ACC_PROTECTED)
-    std::cout << CLR_KEYWORD "protected " CLR_RESET;
-  if (fld->access_flags & ACC_STATIC)
-    std::cout << CLR_KEYWORD "static " CLR_RESET;
-  if (fld->access_flags & ACC_FINAL)
-    std::cout << CLR_KEYWORD "final " CLR_RESET;
-  if (fld->access_flags & ACC_VOLATILE)
-    std::cout << CLR_KEYWORD "volatile " CLR_RESET;
-  if (fld->access_flags & ACC_TRANSIENT)
-    std::cout << CLR_KEYWORD "transient " CLR_RESET;
-  // TODO: ACC_SYNTHETIC and ACC_ENUM
-  desc_jclass_type(fld->jtype);
-  std::cout << INDENT(1);
-  std::cout << CLR_NAME;
-  print_utf8(fld->name, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
-  std::cout << CLR_RESET;
-  std::cout << std::endl;
-  // TODO
-}
-
-static void desc_jclass_fields(JavaClass &klz)
-{
-  std::cout << "Fields: " << std::endl;
-  for (u16 i = 0; i < klz.field_cnt; i++)
-    desc_jclass_field(klz.fields[i]);
-}
-
-static void desc_jclass_method(JavaMethod * jmeth)
-{
-  std::cout << INDENT(2);
-  if (!jmeth)
-  {
-    std::cout << CLR_ERR "[None]" CLR_RESET << std::endl;
-    return;
-  }
-  if (jmeth->access_flags & ACC_PUBLIC)
-    std::cout << CLR_KEYWORD "public " CLR_RESET;
-  if (jmeth->access_flags & ACC_PRIVATE)
-    std::cout << CLR_KEYWORD "private " CLR_RESET;
-  if (jmeth->access_flags & ACC_PROTECTED)
-    std::cout << CLR_KEYWORD "protected " CLR_RESET;
-  if (jmeth->access_flags & ACC_STATIC)
-    std::cout << CLR_KEYWORD "static " CLR_RESET;
-  if (jmeth->access_flags & ACC_FINAL)
-    std::cout << CLR_KEYWORD "final " CLR_RESET;
-  if (jmeth->access_flags & ACC_SYNCHRONIZED)
-    std::cout << CLR_KEYWORD "synchronized " CLR_RESET;
-  if (jmeth->access_flags & ACC_NATIVE)
-    std::cout << CLR_KEYWORD "native " CLR_RESET;
-  if (jmeth->access_flags & ACC_ABSTRACT)
-    std::cout << CLR_KEYWORD "abstract " CLR_RESET;
-  if (jmeth->access_flags & ACC_STRICT)
-    std::cout << CLR_KEYWORD "strictfp " CLR_RESET;
-  // TODO: ACC_BRIDGE, ACC_VARARGS, and ACC_SYNTHETIC
-  desc_jclass_type(jmeth->jtype);
-  std::cout << " ";
-  std::cout << CLR_NAME;
-  print_utf8(jmeth->name, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
-  std::cout << CLR_RESET;
-  std::cout << CLR_OPERATOR "(" CLR_RESET;
-  for (u16 i = 0; i < jmeth->input_cnt; i++)
-  {
-    if (i)
-      std::cout << CLR_OPERATOR "," CLR_RESET " ";
-    desc_jclass_type(jmeth->input_types[i]);
-  }
-  std::cout << CLR_OPERATOR ")" CLR_RESET;
-  std::cout << std::endl;
-  // TODO
-}
-
-static void desc_jclass_methods(JavaClass &klz)
-{
-  std::cout << "Methods: " << std::endl;
-  for (u16 i = 0; i < klz.method_cnt; i++)
-    desc_jclass_method(klz.methods[i]);
-}
-
 static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int indent = 0)
 {
   if (!attribute)
@@ -251,6 +161,97 @@ static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, J
   std::cout << INDENT(indent) << "Attributes:" << std::endl;
   for (int i = 0; i < attr_cnt; i++)
     desc_jclass_attribute(attributes[i], klz, indent + 2);
+}
+
+static void desc_jclass_field(JavaField * fld)
+{
+  std::cout << INDENT(2);
+  if (!fld)
+  {
+    std::cout << CLR_ERR "[None]" CLR_RESET << std::endl;
+    return;
+  }
+  if (fld->access_flags & ACC_PUBLIC)
+    std::cout << CLR_KEYWORD "public " CLR_RESET;
+  if (fld->access_flags & ACC_PRIVATE)
+    std::cout << CLR_KEYWORD "private " CLR_RESET;
+  if (fld->access_flags & ACC_PROTECTED)
+    std::cout << CLR_KEYWORD "protected " CLR_RESET;
+  if (fld->access_flags & ACC_STATIC)
+    std::cout << CLR_KEYWORD "static " CLR_RESET;
+  if (fld->access_flags & ACC_FINAL)
+    std::cout << CLR_KEYWORD "final " CLR_RESET;
+  if (fld->access_flags & ACC_VOLATILE)
+    std::cout << CLR_KEYWORD "volatile " CLR_RESET;
+  if (fld->access_flags & ACC_TRANSIENT)
+    std::cout << CLR_KEYWORD "transient " CLR_RESET;
+  // TODO: ACC_SYNTHETIC and ACC_ENUM
+  desc_jclass_type(fld->jtype);
+  std::cout << INDENT(1);
+  std::cout << CLR_NAME;
+  print_utf8(fld->name, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
+  std::cout << CLR_RESET;
+  std::cout << std::endl;
+  // TODO
+}
+
+static void desc_jclass_fields(JavaClass &klz)
+{
+  std::cout << "Fields: " << std::endl;
+  for (u16 i = 0; i < klz.field_cnt; i++)
+    desc_jclass_field(klz.fields[i]);
+}
+
+static void desc_jclass_method(JavaMethod * jmeth, JavaClass &klz)
+{
+  std::cout << INDENT(2);
+  if (!jmeth)
+  {
+    std::cout << CLR_ERR "[None]" CLR_RESET << std::endl;
+    return;
+  }
+  if (jmeth->access_flags & ACC_PUBLIC)
+    std::cout << CLR_KEYWORD "public " CLR_RESET;
+  if (jmeth->access_flags & ACC_PRIVATE)
+    std::cout << CLR_KEYWORD "private " CLR_RESET;
+  if (jmeth->access_flags & ACC_PROTECTED)
+    std::cout << CLR_KEYWORD "protected " CLR_RESET;
+  if (jmeth->access_flags & ACC_STATIC)
+    std::cout << CLR_KEYWORD "static " CLR_RESET;
+  if (jmeth->access_flags & ACC_FINAL)
+    std::cout << CLR_KEYWORD "final " CLR_RESET;
+  if (jmeth->access_flags & ACC_SYNCHRONIZED)
+    std::cout << CLR_KEYWORD "synchronized " CLR_RESET;
+  if (jmeth->access_flags & ACC_NATIVE)
+    std::cout << CLR_KEYWORD "native " CLR_RESET;
+  if (jmeth->access_flags & ACC_ABSTRACT)
+    std::cout << CLR_KEYWORD "abstract " CLR_RESET;
+  if (jmeth->access_flags & ACC_STRICT)
+    std::cout << CLR_KEYWORD "strictfp " CLR_RESET;
+  // TODO: ACC_BRIDGE, ACC_VARARGS, and ACC_SYNTHETIC
+  desc_jclass_type(jmeth->jtype);
+  std::cout << " ";
+  std::cout << CLR_NAME;
+  print_utf8(jmeth->name, CLR_RESET CLR_ERR "[No name]" CLR_RESET);
+  std::cout << CLR_RESET;
+  std::cout << CLR_OPERATOR "(" CLR_RESET;
+  for (u16 i = 0; i < jmeth->input_cnt; i++)
+  {
+    if (i)
+      std::cout << CLR_OPERATOR "," CLR_RESET " ";
+    desc_jclass_type(jmeth->input_types[i]);
+  }
+  std::cout << CLR_OPERATOR ")" CLR_RESET;
+  std::cout << std::endl;
+  desc_jclass_attributes(jmeth->attr_cnt, jmeth->attributes, klz, 4);
+  // TODO
+}
+
+static void desc_jclass_methods(JavaClass &klz)
+{
+  std::cout << "Methods: " << std::endl;
+  for (u16 i = 0; i < klz.method_cnt; i++)
+    desc_jclass_method(klz.methods[i], klz);
 }
 
 void desc_jclass(JavaClass &klz)
