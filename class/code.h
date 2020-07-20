@@ -4,6 +4,8 @@
 
 #include "../defs/types.h"
 
+#define OPCODE_NOP           0x00
+#define OPCODE_ACONST_NULL   0x01
 #define OPCODE_ALOAD_0       0x2a
 #define OPCODE_ALOAD_1       0x2b
 #define OPCODE_ALOAD_2       0x2c
@@ -29,6 +31,8 @@ class JavaInstruction
   JavaInstruction(u8 opcode);
 
   public:
+  class Nop;
+  class AConstNull;
   class ALoad0;
   class ALoad1;
   class ALoad2;
@@ -37,10 +41,22 @@ class JavaInstruction
   class InvokeSpecial;
 };
 
+class JavaInstruction::Nop : public JavaInstruction
+{
+  protected:
+  Nop();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AConstNull : public JavaInstruction
+{
+  protected:
+  AConstNull();
+  friend class JavaInstruction;
+};
+
 class JavaInstruction::ALoad0 : public JavaInstruction
 {
-  public:
-  
   protected:
   ALoad0();
   friend class JavaInstruction;
@@ -48,8 +64,6 @@ class JavaInstruction::ALoad0 : public JavaInstruction
 
 class JavaInstruction::ALoad1 : public JavaInstruction
 {
-  public:
-  
   protected:
   ALoad1();
   friend class JavaInstruction;
@@ -57,8 +71,6 @@ class JavaInstruction::ALoad1 : public JavaInstruction
 
 class JavaInstruction::ALoad2 : public JavaInstruction
 {
-  public:
-  
   protected:
   ALoad2();
   friend class JavaInstruction;
@@ -66,8 +78,6 @@ class JavaInstruction::ALoad2 : public JavaInstruction
 
 class JavaInstruction::ALoad3 : public JavaInstruction
 {
-  public:
-  
   protected:
   ALoad3();
   friend class JavaInstruction;
@@ -75,8 +85,6 @@ class JavaInstruction::ALoad3 : public JavaInstruction
 
 class JavaInstruction::Return : public JavaInstruction
 {
-  public:
-  
   protected:
   Return();
   friend class JavaInstruction;

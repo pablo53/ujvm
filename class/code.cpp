@@ -13,6 +13,12 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   const u8 * buf0 = buf; /* Initial position of the buffer cursor. */
   switch (readbe8(buf)) /* opcode */
   {
+  case OPCODE_NOP:
+    jinst = new Nop();
+    break;
+  case OPCODE_ACONST_NULL:
+    jinst = new AConstNull();
+    break;
   case OPCODE_ALOAD_0:
     jinst = new ALoad0();
     break;
@@ -56,6 +62,16 @@ u32 JavaInstruction::get_branch_cnt()
 u32 JavaInstruction::get_branch(u32 n, u32 offset)
 {
   return (n == 0) ? offset + instr_length : (u32)-1L; /* by default this is the next instruction after this one */
+}
+
+
+JavaInstruction::Nop::Nop() : JavaInstruction(OPCODE_NOP)
+{
+}
+
+
+JavaInstruction::AConstNull::AConstNull() : JavaInstruction(OPCODE_ACONST_NULL)
+{
 }
 
 

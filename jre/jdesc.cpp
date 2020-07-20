@@ -106,6 +106,12 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   std::cout << INDENT(indent) << HEX(8, pc) << ":  ";
   switch (instr->opcode)
   {
+  case OPCODE_NOP:
+    std::cout << CLR_KEYWORD "NOP" CLR_RESET;
+    break;
+  case OPCODE_ACONST_NULL:
+    std::cout << CLR_KEYWORD "ACONST_NULL" CLR_RESET;
+    break;
   case OPCODE_ALOAD_0:
     std::cout << CLR_KEYWORD "ALOAD_0" CLR_RESET;
     break;
