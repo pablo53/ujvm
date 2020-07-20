@@ -99,6 +99,8 @@ static void desc_jclass_type(JavaType * jtype)
     std::cout << "[]";
 }
 
+static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, JavaClass &klz, int indent = 0);
+
 static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int indent = 0)
 {
   if (!attribute)
@@ -128,8 +130,22 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
   case JATTR_CODE:
     {
       std::cout << INDENT(indent) << "Code:" << std::endl;
-      JavaAttributeUnknown *jattr = (JavaAttributeUnknown *)attribute;
+      JavaAttributeCode *jattr = (JavaAttributeCode *)attribute;
+      std::cout << INDENT(indent) << "  Stack size: " << jattr->max_stack << std::endl;
+      std::cout << INDENT(indent) << "  Local variables array size: " << jattr->max_locals << std::endl;
+      std::cout << INDENT(indent) << "  Code: " << std::endl;
       // TODO
+      std::cout << INDENT(indent) << "  Try-Catch blocks: " << (jattr->exception_cnt ? "" : "-") << std::endl;
+      for (u16 i = 0; i < jattr->exception_cnt; i++)
+      {
+        std::cout << INDENT(indent);
+        std::cout << "    Try: @" << jattr->exceptions[i].start_pc << " - @" << jattr->exceptions[i].end_pc;
+        std::cout << ", Catch: @" << jattr->exceptions[i].handler_pc;
+        std::cout << ", Class: ";
+        desc_jclass_name(jattr->exceptions[i].catch_type);
+        std::cout << std::endl;
+      }
+      desc_jclass_attributes(jattr->attr_cnt, jattr->attributes, klz, indent + 2);
     }
     break;
   case JATTR_EXCEPTIONS:
@@ -168,7 +184,7 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
   }
 }
 
-static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, JavaClass &klz, int indent = 0)
+static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, JavaClass &klz, int indent)
 {
   std::cout << INDENT(indent) << "Attributes:" << std::endl;
   for (int i = 0; i < attr_cnt; i++)
