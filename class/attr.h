@@ -10,6 +10,7 @@ class JavaAttribute; /* forward declaration due to circular dependencies */
 #include "../classfmt/attr.h"
 #include "../classfmt/clsfile.h"
 #include "../classldr/cloader.h"
+#include "../defs/err.h"
 
 /* The following constants are used internally, and are not defined by JVM specification. */
 #define JATTR_UNKNOWN                                   0
@@ -41,6 +42,7 @@ class JavaAttribute
 {
   public:
   u8 jattr_typ; /* as per JATTR_* const */
+  u8 err; /* state */
 
   JavaAttribute(const JavaAttribute &) = delete;
   JavaAttribute(JavaAttribute &&) = delete;
@@ -81,7 +83,7 @@ class JavaAttributeCode : public JavaAttribute
   JavaAttribute ** attributes;
 
   JavaAttributeCode() = delete;
-  JavaAttributeCode(const AttributeInfo &, const ClassFile &);
+  JavaAttributeCode(const AttributeInfo &, const ClassFile &, JavaClassLoader *);
   virtual ~JavaAttributeCode();
 };
 

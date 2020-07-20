@@ -18,6 +18,7 @@
 
 JavaAttribute::JavaAttribute(u8 _jattr_typ) : jattr_typ(_jattr_typ)
 {
+  err = ERR_NOT_INIT;
 }
 
 JavaAttribute::~JavaAttribute()
@@ -33,6 +34,8 @@ JavaAttributeUnknown::JavaAttributeUnknown(const AttributeInfo &attr, const Clas
   if (info)
     memcpy(info, attr.info, length);
   // TODO: handle not allocated memory for info
+
+  err = NOERR;
 }
 
 JavaAttributeUnknown::~JavaAttributeUnknown()
@@ -42,13 +45,53 @@ JavaAttributeUnknown::~JavaAttributeUnknown()
 }
 
 
-JavaAttributeCode::JavaAttributeCode(const AttributeInfo &attr, const ClassFile &clsfile) : JavaAttribute(JATTR_CODE)
+JavaAttributeCode::JavaAttributeCode(const AttributeInfo &attr, const ClassFile &clsfile, JavaClassLoader * clsloader) : JavaAttribute(JATTR_CODE)
 {
+  code_length = 0;
   code = nullptr;
+  exception_cnt = 0;
   exceptions = nullptr;
   attr_cnt = 0;
   attributes = nullptr;
-  // TODO
+  
+  const u8 * info = attr.info;
+  max_stack = readbe16(info);
+  max_locals = readbe16(info);
+  code_length = readbe32(info);
+  if (code_length > attr.attr_len - 12) // TODO: handle arithmetic overflow
+    return; // TODO: some flag that sth's wrong
+  code = new u8[code_length]; // TODO: check, if memory allocate (nullptr = OutOfMemory)
+  if (!code)
+    return;
+  memcpy(code, info, code_length);
+  info += code_length; /* move cursor explicitly, since memcpy() did't do this */
+  exception_cnt = readbe16(info);
+  if (exception_cnt > attr.attr_len - 12 - code_length) // TODO: handle arithmetic overflow
+    return; // TODO: some flag that sth's wrong
+  exceptions = new Exception[exception_cnt];
+  if (!exceptions)
+    return; /* OutOfMemoryError */
+  for (u16 i = 0; i < exception_cnt; i++)
+  {
+    exceptions[i].start_pc = readbe16(info);
+    exceptions[i].end_pc = readbe16(info);
+    exceptions[i].handler_pc = readbe16(info);
+    exceptions[i].catch_type = resolve_class_from_cpool(clsfile, readbe16(info), clsloader);
+  }
+  attr_cnt = readbe16(info);
+  if (attr_cnt > attr.attr_len - 12 - code_length - exception_cnt * sizeof(Exception)) // TODO: handle arithmetic overflow
+    return; // TODO: some flag that sth's wrong
+  attributes = new JavaAttribute*[attr_cnt];
+  if (!attributes)
+    return; /* OutOfMemoryError */
+  for (u16 i = 0; i < attr_cnt; i++)
+  {
+    AttributeInfo subattr;
+    subattr.from(info);
+    attributes[i] = convert2jattr(subattr, clsfile, clsloader);
+  }
+
+  err = NOERR;
 }
 
 JavaAttributeCode::~JavaAttributeCode()
@@ -72,6 +115,8 @@ JavaAttributeExceptions::JavaAttributeExceptions(AttributeInfo & attr, const Cla
     cp_entry_ex_class = readbe16(info); // TODO: check, if also attr.attr_len not overflown
     exceptions[i] = resolve_class_from_cpool(clsfile, cp_entry_ex_class, clsloader); // TODO: handle nulptr, if no classloader provided and it should resolve to the current class (very unlikely, though possible)
   }
+
+  err = NOERR;
 }
 
 JavaAttributeExceptions::~JavaAttributeExceptions()
@@ -90,6 +135,8 @@ JavaAttributeSourceFile::JavaAttributeSourceFile(const AttributeInfo &attr, cons
   u16 srcfile_idx = readbe16(info);
   CPUtf8Info * src_utf8 = clsfile.get_const_utf8(srcfile_idx);
   src_file_name = src_utf8 ? new JavaUtf8(*src_utf8) : nullptr; // TODO: the class file data is corrupted, hence handle it somehow
+
+  err = NOERR;
 }
 
 JavaAttributeSourceFile::~JavaAttributeSourceFile()
@@ -107,7 +154,7 @@ static JavaAttribute * convert_unknown(AttributeInfo & attr_info, const ClassFil
 
 static JavaAttribute * convert_code(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
 {
-  return new JavaAttributeCode(attr_info, clsfile);
+  return new JavaAttributeCode(attr_info, clsfile, clsloader);
 }
 
 static JavaAttribute * convert_exceptions(AttributeInfo & attr_info, const ClassFile &clsfile, JavaClassLoader * clsloader)
