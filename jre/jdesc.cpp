@@ -139,8 +139,8 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
       for (u16 i = 0; i < jattr->exception_cnt; i++)
       {
         std::cout << INDENT(indent);
-        std::cout << "    Try: @" << jattr->exceptions[i].start_pc << " - @" << jattr->exceptions[i].end_pc;
-        std::cout << ", Catch: @" << jattr->exceptions[i].handler_pc;
+        std::cout << "    Try: @" << HEX(4, jattr->exceptions[i].start_pc) << " - @" << HEX(4, jattr->exceptions[i].end_pc);
+        std::cout << ", Catch: @" << HEX(4, jattr->exceptions[i].handler_pc);
         std::cout << ", Class: ";
         desc_jclass_name(jattr->exceptions[i].catch_type);
         std::cout << std::endl;
