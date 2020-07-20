@@ -105,8 +105,14 @@ JavaAttributeCode::JavaAttributeCode(const AttributeInfo &attr, const ClassFile 
 JavaAttributeCode::~JavaAttributeCode()
 {
   delete code;
+  if (instr)
+  {
+    for (u32 i = 0; i < code_length; i++)
+      delete instr[i];
+    delete[] instr;
+  }
   delete exceptions;
-  for (int i = 0; i < attr_cnt; i++)
+  for (u16 i = 0; i < attr_cnt; i++)
     delete attributes[i];
   delete[] attributes;
 }
