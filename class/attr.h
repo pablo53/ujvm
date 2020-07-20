@@ -6,6 +6,7 @@ class JavaAttribute; /* forward declaration due to circular dependencies */
 
 #include "utf8.h"
 #include "class.h"
+#include "code.h"
 #include "../defs/types.h"
 #include "../classfmt/attr.h"
 #include "../classfmt/clsfile.h"
@@ -71,6 +72,7 @@ class JavaAttributeCode : public JavaAttribute
   u16 max_locals;
   u32 code_length;
   u8 * code;
+  JavaInstruction ** instr; /* (sparse) array of instructions of length code_length, indexed by instruction offset (nullptr = no instruction at given offset) */
   u16 exception_cnt;
   struct Exception
   {
@@ -85,6 +87,9 @@ class JavaAttributeCode : public JavaAttribute
   JavaAttributeCode() = delete;
   JavaAttributeCode(const AttributeInfo &, const ClassFile &, JavaClassLoader *);
   virtual ~JavaAttributeCode();
+
+  private:
+  void decode_instr(u32 offset);
 };
 
 class JavaAttributeExceptions : public JavaAttribute

@@ -10,6 +10,7 @@
 #include "method.h"
 #include "flags.h"
 #include "generic.h"
+#include "code.h"
 
 
 #endif

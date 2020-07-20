@@ -5,6 +5,7 @@
 #include "attr.h"
 #include "utf8.h"
 #include "class.h"
+#include "code.h"
 #include "../defs/types.h"
 #include "../defs/utf8.h"
 #include "../classfmt/cpool.h"
@@ -49,6 +50,7 @@ JavaAttributeCode::JavaAttributeCode(const AttributeInfo &attr, const ClassFile 
 {
   code_length = 0;
   code = nullptr;
+  instr = nullptr;
   exception_cnt = 0;
   exceptions = nullptr;
   attr_cnt = 0;
@@ -57,7 +59,7 @@ JavaAttributeCode::JavaAttributeCode(const AttributeInfo &attr, const ClassFile 
   const u8 * info = attr.info;
   max_stack = readbe16(info);
   max_locals = readbe16(info);
-  code_length = readbe32(info);
+  code_length = readbe32(info); // TODO: check if >0 and <65536
   if (code_length > attr.attr_len - 12) // TODO: handle arithmetic overflow
     return; // TODO: some flag that sth's wrong
   code = new u8[code_length]; // TODO: check, if memory allocate (nullptr = OutOfMemory)
@@ -65,6 +67,12 @@ JavaAttributeCode::JavaAttributeCode(const AttributeInfo &attr, const ClassFile 
     return;
   memcpy(code, info, code_length);
   info += code_length; /* move cursor explicitly, since memcpy() did't do this */
+  instr = new JavaInstruction*[code_length]; // TODO: check, if memory allocate (nullptr = OutOfMemory)
+  if (!instr)
+    return;
+  for (u32 i = 0; i < code_length; i++)
+    instr[i] = nullptr;
+  decode_instr(0);
   exception_cnt = readbe16(info);
   if (exception_cnt > attr.attr_len - 12 - code_length) // TODO: handle arithmetic overflow
     return; // TODO: some flag that sth's wrong
@@ -101,6 +109,21 @@ JavaAttributeCode::~JavaAttributeCode()
   for (int i = 0; i < attr_cnt; i++)
     delete attributes[i];
   delete[] attributes;
+}
+
+void JavaAttributeCode::decode_instr(u32 offset)
+{
+  if (offset > code_length)
+    return; /* End of code reached. */
+  if (instr[offset])
+    return; /* This instruction has been already decoded. */
+  const u8 * curs = &code[offset];
+  instr[offset] = JavaInstruction::from(curs);
+  if (!instr[offset])
+    return; // TODO: sth's wrong, possibly unknown instruction or OutOfMemoryError
+  u32 branch_cnt = instr[offset]->get_branch_cnt();
+  for (u32 n = 0; n < branch_cnt; n++)
+    decode_instr(instr[offset]->get_branch(n, offset));
 }
 
 
@@ -204,6 +227,7 @@ JavaAttribute * convert2jattr(AttributeInfo & attr_info, const ClassFile &clsfil
     else
       return converter->converter(attr_info, clsfile, clsloader);
   } while (converter++->name);
+  return nullptr; /* control should never reach this, but the compiler complains about not returning anything from here */
 }
 
 
