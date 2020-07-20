@@ -117,9 +117,9 @@ JavaAttributeCode::~JavaAttributeCode()
   delete[] attributes;
 }
 
-void JavaAttributeCode::decode_instr(u32 offset)
+void JavaAttributeCode::decode_instr(u32 offset) // TODO: improve to be non-recursive, thus avoiding stack overflow and performance decrease
 {
-  if (offset > code_length)
+  if (offset >= code_length)
     return; /* End of code reached. */
   if (instr[offset])
     return; /* This instruction has been already decoded. */

@@ -25,6 +25,9 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_ALOAD_3:
     jinst = new ALoad3();
     break;
+  case OPCODE_RETURN:
+    jinst = new Return();
+    break;
   case OPCODE_INVOKESPECIAL:
     jinst = new InvokeSpecial(buf);
     break;
