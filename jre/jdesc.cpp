@@ -99,6 +99,42 @@ static void desc_jclass_type(JavaType * jtype)
     std::cout << "[]";
 }
 
+static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent = 0)
+{
+  if (!instr)
+    return; /* no instruction here to print */
+  std::cout << INDENT(indent) << HEX(8, pc) << ":  ";
+  switch (instr->opcode)
+  {
+  case OPCODE_ALOAD_0:
+    std::cout << CLR_KEYWORD "ALOAD_0" CLR_RESET;
+    break;
+  case OPCODE_ALOAD_1:
+    std::cout << CLR_KEYWORD "ALOAD_1" CLR_RESET;
+    break;
+  case OPCODE_ALOAD_2:
+    std::cout << CLR_KEYWORD "ALOAD_2" CLR_RESET;
+    break;
+  case OPCODE_ALOAD_3:
+    std::cout << CLR_KEYWORD "ALOAD_3" CLR_RESET;
+    break;
+  case OPCODE_RETURN:
+    std::cout << CLR_KEYWORD "RETURN" CLR_RESET;
+    break;
+  case OPCODE_INVOKESPECIAL:
+    {
+      std::cout << CLR_KEYWORD "INVOKESPECIAL" CLR_RESET;
+      JavaInstruction::InvokeSpecial *jinstr = (JavaInstruction::InvokeSpecial *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  // TODO
+  default:
+    std::cout << CLR_ERR "[Unknown instruction/opcode]" CLR_RESET;
+    break;
+  }
+}
+
 static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, JavaClass &klz, int indent = 0);
 
 static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int indent = 0)
@@ -133,8 +169,19 @@ static void desc_jclass_attribute(JavaAttribute * attribute, JavaClass &klz, int
       JavaAttributeCode *jattr = (JavaAttributeCode *)attribute;
       std::cout << INDENT(indent) << "  Stack size: " << jattr->max_stack << std::endl;
       std::cout << INDENT(indent) << "  Local variables array size: " << jattr->max_locals << std::endl;
-      std::cout << INDENT(indent) << "  Code: " << std::endl;
-      // TODO
+      std::cout << INDENT(indent) << "  Bytecode: ";
+      if (jattr->instr)
+      {
+        for (u32 pc = 0; pc < jattr->code_length; pc++)
+          if (jattr->instr[pc])
+          {
+            std::cout << std::endl;
+            desc_jclass_code_jinstr(pc, jattr->instr[pc], indent + 4); // TODO: if, for some reason, instruction interleaves, show the real next instruction PC for a given one
+          }
+      }
+      else
+        std::cout << "-";
+      std::cout << std::endl;
       std::cout << INDENT(indent) << "  Try-Catch blocks: " << (jattr->exception_cnt ? "" : "-") << std::endl;
       for (u16 i = 0; i < jattr->exception_cnt; i++)
       {
