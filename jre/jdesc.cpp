@@ -112,11 +112,61 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_ACONST_NULL:
     std::cout << CLR_KEYWORD "ACONST_NULL" CLR_RESET;
     break;
+  case OPCODE_ICONST_M1:
+    std::cout << CLR_KEYWORD "ICONST_M1" CLR_RESET;
+    break;
+  case OPCODE_ICONST_0:
+    std::cout << CLR_KEYWORD "ICONST_0" CLR_RESET;
+    break;
+  case OPCODE_ICONST_1:
+    std::cout << CLR_KEYWORD "ICONST_1" CLR_RESET;
+    break;
+  case OPCODE_ICONST_2:
+    std::cout << CLR_KEYWORD "ICONST_2" CLR_RESET;
+    break;
+  case OPCODE_ICONST_3:
+    std::cout << CLR_KEYWORD "ICONST_3" CLR_RESET;
+    break;
+  case OPCODE_ICONST_4:
+    std::cout << CLR_KEYWORD "ICONST_4" CLR_RESET;
+    break;
+  case OPCODE_ICONST_5:
+    std::cout << CLR_KEYWORD "ICONST_5" CLR_RESET;
+    break;
   case OPCODE_LCONST_0:
     std::cout << CLR_KEYWORD "LCONST_0" CLR_RESET;
     break;
   case OPCODE_LCONST_1:
     std::cout << CLR_KEYWORD "LCONST_1" CLR_RESET;
+    break;
+  case OPCODE_FCONST_0:
+    std::cout << CLR_KEYWORD "FCONST_0" CLR_RESET;
+    break;
+  case OPCODE_FCONST_1:
+    std::cout << CLR_KEYWORD "FCONST_1" CLR_RESET;
+    break;
+  case OPCODE_FCONST_2:
+    std::cout << CLR_KEYWORD "FCONST_2" CLR_RESET;
+    break;
+  case OPCODE_DCONST_0:
+    std::cout << CLR_KEYWORD "DCONST_0" CLR_RESET;
+    break;
+  case OPCODE_DCONST_1:
+    std::cout << CLR_KEYWORD "DCONST_1" CLR_RESET;
+    break;
+  case OPCODE_BIPUSH:
+    {
+      std::cout << CLR_KEYWORD "BIPUSH" CLR_RESET;
+      JavaInstruction::BIPush *jinstr = (JavaInstruction::BIPush *)instr;
+      std::cout << " 0x" << HEX(2, jinstr->byte_val);
+    }
+    break;
+  case OPCODE_SIPUSH:
+    {
+      std::cout << CLR_KEYWORD "SIPUSH" CLR_RESET;
+      JavaInstruction::SIPush *jinstr = (JavaInstruction::SIPush *)instr;
+      std::cout << " 0x" << HEX(4, jinstr->shortint_val);
+    }
     break;
   case OPCODE_ALOAD_0:
     std::cout << CLR_KEYWORD "ALOAD_0" CLR_RESET;
