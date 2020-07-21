@@ -142,6 +142,8 @@ u32 JavaInstruction::get_branch(u32 n, u32 offset)
   return (n == 0) ? offset + instr_length : (u32)-1L; /* by default this is the next instruction after this one */
 }
 
+void JavaInstruction::execute(ExecutionContext *ctx) { } // TODO: implement in subclasses, make this one pure virtual
+
 
 JavaInstruction::Nop::Nop() : JavaInstruction(OPCODE_NOP) { }
 

@@ -3,6 +3,7 @@
 
 
 #include "../defs/types.h"
+#include "../exec/exectx.h"
 
 #define OPCODE_NOP           0x00
 #define OPCODE_ACONST_NULL   0x01
@@ -52,6 +53,7 @@ class JavaInstruction
   virtual ~JavaInstruction() = 0;
   virtual u32 get_branch_cnt(); /* get number of possible further code execution branche alternatives; should be at least 1 */
   virtual u32 get_branch(u32 n, u32 offset); /* get the n's branch (0-based), assuming that this instruction is located at offset */
+  virtual void execute(ExecutionContext *ctx); /* execute instruction in given context (whether interpreting or executing compiled code internally) */ // TODO: make this method pure virtual
 
   protected:
   JavaInstruction(u8 opcode);
