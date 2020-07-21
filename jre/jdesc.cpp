@@ -134,6 +134,13 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
     }
     break;
+  case OPCODE_INVOKESTATIC:
+    {
+      std::cout << CLR_KEYWORD "INVOKESTATIC" CLR_RESET;
+      JavaInstruction::InvokeStatic *jinstr = (JavaInstruction::InvokeStatic *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
   // TODO
   default:
     std::cout << CLR_ERR "[Unknown instruction/opcode]" CLR_RESET;

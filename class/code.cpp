@@ -37,6 +37,9 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_INVOKESPECIAL:
     jinst = new InvokeSpecial(buf);
     break;
+  case OPCODE_INVOKESTATIC:
+    jinst = new InvokeStatic(buf);
+    break;
   default:
     // TODO: unknown instruction
     break;
@@ -101,6 +104,12 @@ JavaInstruction::Return::Return() : JavaInstruction(OPCODE_RETURN)
 
 
 JavaInstruction::InvokeSpecial::InvokeSpecial(const u8 * &buf) : JavaInstruction(OPCODE_INVOKESPECIAL)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::InvokeStatic::InvokeStatic(const u8 * &buf) : JavaInstruction(OPCODE_INVOKESTATIC)
 {
   cpool_idx = readbe16(buf);
 }

@@ -12,6 +12,7 @@
 #define OPCODE_ALOAD_3       0x2d
 #define OPCODE_RETURN        0xb1
 #define OPCODE_INVOKESPECIAL 0xb7
+#define OPCODE_INVOKESTATIC  0xb8
 
 class JavaInstruction
 {
@@ -39,6 +40,7 @@ class JavaInstruction
   class ALoad3;
   class Return;
   class InvokeSpecial;
+  class InvokeStatic;
 };
 
 class JavaInstruction::Nop : public JavaInstruction
@@ -97,6 +99,17 @@ class JavaInstruction::InvokeSpecial : public JavaInstruction
 
   protected:
   InvokeSpecial(const u8 * &);
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::InvokeStatic : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  InvokeStatic(const u8 * &);
   friend class JavaInstruction;
 };
 
