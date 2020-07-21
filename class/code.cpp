@@ -103,6 +103,21 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_IF_ACMPNE:
     jinst = new IfACmp::Ne(buf);
     break;
+  case OPCODE_IRETURN:
+    jinst = new IReturn();
+    break;
+  case OPCODE_LRETURN:
+    jinst = new LReturn();
+    break;
+  case OPCODE_FRETURN:
+    jinst = new FReturn();
+    break;
+  case OPCODE_DRETURN:
+    jinst = new DReturn();
+    break;
+  case OPCODE_ARETURN:
+    jinst = new AReturn();
+    break;
   case OPCODE_RETURN:
     jinst = new Return();
     break;
@@ -272,6 +287,21 @@ u32 JavaInstruction::IfACmp::get_branch(u32 n, u32 offset)
 JavaInstruction::IfACmp::Eq::Eq(const u8 * &buf) : JavaInstruction::IfACmp(OPCODE_IF_ACMPEQ, buf) { }
 
 JavaInstruction::IfACmp::Ne::Ne(const u8 * &buf) : JavaInstruction::IfACmp(OPCODE_IF_ACMPNE, buf) { }
+
+
+JavaInstruction::IReturn::IReturn() : JavaInstruction(OPCODE_IRETURN) { }
+
+
+JavaInstruction::LReturn::LReturn() : JavaInstruction(OPCODE_LRETURN) { }
+
+
+JavaInstruction::FReturn::FReturn() : JavaInstruction(OPCODE_FRETURN) { }
+
+
+JavaInstruction::DReturn::DReturn() : JavaInstruction(OPCODE_DRETURN) { }
+
+
+JavaInstruction::AReturn::AReturn() : JavaInstruction(OPCODE_ARETURN) { }
 
 
 JavaInstruction::Return::Return() : JavaInstruction(OPCODE_RETURN) { }

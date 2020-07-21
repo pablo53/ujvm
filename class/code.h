@@ -35,6 +35,11 @@
 #define OPCODE_IF_ICMPLE     0xa4
 #define OPCODE_IF_ACMPEQ     0xa5
 #define OPCODE_IF_ACMPNE     0xa6
+#define OPCODE_IRETURN       0xac
+#define OPCODE_LRETURN       0xad
+#define OPCODE_FRETURN       0xae
+#define OPCODE_DRETURN       0xaf
+#define OPCODE_ARETURN       0xb0
 #define OPCODE_RETURN        0xb1
 #define OPCODE_INVOKEVIRTUAL 0xb6
 #define OPCODE_INVOKESPECIAL 0xb7
@@ -74,6 +79,11 @@ class JavaInstruction
   class ALoad3;
   class IfICmp;
   class IfACmp;
+  class IReturn;
+  class LReturn;
+  class FReturn;
+  class DReturn;
+  class AReturn;
   class Return;
   class InvokeVirtual;
   class InvokeSpecial;
@@ -368,6 +378,41 @@ class JavaInstruction::IfACmp::Ne : public JavaInstruction::IfACmp
 {
   protected:
   Ne(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IReturn : public JavaInstruction
+{
+  protected:
+  IReturn();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LReturn : public JavaInstruction
+{
+  protected:
+  LReturn();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FReturn : public JavaInstruction
+{
+  protected:
+  FReturn();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DReturn : public JavaInstruction
+{
+  protected:
+  DReturn();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AReturn : public JavaInstruction
+{
+  protected:
+  AReturn();
   friend class JavaInstruction;
 };
 
