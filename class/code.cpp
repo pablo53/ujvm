@@ -19,6 +19,12 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_ACONST_NULL:
     jinst = new AConstNull();
     break;
+  case OPCODE_LCONST_0:
+    jinst = new LConst0();
+    break;
+  case OPCODE_LCONST_1:
+    jinst = new LConst1();
+    break;
   case OPCODE_ALOAD_0:
     jinst = new ALoad0();
     break;
@@ -74,6 +80,16 @@ JavaInstruction::Nop::Nop() : JavaInstruction(OPCODE_NOP)
 
 
 JavaInstruction::AConstNull::AConstNull() : JavaInstruction(OPCODE_ACONST_NULL)
+{
+}
+
+
+JavaInstruction::LConst0::LConst0() : JavaInstruction(OPCODE_LCONST_0)
+{
+}
+
+
+JavaInstruction::LConst1::LConst1() : JavaInstruction(OPCODE_LCONST_1)
 {
 }
 

@@ -6,6 +6,8 @@
 
 #define OPCODE_NOP           0x00
 #define OPCODE_ACONST_NULL   0x01
+#define OPCODE_LCONST_0      0x09
+#define OPCODE_LCONST_1      0x0a
 #define OPCODE_ALOAD_0       0x2a
 #define OPCODE_ALOAD_1       0x2b
 #define OPCODE_ALOAD_2       0x2c
@@ -34,6 +36,8 @@ class JavaInstruction
   public:
   class Nop;
   class AConstNull;
+  class LConst0;
+  class LConst1;
   class ALoad0;
   class ALoad1;
   class ALoad2;
@@ -54,6 +58,20 @@ class JavaInstruction::AConstNull : public JavaInstruction
 {
   protected:
   AConstNull();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LConst0 : public JavaInstruction
+{
+  protected:
+  LConst0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LConst1 : public JavaInstruction
+{
+  protected:
+  LConst1();
   friend class JavaInstruction;
 };
 

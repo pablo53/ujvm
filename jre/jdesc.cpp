@@ -112,6 +112,12 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_ACONST_NULL:
     std::cout << CLR_KEYWORD "ACONST_NULL" CLR_RESET;
     break;
+  case OPCODE_LCONST_0:
+    std::cout << CLR_KEYWORD "LCONST_0" CLR_RESET;
+    break;
+  case OPCODE_LCONST_1:
+    std::cout << CLR_KEYWORD "LCONST_1" CLR_RESET;
+    break;
   case OPCODE_ALOAD_0:
     std::cout << CLR_KEYWORD "ALOAD_0" CLR_RESET;
     break;
