@@ -40,6 +40,9 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_RETURN:
     jinst = new Return();
     break;
+  case OPCODE_INVOKEVIRTUAL:
+    jinst = new InvokeVirtual(buf);
+    break;
   case OPCODE_INVOKESPECIAL:
     jinst = new InvokeSpecial(buf);
     break;
@@ -116,6 +119,12 @@ JavaInstruction::ALoad3::ALoad3() : JavaInstruction(OPCODE_ALOAD_3)
 
 JavaInstruction::Return::Return() : JavaInstruction(OPCODE_RETURN)
 {
+}
+
+
+JavaInstruction::InvokeVirtual::InvokeVirtual(const u8 * &buf) : JavaInstruction(OPCODE_INVOKEVIRTUAL)
+{
+  cpool_idx = readbe16(buf);
 }
 
 

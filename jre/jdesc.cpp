@@ -133,6 +133,13 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_RETURN:
     std::cout << CLR_KEYWORD "RETURN" CLR_RESET;
     break;
+  case OPCODE_INVOKEVIRTUAL:
+    {
+      std::cout << CLR_KEYWORD "INVOKEVIRTUAL" CLR_RESET;
+      JavaInstruction::InvokeVirtual *jinstr = (JavaInstruction::InvokeVirtual *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
   case OPCODE_INVOKESPECIAL:
     {
       std::cout << CLR_KEYWORD "INVOKESPECIAL" CLR_RESET;
