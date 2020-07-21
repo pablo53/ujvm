@@ -19,11 +19,53 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_ACONST_NULL:
     jinst = new AConstNull();
     break;
+  case OPCODE_ICONST_M1:
+    jinst = new IConst::M1();
+    break;
+  case OPCODE_ICONST_0:
+    jinst = new IConst::_0();
+    break;
+  case OPCODE_ICONST_1:
+    jinst = new IConst::_1();
+    break;
+  case OPCODE_ICONST_2:
+    jinst = new IConst::_2();
+    break;
+  case OPCODE_ICONST_3:
+    jinst = new IConst::_3();
+    break;
+  case OPCODE_ICONST_4:
+    jinst = new IConst::_4();
+    break;
+  case OPCODE_ICONST_5:
+    jinst = new IConst::_5();
+    break;
   case OPCODE_LCONST_0:
     jinst = new LConst0();
     break;
   case OPCODE_LCONST_1:
     jinst = new LConst1();
+    break;
+  case OPCODE_FCONST_0:
+    jinst = new FConst::_0();
+    break;
+  case OPCODE_FCONST_1:
+    jinst = new FConst::_1();
+    break;
+  case OPCODE_FCONST_2:
+    jinst = new FConst::_2();
+    break;
+  case OPCODE_DCONST_0:
+    jinst = new DConst::_0();
+    break;
+  case OPCODE_DCONST_1:
+    jinst = new DConst::_1();
+    break;
+  case OPCODE_BIPUSH:
+    jinst = new BIPush(buf);
+    break;
+  case OPCODE_SIPUSH:
+    jinst = new SIPush(buf);
     break;
   case OPCODE_ALOAD_0:
     jinst = new ALoad0();
@@ -101,44 +143,85 @@ u32 JavaInstruction::get_branch(u32 n, u32 offset)
 }
 
 
-JavaInstruction::Nop::Nop() : JavaInstruction(OPCODE_NOP)
+JavaInstruction::Nop::Nop() : JavaInstruction(OPCODE_NOP) { }
+
+
+JavaInstruction::AConstNull::AConstNull() : JavaInstruction(OPCODE_ACONST_NULL) { }
+
+
+JavaInstruction::IConst::IConst(u8 opcode) : JavaInstruction(opcode) { }
+
+
+JavaInstruction::IConst::M1::M1() : JavaInstruction::IConst(OPCODE_ICONST_M1) { }
+
+
+JavaInstruction::IConst::_0::_0() : JavaInstruction::IConst(OPCODE_ICONST_0) { }
+
+
+JavaInstruction::IConst::_1::_1() : JavaInstruction::IConst(OPCODE_ICONST_1) { }
+
+
+JavaInstruction::IConst::_2::_2() : JavaInstruction::IConst(OPCODE_ICONST_2) { }
+
+
+JavaInstruction::IConst::_3::_3() : JavaInstruction::IConst(OPCODE_ICONST_3) { }
+
+
+JavaInstruction::IConst::_4::_4() : JavaInstruction::IConst(OPCODE_ICONST_4) { }
+
+
+JavaInstruction::IConst::_5::_5() : JavaInstruction::IConst(OPCODE_ICONST_5) { }
+
+
+JavaInstruction::LConst0::LConst0() : JavaInstruction(OPCODE_LCONST_0) { }
+
+
+JavaInstruction::LConst1::LConst1() : JavaInstruction(OPCODE_LCONST_1) { }
+
+
+JavaInstruction::FConst::FConst(u8 opcode) : JavaInstruction(opcode) { }
+
+
+JavaInstruction::FConst::_0::_0() : JavaInstruction::FConst(OPCODE_FCONST_0) { }
+
+
+JavaInstruction::FConst::_1::_1() : JavaInstruction::FConst(OPCODE_FCONST_1) { }
+
+
+JavaInstruction::FConst::_2::_2() : JavaInstruction::FConst(OPCODE_FCONST_2) { }
+
+
+JavaInstruction::DConst::DConst(u8 opcode) : JavaInstruction(opcode) { }
+
+
+JavaInstruction::DConst::_0::_0() : JavaInstruction::DConst(OPCODE_DCONST_0) { }
+
+
+JavaInstruction::DConst::_1::_1() : JavaInstruction::DConst(OPCODE_DCONST_1) { }
+
+
+JavaInstruction::BIPush::BIPush(const u8 * &buf) : JavaInstruction(OPCODE_BIPUSH)
 {
+  byte_val = readbe8(buf);
 }
 
 
-JavaInstruction::AConstNull::AConstNull() : JavaInstruction(OPCODE_ACONST_NULL)
+JavaInstruction::SIPush::SIPush(const u8 * &buf) : JavaInstruction(OPCODE_SIPUSH)
 {
+  shortint_val = readbe16(buf);
 }
 
 
-JavaInstruction::LConst0::LConst0() : JavaInstruction(OPCODE_LCONST_0)
-{
-}
+JavaInstruction::ALoad0::ALoad0() : JavaInstruction(OPCODE_ALOAD_0) { }
 
 
-JavaInstruction::LConst1::LConst1() : JavaInstruction(OPCODE_LCONST_1)
-{
-}
+JavaInstruction::ALoad1::ALoad1() : JavaInstruction(OPCODE_ALOAD_1) { }
 
 
-JavaInstruction::ALoad0::ALoad0() : JavaInstruction(OPCODE_ALOAD_0)
-{
-}
+JavaInstruction::ALoad2::ALoad2() : JavaInstruction(OPCODE_ALOAD_2) { }
 
 
-JavaInstruction::ALoad1::ALoad1() : JavaInstruction(OPCODE_ALOAD_1)
-{
-}
-
-
-JavaInstruction::ALoad2::ALoad2() : JavaInstruction(OPCODE_ALOAD_2)
-{
-}
-
-
-JavaInstruction::ALoad3::ALoad3() : JavaInstruction(OPCODE_ALOAD_3)
-{
-}
+JavaInstruction::ALoad3::ALoad3() : JavaInstruction(OPCODE_ALOAD_3) { }
 
 
 JavaInstruction::IfICmp::IfICmp(u8 opcode, const u8 * &buf) : JavaInstruction(opcode)
@@ -189,9 +272,7 @@ JavaInstruction::IfACmp::Eq::Eq(const u8 * &buf) : JavaInstruction::IfACmp(OPCOD
 JavaInstruction::IfACmp::Ne::Ne(const u8 * &buf) : JavaInstruction::IfACmp(OPCODE_IF_ACMPNE, buf) { }
 
 
-JavaInstruction::Return::Return() : JavaInstruction(OPCODE_RETURN)
-{
-}
+JavaInstruction::Return::Return() : JavaInstruction(OPCODE_RETURN) { }
 
 
 JavaInstruction::InvokeVirtual::InvokeVirtual(const u8 * &buf) : JavaInstruction(OPCODE_INVOKEVIRTUAL)

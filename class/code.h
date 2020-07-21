@@ -6,8 +6,22 @@
 
 #define OPCODE_NOP           0x00
 #define OPCODE_ACONST_NULL   0x01
+#define OPCODE_ICONST_M1     0x02
+#define OPCODE_ICONST_0      0x03
+#define OPCODE_ICONST_1      0x04
+#define OPCODE_ICONST_2      0x05
+#define OPCODE_ICONST_3      0x06
+#define OPCODE_ICONST_4      0x07
+#define OPCODE_ICONST_5      0x08
 #define OPCODE_LCONST_0      0x09
 #define OPCODE_LCONST_1      0x0a
+#define OPCODE_FCONST_0      0x0b
+#define OPCODE_FCONST_1      0x0c
+#define OPCODE_FCONST_2      0x0d
+#define OPCODE_DCONST_0      0x0e
+#define OPCODE_DCONST_1      0x0f
+#define OPCODE_BIPUSH        0x10
+#define OPCODE_SIPUSH        0x11
 #define OPCODE_ALOAD_0       0x2a
 #define OPCODE_ALOAD_1       0x2b
 #define OPCODE_ALOAD_2       0x2c
@@ -45,8 +59,13 @@ class JavaInstruction
   public:
   class Nop;
   class AConstNull;
+  class IConst;
   class LConst0;
   class LConst1;
+  class FConst;
+  class DConst;
+  class BIPush;
+  class SIPush;
   class ALoad0;
   class ALoad1;
   class ALoad2;
@@ -73,6 +92,70 @@ class JavaInstruction::AConstNull : public JavaInstruction
   friend class JavaInstruction;
 };
 
+class JavaInstruction::IConst : public JavaInstruction
+{
+  protected:
+  IConst(u8 opcode);
+
+  public:
+  class M1;
+  class _0;
+  class _1;
+  class _2;
+  class _3;
+  class _4;
+  class _5;
+};
+
+class JavaInstruction::IConst::M1 : public JavaInstruction::IConst
+{
+  protected:
+  M1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IConst::_0 : public JavaInstruction::IConst
+{
+  protected:
+  _0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IConst::_1 : public JavaInstruction::IConst
+{
+  protected:
+  _1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IConst::_2 : public JavaInstruction::IConst
+{
+  protected:
+  _2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IConst::_3 : public JavaInstruction::IConst
+{
+  protected:
+  _3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IConst::_4 : public JavaInstruction::IConst
+{
+  protected:
+  _4();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IConst::_5 : public JavaInstruction::IConst
+{
+  protected:
+  _5();
+  friend class JavaInstruction;
+};
+
 class JavaInstruction::LConst0 : public JavaInstruction
 {
   protected:
@@ -84,6 +167,83 @@ class JavaInstruction::LConst1 : public JavaInstruction
 {
   protected:
   LConst1();
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::FConst : public JavaInstruction
+{
+  protected:
+  FConst(u8 opcode);
+
+  public:
+  class _0;
+  class _1;
+  class _2;
+};
+
+class JavaInstruction::FConst::_0 : public JavaInstruction::FConst
+{
+  protected:
+  _0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FConst::_1 : public JavaInstruction::FConst
+{
+  protected:
+  _1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FConst::_2 : public JavaInstruction::FConst
+{
+  protected:
+  _2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DConst : public JavaInstruction
+{
+  protected:
+  DConst(u8 opcode);
+
+  public:
+  class _0;
+  class _1;
+};
+
+class JavaInstruction::DConst::_0 : public JavaInstruction::DConst
+{
+  protected:
+  _0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DConst::_1 : public JavaInstruction::DConst
+{
+  protected:
+  _1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::BIPush : public JavaInstruction
+{
+  public:
+  u8 byte_val;
+
+  protected:
+  BIPush(const u8 *&);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::SIPush : public JavaInstruction
+{
+  public:
+  u16 shortint_val;
+
+  protected:
+  SIPush(const u8 *&);
   friend class JavaInstruction;
 };
 
