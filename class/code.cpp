@@ -341,6 +341,85 @@ JavaInstruction::Dup2X2::Dup2X2() : JavaInstruction(OPCODE_DUP2_X2) { }
 JavaInstruction::Swap::Swap() : JavaInstruction(OPCODE_SWAP) { }
 
 
+JavaInstruction::IAdd::IAdd() : JavaInstruction(OPCODE_IADD) { }
+
+JavaInstruction::LAdd::LAdd() : JavaInstruction(OPCODE_LADD) { }
+
+JavaInstruction::FAdd::FAdd() : JavaInstruction(OPCODE_FADD) { }
+
+JavaInstruction::DAdd::DAdd() : JavaInstruction(OPCODE_DADD) { }
+
+JavaInstruction::ISub::ISub() : JavaInstruction(OPCODE_ISUB) { }
+
+JavaInstruction::LSub::LSub() : JavaInstruction(OPCODE_LSUB) { }
+
+JavaInstruction::FSub::FSub() : JavaInstruction(OPCODE_FSUB) { }
+
+JavaInstruction::DSub::DSub() : JavaInstruction(OPCODE_DSUB) { }
+
+JavaInstruction::IMul::IMul() : JavaInstruction(OPCODE_IMUL) { }
+
+JavaInstruction::LMul::LMul() : JavaInstruction(OPCODE_LMUL) { }
+
+JavaInstruction::FMul::FMul() : JavaInstruction(OPCODE_FMUL) { }
+
+JavaInstruction::DMul::DMul() : JavaInstruction(OPCODE_DMUL) { }
+
+JavaInstruction::IDiv::IDiv() : JavaInstruction(OPCODE_IDIV) { }
+
+JavaInstruction::LDiv::LDiv() : JavaInstruction(OPCODE_LDIV) { }
+
+JavaInstruction::FDiv::FDiv() : JavaInstruction(OPCODE_FDIV) { }
+
+JavaInstruction::DDiv::DDiv() : JavaInstruction(OPCODE_DDIV) { }
+
+JavaInstruction::IRem::IRem() : JavaInstruction(OPCODE_IREM) { }
+
+JavaInstruction::LRem::LRem() : JavaInstruction(OPCODE_LREM) { }
+
+JavaInstruction::FRem::FRem() : JavaInstruction(OPCODE_FREM) { }
+
+JavaInstruction::DRem::DRem() : JavaInstruction(OPCODE_DREM) { }
+
+JavaInstruction::INeg::INeg() : JavaInstruction(OPCODE_INEG) { }
+
+JavaInstruction::LNeg::LNeg() : JavaInstruction(OPCODE_LNEG) { }
+
+JavaInstruction::FNeg::FNeg() : JavaInstruction(OPCODE_FNEG) { }
+
+JavaInstruction::DNeg::DNeg() : JavaInstruction(OPCODE_DNEG) { }
+
+JavaInstruction::IShl::IShl() : JavaInstruction(OPCODE_ISHL) { }
+
+JavaInstruction::LShl::LShl() : JavaInstruction(OPCODE_LSHL) { }
+
+JavaInstruction::IShr::IShr() : JavaInstruction(OPCODE_ISHR) { }
+
+JavaInstruction::LShr::LShr() : JavaInstruction(OPCODE_LSHR) { }
+
+JavaInstruction::IUShr::IUShr() : JavaInstruction(OPCODE_IUSHR) { }
+
+JavaInstruction::LUShr::LUShr() : JavaInstruction(OPCODE_LUSHR) { }
+
+JavaInstruction::IAnd::IAnd() : JavaInstruction(OPCODE_IAND) { }
+
+JavaInstruction::LAnd::LAnd() : JavaInstruction(OPCODE_LAND) { }
+
+JavaInstruction::IOr::IOr() : JavaInstruction(OPCODE_IOR) { }
+
+JavaInstruction::LOr::LOr() : JavaInstruction(OPCODE_LOR) { }
+
+JavaInstruction::IXor::IXor() : JavaInstruction(OPCODE_IXOR) { }
+
+JavaInstruction::LXor::LXor() : JavaInstruction(OPCODE_LXOR) { }
+
+JavaInstruction::IInc::IInc(const u8 * &buf) : JavaInstruction(OPCODE_IINC)
+{
+  local_var = readbe8(buf);
+  const_val = readbe8s(buf);
+}
+
+
 JavaInstruction::I2L::I2L() : JavaInstruction(OPCODE_I2L) { }
 
 JavaInstruction::I2F::I2F() : JavaInstruction(OPCODE_I2F) { }

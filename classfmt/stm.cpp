@@ -26,5 +26,10 @@ u32 readbe32(const u8 * &buf)
   return val;
 }
 
+s8 readbe8s(const u8 * &buf)
+{
+  return *(buf++);
+}
+
 
 #endif

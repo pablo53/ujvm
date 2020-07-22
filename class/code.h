@@ -36,6 +36,43 @@
 #define OPCODE_DUP2_X1       0x5d
 #define OPCODE_DUP2_X2       0x5e
 #define OPCODE_SWAP          0x5f
+#define OPCODE_IADD          0x60
+#define OPCODE_LADD          0x61
+#define OPCODE_FADD          0x62
+#define OPCODE_DADD          0x63
+#define OPCODE_ISUB          0x64
+#define OPCODE_LSUB          0x65
+#define OPCODE_FSUB          0x66
+#define OPCODE_DSUB          0x67
+#define OPCODE_IMUL          0x68
+#define OPCODE_LMUL          0x69
+#define OPCODE_FMUL          0x6a
+#define OPCODE_DMUL          0x6b
+#define OPCODE_IDIV          0x6c
+#define OPCODE_LDIV          0x6d
+#define OPCODE_FDIV          0x6e
+#define OPCODE_DDIV          0x6f
+#define OPCODE_IREM          0x70
+#define OPCODE_LREM          0x71
+#define OPCODE_FREM          0x72
+#define OPCODE_DREM          0x73
+#define OPCODE_INEG          0x74
+#define OPCODE_LNEG          0x75
+#define OPCODE_FNEG          0x76
+#define OPCODE_DNEG          0x77
+#define OPCODE_ISHL          0x78
+#define OPCODE_LSHL          0x79
+#define OPCODE_ISHR          0x7a
+#define OPCODE_LSHR          0x7b
+#define OPCODE_IUSHR         0x7c
+#define OPCODE_LUSHR         0x7d
+#define OPCODE_IAND          0x7e
+#define OPCODE_LAND          0x7f
+#define OPCODE_IOR           0x80
+#define OPCODE_LOR           0x81
+#define OPCODE_IXOR          0x82
+#define OPCODE_LXOR          0x83
+#define OPCODE_IINC          0x84
 #define OPCODE_I2L           0x85
 #define OPCODE_I2F           0x86
 #define OPCODE_I2D           0x87
@@ -113,6 +150,43 @@ class JavaInstruction
   class Dup2X1;
   class Dup2X2;
   class Swap;
+  class IAdd;
+  class LAdd;
+  class FAdd;
+  class DAdd;
+  class ISub;
+  class LSub;
+  class FSub;
+  class DSub;
+  class IMul;
+  class LMul;
+  class FMul;
+  class DMul;
+  class IDiv;
+  class LDiv;
+  class FDiv;
+  class DDiv;
+  class IRem;
+  class LRem;
+  class FRem;
+  class DRem;
+  class INeg;
+  class LNeg;
+  class FNeg;
+  class DNeg;
+  class IShl;
+  class LShl;
+  class IShr;
+  class LShr;
+  class IUShr;
+  class LUShr;
+  class IAnd;
+  class LAnd;
+  class IOr;
+  class LOr;
+  class IXor;
+  class LXor;
+  class IInc;
   class I2L;
   class I2F;
   class I2D;
@@ -404,6 +478,271 @@ class JavaInstruction::Swap : public JavaInstruction
   Swap();
   friend class JavaInstruction;
 };
+
+
+class JavaInstruction::IAdd : public JavaInstruction
+{
+  protected:
+  IAdd();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LAdd : public JavaInstruction
+{
+  protected:
+  LAdd();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FAdd : public JavaInstruction
+{
+  protected:
+  FAdd();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DAdd : public JavaInstruction
+{
+  protected:
+  DAdd();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ISub : public JavaInstruction
+{
+  protected:
+  ISub();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LSub : public JavaInstruction
+{
+  protected:
+  LSub();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FSub : public JavaInstruction
+{
+  protected:
+  FSub();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DSub : public JavaInstruction
+{
+  protected:
+  DSub();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IMul : public JavaInstruction
+{
+  protected:
+  IMul();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LMul : public JavaInstruction
+{
+  protected:
+  LMul();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FMul : public JavaInstruction
+{
+  protected:
+  FMul();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DMul : public JavaInstruction
+{
+  protected:
+  DMul();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IDiv : public JavaInstruction
+{
+  protected:
+  IDiv();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LDiv : public JavaInstruction
+{
+  protected:
+  LDiv();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FDiv : public JavaInstruction
+{
+  protected:
+  FDiv();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DDiv : public JavaInstruction
+{
+  protected:
+  DDiv();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IRem : public JavaInstruction
+{
+  protected:
+  IRem();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LRem : public JavaInstruction
+{
+  protected:
+  LRem();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FRem : public JavaInstruction
+{
+  protected:
+  FRem();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DRem : public JavaInstruction
+{
+  protected:
+  DRem();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::INeg : public JavaInstruction
+{
+  protected:
+  INeg();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LNeg : public JavaInstruction
+{
+  protected:
+  LNeg();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FNeg : public JavaInstruction
+{
+  protected:
+  FNeg();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DNeg : public JavaInstruction
+{
+  protected:
+  DNeg();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IShl : public JavaInstruction
+{
+  protected:
+  IShl();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LShl : public JavaInstruction
+{
+  protected:
+  LShl();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IShr : public JavaInstruction
+{
+  protected:
+  IShr();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LShr : public JavaInstruction
+{
+  protected:
+  LShr();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IUShr : public JavaInstruction
+{
+  protected:
+  IUShr();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LUShr : public JavaInstruction
+{
+  protected:
+  LUShr();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IAnd : public JavaInstruction
+{
+  protected:
+  IAnd();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LAnd : public JavaInstruction
+{
+  protected:
+  LAnd();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IOr : public JavaInstruction
+{
+  protected:
+  IOr();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LOr : public JavaInstruction
+{
+  protected:
+  LOr();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IXor : public JavaInstruction
+{
+  protected:
+  IXor();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LXor : public JavaInstruction
+{
+  protected:
+  LXor();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IInc : public JavaInstruction
+{
+  public:
+  u8 local_var;
+  s8 const_val; /* signed byte */
+
+  protected:
+  IInc(const u8 * &);
+  friend class JavaInstruction;
+};
+
 
 
 class JavaInstruction::I2L : public JavaInstruction
