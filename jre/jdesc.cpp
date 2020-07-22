@@ -49,6 +49,40 @@ static void desc_jclass_interfaces(JavaClass &klz)
   }
 }
 
+static void desc_jclass_atype(u8 a_type)
+{
+  switch (a_type)
+  {
+  case T_BOOLEAN:
+    std::cout << "boolean";
+    break;
+  case T_CHAR:
+    std::cout << "char";
+    break;
+  case T_FLOAT:
+    std::cout << "float";
+    break;
+  case T_DOUBLE:
+    std::cout << "double";
+    break;
+  case T_BYTE:
+    std::cout << "byte";
+    break;
+  case T_SHORT:
+    std::cout << "short";
+    break;
+  case T_INT:
+    std::cout << "int";
+    break;
+  case T_LONG:
+    std::cout << "long";
+    break;
+  default:
+    std::cout << CLR_ERR "[Unknown]" CLR_RESET;
+    break;
+  }
+}
+
 static void desc_jclass_type(JavaType * jtype)
 {
   if (!jtype)
@@ -462,6 +496,34 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_RETURN:
     std::cout << CLR_KEYWORD "RETURN" CLR_RESET;
     break;
+  case OPCODE_GETSTATIC:
+    {
+      std::cout << CLR_KEYWORD "GETSTATIC" CLR_RESET;
+      JavaInstruction::GetStatic *jinstr = (JavaInstruction::GetStatic *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_PUTSTATIC:
+    {
+      std::cout << CLR_KEYWORD "PUTSTATIC" CLR_RESET;
+      JavaInstruction::PutStatic *jinstr = (JavaInstruction::PutStatic *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_GETFIELD:
+    {
+      std::cout << CLR_KEYWORD "GETFIELD" CLR_RESET;
+      JavaInstruction::GetField *jinstr = (JavaInstruction::GetField *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_PUTFIELD:
+    {
+      std::cout << CLR_KEYWORD "PUTFIELD" CLR_RESET;
+      JavaInstruction::PutField *jinstr = (JavaInstruction::PutField *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
   case OPCODE_INVOKEVIRTUAL:
     {
       std::cout << CLR_KEYWORD "INVOKEVIRTUAL" CLR_RESET;
@@ -482,6 +544,62 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       JavaInstruction::InvokeStatic *jinstr = (JavaInstruction::InvokeStatic *)instr;
       std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
     }
+    break;
+  case OPCODE_INVOKEINTERFACE:
+    {
+      std::cout << CLR_KEYWORD "INVOKEINTERFACE" CLR_RESET;
+      JavaInstruction::InvokeInterface *jinstr = (JavaInstruction::InvokeInterface *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "], " << std::dec << jinstr->count;
+    }
+    break;
+  case OPCODE_INVOKEDYNAMIC:
+    {
+      std::cout << CLR_KEYWORD "INVOKEDYNAMIC" CLR_RESET;
+      JavaInstruction::InvokeDynamic *jinstr = (JavaInstruction::InvokeDynamic *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_NEW:
+    {
+      std::cout << CLR_KEYWORD "NEW" CLR_RESET;
+      JavaInstruction::New *jinstr = (JavaInstruction::New *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_NEWARRAY:
+    {
+      std::cout << CLR_KEYWORD "NEWARRAY" CLR_RESET;
+      JavaInstruction::NewArray *jinstr = (JavaInstruction::NewArray *)instr;
+      std::cout << " " << std::dec << jinstr->a_type << " (";
+      desc_jclass_atype(jinstr->a_type);
+      std::cout << ")";
+    }
+    break;
+  case OPCODE_ARRAYLENGTH:
+    std::cout << CLR_KEYWORD "ARRAYLENGTH" CLR_RESET;
+    break;
+  case OPCODE_ATHROW:
+    std::cout << CLR_KEYWORD "ATHROW" CLR_RESET;
+    break;
+  case OPCODE_CHECKCAST:
+    {
+      std::cout << CLR_KEYWORD "CHECKCAST" CLR_RESET;
+      JavaInstruction::CheckCast *jinstr = (JavaInstruction::CheckCast *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_INSTANCEOF:
+    {
+      std::cout << CLR_KEYWORD "INSTANCEOF" CLR_RESET;
+      JavaInstruction::InstanceOf *jinstr = (JavaInstruction::InstanceOf *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_MONITOENTER:
+    std::cout << CLR_KEYWORD "MONITOENTER" CLR_RESET;
+    break;
+  case OPCODE_MONITOEXIT:
+    std::cout << CLR_KEYWORD "MONITOEXIT" CLR_RESET;
     break;
   // TODO
   default:

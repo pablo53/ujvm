@@ -5,109 +5,133 @@
 #include "../defs/types.h"
 #include "../exec/exectx.h"
 
-#define OPCODE_NOP           0x00
-#define OPCODE_ACONST_NULL   0x01
-#define OPCODE_ICONST_M1     0x02
-#define OPCODE_ICONST_0      0x03
-#define OPCODE_ICONST_1      0x04
-#define OPCODE_ICONST_2      0x05
-#define OPCODE_ICONST_3      0x06
-#define OPCODE_ICONST_4      0x07
-#define OPCODE_ICONST_5      0x08
-#define OPCODE_LCONST_0      0x09
-#define OPCODE_LCONST_1      0x0a
-#define OPCODE_FCONST_0      0x0b
-#define OPCODE_FCONST_1      0x0c
-#define OPCODE_FCONST_2      0x0d
-#define OPCODE_DCONST_0      0x0e
-#define OPCODE_DCONST_1      0x0f
-#define OPCODE_BIPUSH        0x10
-#define OPCODE_SIPUSH        0x11
-#define OPCODE_ALOAD_0       0x2a
-#define OPCODE_ALOAD_1       0x2b
-#define OPCODE_ALOAD_2       0x2c
-#define OPCODE_ALOAD_3       0x2d
-#define OPCODE_POP           0x57
-#define OPCODE_POP2          0x58
-#define OPCODE_DUP           0x59
-#define OPCODE_DUP_X1        0x5a
-#define OPCODE_DUP_X2        0x5b
-#define OPCODE_DUP2          0x5c
-#define OPCODE_DUP2_X1       0x5d
-#define OPCODE_DUP2_X2       0x5e
-#define OPCODE_SWAP          0x5f
-#define OPCODE_IADD          0x60
-#define OPCODE_LADD          0x61
-#define OPCODE_FADD          0x62
-#define OPCODE_DADD          0x63
-#define OPCODE_ISUB          0x64
-#define OPCODE_LSUB          0x65
-#define OPCODE_FSUB          0x66
-#define OPCODE_DSUB          0x67
-#define OPCODE_IMUL          0x68
-#define OPCODE_LMUL          0x69
-#define OPCODE_FMUL          0x6a
-#define OPCODE_DMUL          0x6b
-#define OPCODE_IDIV          0x6c
-#define OPCODE_LDIV          0x6d
-#define OPCODE_FDIV          0x6e
-#define OPCODE_DDIV          0x6f
-#define OPCODE_IREM          0x70
-#define OPCODE_LREM          0x71
-#define OPCODE_FREM          0x72
-#define OPCODE_DREM          0x73
-#define OPCODE_INEG          0x74
-#define OPCODE_LNEG          0x75
-#define OPCODE_FNEG          0x76
-#define OPCODE_DNEG          0x77
-#define OPCODE_ISHL          0x78
-#define OPCODE_LSHL          0x79
-#define OPCODE_ISHR          0x7a
-#define OPCODE_LSHR          0x7b
-#define OPCODE_IUSHR         0x7c
-#define OPCODE_LUSHR         0x7d
-#define OPCODE_IAND          0x7e
-#define OPCODE_LAND          0x7f
-#define OPCODE_IOR           0x80
-#define OPCODE_LOR           0x81
-#define OPCODE_IXOR          0x82
-#define OPCODE_LXOR          0x83
-#define OPCODE_IINC          0x84
-#define OPCODE_I2L           0x85
-#define OPCODE_I2F           0x86
-#define OPCODE_I2D           0x87
-#define OPCODE_L2I           0x88
-#define OPCODE_L2F           0x89
-#define OPCODE_L2D           0x8a
-#define OPCODE_F2I           0x8b
-#define OPCODE_F2L           0x8c
-#define OPCODE_F2D           0x8d
-#define OPCODE_D2I           0x8e
-#define OPCODE_D2L           0x8f
-#define OPCODE_D2F           0x90
-#define OPCODE_I2B           0x91
-#define OPCODE_I2C           0x92
-#define OPCODE_I2S           0x93
-#define OPCODE_IF_ICMPEQ     0x9f
-#define OPCODE_IF_ICMPNE     0xa0
-#define OPCODE_IF_ICMPLT     0xa1
-#define OPCODE_IF_ICMPGE     0xa2
-#define OPCODE_IF_ICMPGT     0xa3
-#define OPCODE_IF_ICMPLE     0xa4
-#define OPCODE_IF_ACMPEQ     0xa5
-#define OPCODE_IF_ACMPNE     0xa6
-#define OPCODE_GOTO          0xa7
-#define OPCODE_JSR           0xa8
-#define OPCODE_RET           0xa9
-#define OPCODE_IRETURN       0xac
-#define OPCODE_LRETURN       0xad
-#define OPCODE_FRETURN       0xae
-#define OPCODE_DRETURN       0xaf
-#define OPCODE_ARETURN       0xb0
-#define OPCODE_RETURN        0xb1
-#define OPCODE_INVOKEVIRTUAL 0xb6
-#define OPCODE_INVOKESPECIAL 0xb7
-#define OPCODE_INVOKESTATIC  0xb8
+#define OPCODE_NOP              0x00
+#define OPCODE_ACONST_NULL      0x01
+#define OPCODE_ICONST_M1        0x02
+#define OPCODE_ICONST_0         0x03
+#define OPCODE_ICONST_1         0x04
+#define OPCODE_ICONST_2         0x05
+#define OPCODE_ICONST_3         0x06
+#define OPCODE_ICONST_4         0x07
+#define OPCODE_ICONST_5         0x08
+#define OPCODE_LCONST_0         0x09
+#define OPCODE_LCONST_1         0x0a
+#define OPCODE_FCONST_0         0x0b
+#define OPCODE_FCONST_1         0x0c
+#define OPCODE_FCONST_2         0x0d
+#define OPCODE_DCONST_0         0x0e
+#define OPCODE_DCONST_1         0x0f
+#define OPCODE_BIPUSH           0x10
+#define OPCODE_SIPUSH           0x11
+#define OPCODE_ALOAD_0          0x2a
+#define OPCODE_ALOAD_1          0x2b
+#define OPCODE_ALOAD_2          0x2c
+#define OPCODE_ALOAD_3          0x2d
+#define OPCODE_POP              0x57
+#define OPCODE_POP2             0x58
+#define OPCODE_DUP              0x59
+#define OPCODE_DUP_X1           0x5a
+#define OPCODE_DUP_X2           0x5b
+#define OPCODE_DUP2             0x5c
+#define OPCODE_DUP2_X1          0x5d
+#define OPCODE_DUP2_X2          0x5e
+#define OPCODE_SWAP             0x5f
+#define OPCODE_IADD             0x60
+#define OPCODE_LADD             0x61
+#define OPCODE_FADD             0x62
+#define OPCODE_DADD             0x63
+#define OPCODE_ISUB             0x64
+#define OPCODE_LSUB             0x65
+#define OPCODE_FSUB             0x66
+#define OPCODE_DSUB             0x67
+#define OPCODE_IMUL             0x68
+#define OPCODE_LMUL             0x69
+#define OPCODE_FMUL             0x6a
+#define OPCODE_DMUL             0x6b
+#define OPCODE_IDIV             0x6c
+#define OPCODE_LDIV             0x6d
+#define OPCODE_FDIV             0x6e
+#define OPCODE_DDIV             0x6f
+#define OPCODE_IREM             0x70
+#define OPCODE_LREM             0x71
+#define OPCODE_FREM             0x72
+#define OPCODE_DREM             0x73
+#define OPCODE_INEG             0x74
+#define OPCODE_LNEG             0x75
+#define OPCODE_FNEG             0x76
+#define OPCODE_DNEG             0x77
+#define OPCODE_ISHL             0x78
+#define OPCODE_LSHL             0x79
+#define OPCODE_ISHR             0x7a
+#define OPCODE_LSHR             0x7b
+#define OPCODE_IUSHR            0x7c
+#define OPCODE_LUSHR            0x7d
+#define OPCODE_IAND             0x7e
+#define OPCODE_LAND             0x7f
+#define OPCODE_IOR              0x80
+#define OPCODE_LOR              0x81
+#define OPCODE_IXOR             0x82
+#define OPCODE_LXOR             0x83
+#define OPCODE_IINC             0x84
+#define OPCODE_I2L              0x85
+#define OPCODE_I2F              0x86
+#define OPCODE_I2D              0x87
+#define OPCODE_L2I              0x88
+#define OPCODE_L2F              0x89
+#define OPCODE_L2D              0x8a
+#define OPCODE_F2I              0x8b
+#define OPCODE_F2L              0x8c
+#define OPCODE_F2D              0x8d
+#define OPCODE_D2I              0x8e
+#define OPCODE_D2L              0x8f
+#define OPCODE_D2F              0x90
+#define OPCODE_I2B              0x91
+#define OPCODE_I2C              0x92
+#define OPCODE_I2S              0x93
+#define OPCODE_IF_ICMPEQ        0x9f
+#define OPCODE_IF_ICMPNE        0xa0
+#define OPCODE_IF_ICMPLT        0xa1
+#define OPCODE_IF_ICMPGE        0xa2
+#define OPCODE_IF_ICMPGT        0xa3
+#define OPCODE_IF_ICMPLE        0xa4
+#define OPCODE_IF_ACMPEQ        0xa5
+#define OPCODE_IF_ACMPNE        0xa6
+#define OPCODE_GOTO             0xa7
+#define OPCODE_JSR              0xa8
+#define OPCODE_RET              0xa9
+#define OPCODE_IRETURN          0xac
+#define OPCODE_LRETURN          0xad
+#define OPCODE_FRETURN          0xae
+#define OPCODE_DRETURN          0xaf
+#define OPCODE_ARETURN          0xb0
+#define OPCODE_RETURN           0xb1
+#define OPCODE_GETSTATIC        0xb2
+#define OPCODE_PUTSTATIC        0xb3
+#define OPCODE_GETFIELD         0xb4
+#define OPCODE_PUTFIELD         0xb5
+#define OPCODE_INVOKEVIRTUAL    0xb6
+#define OPCODE_INVOKESPECIAL    0xb7
+#define OPCODE_INVOKESTATIC     0xb8
+#define OPCODE_INVOKEINTERFACE  0xb9
+#define OPCODE_INVOKEDYNAMIC    0xba
+#define OPCODE_NEW              0xbb
+#define OPCODE_NEWARRAY         0xbc
+#define OPCODE_ANEWARRAY        0xbd
+#define OPCODE_ARRAYLENGTH      0xbe
+#define OPCODE_ATHROW           0xbf
+#define OPCODE_CHECKCAST        0xc0
+#define OPCODE_INSTANCEOF       0xc1
+#define OPCODE_MONITOENTER      0xc2
+#define OPCODE_MONITOEXIT       0xc3
+
+#define T_BOOLEAN  4
+#define T_CHAR     5
+#define T_FLOAT    6
+#define T_DOUBLE   7
+#define T_BYTE     8
+#define T_SHORT    9
+#define T_INT     10
+#define T_LONG    11
 
 class JavaInstruction
 {
@@ -213,9 +237,24 @@ class JavaInstruction
   class DReturn;
   class AReturn;
   class Return;
+  class GetStatic;
+  class PutStatic;
+  class GetField;
+  class PutField;
   class InvokeVirtual;
   class InvokeSpecial;
   class InvokeStatic;
+  class InvokeInterface;
+  class InvokeDynamic;
+  class New;
+  class NewArray;
+  class ANewArray;
+  class ArrayLength;
+  class AThrow;
+  class CheckCast;
+  class InstanceOf;
+  class MonitorEnter;
+  class MonitorExit;
 };
 
 class JavaInstruction::Nop : public JavaInstruction
@@ -1050,6 +1089,49 @@ class JavaInstruction::Return : public JavaInstruction
   friend class JavaInstruction;
 };
 
+
+class JavaInstruction::GetStatic : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  GetStatic(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::PutStatic : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  PutStatic(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::GetField : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  GetField(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::PutField : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  PutField(const u8 * &);
+  friend class JavaInstruction;
+};
+
+
+
 class JavaInstruction::InvokeVirtual : public JavaInstruction
 {
   public:
@@ -1079,6 +1161,107 @@ class JavaInstruction::InvokeStatic : public JavaInstruction
   InvokeStatic(const u8 * &);
   friend class JavaInstruction;
 };
+
+
+class JavaInstruction::InvokeInterface : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+  u8 count;
+
+  protected:
+  InvokeInterface(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::InvokeDynamic : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  InvokeDynamic(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::New : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  New(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::NewArray : public JavaInstruction
+{
+  public:
+  u8 a_type; /* as per T_* constants */
+
+  protected:
+  NewArray(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ANewArray : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  ANewArray(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ArrayLength : public JavaInstruction
+{
+  protected:
+  ArrayLength();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AThrow : public JavaInstruction
+{
+  protected:
+  AThrow();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::CheckCast : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  CheckCast(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::InstanceOf : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  InstanceOf(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::MonitorEnter : public JavaInstruction
+{
+  protected:
+  MonitorEnter();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::MonitorExit : public JavaInstruction
+{
+  protected:
+  MonitorExit();
+  friend class JavaInstruction;
+};
+
 
 
 #endif

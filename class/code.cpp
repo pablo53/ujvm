@@ -202,6 +202,18 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_RETURN:
     jinst = new Return();
     break;
+  case OPCODE_GETSTATIC:
+    jinst = new GetStatic(buf);
+    break;
+  case OPCODE_PUTSTATIC:
+    jinst = new PutStatic(buf);
+    break;
+  case OPCODE_GETFIELD:
+    jinst = new GetField(buf);
+    break;
+  case OPCODE_PUTFIELD:
+    jinst = new PutField(buf);
+    break;
   case OPCODE_INVOKEVIRTUAL:
     jinst = new InvokeVirtual(buf);
     break;
@@ -210,6 +222,39 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
     break;
   case OPCODE_INVOKESTATIC:
     jinst = new InvokeStatic(buf);
+    break;
+  case OPCODE_INVOKEINTERFACE:
+    jinst = new InvokeInterface(buf);
+    break;
+  case OPCODE_INVOKEDYNAMIC:
+    jinst = new InvokeDynamic(buf);
+    break;
+  case OPCODE_NEW:
+    jinst = new New(buf);
+    break;
+  case OPCODE_NEWARRAY:
+    jinst = new NewArray(buf);
+    break;
+  case OPCODE_ANEWARRAY:
+    jinst = new ANewArray(buf);
+    break;
+  case OPCODE_ARRAYLENGTH:
+    jinst = new ArrayLength();
+    break;
+  case OPCODE_ATHROW:
+    jinst = new AThrow();
+    break;
+  case OPCODE_CHECKCAST:
+    jinst = new CheckCast(buf);
+    break;
+  case OPCODE_INSTANCEOF:
+    jinst = new InstanceOf(buf);
+    break;
+  case OPCODE_MONITOENTER:
+    jinst = new MonitorEnter();
+    break;
+  case OPCODE_MONITOEXIT:
+    jinst = new MonitorExit();
     break;
   default:
     // TODO: unknown instruction
@@ -625,6 +670,30 @@ u32 JavaInstruction::Return::get_branch(u32 n, u32 offset)
 }
 
 
+JavaInstruction::GetStatic::GetStatic(const u8 * &buf) : JavaInstruction(OPCODE_GETSTATIC)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::PutStatic::PutStatic(const u8 * &buf) : JavaInstruction(OPCODE_PUTSTATIC)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::GetField::GetField(const u8 * &buf) : JavaInstruction(OPCODE_GETFIELD)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::PutField::PutField(const u8 * &buf) : JavaInstruction(OPCODE_PUTFIELD)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
 JavaInstruction::InvokeVirtual::InvokeVirtual(const u8 * &buf) : JavaInstruction(OPCODE_INVOKEVIRTUAL)
 {
   cpool_idx = readbe16(buf);
@@ -642,6 +711,62 @@ JavaInstruction::InvokeStatic::InvokeStatic(const u8 * &buf) : JavaInstruction(O
   cpool_idx = readbe16(buf);
 }
 
+
+JavaInstruction::InvokeInterface::InvokeInterface(const u8 * &buf) : JavaInstruction(OPCODE_INVOKEINTERFACE)
+{
+  cpool_idx = readbe16(buf);
+  count = readbe8(buf);
+  readbe8(buf); // TODO: should be 0; need to check it
+}
+
+
+JavaInstruction::InvokeDynamic::InvokeDynamic(const u8 * &buf) : JavaInstruction(OPCODE_INVOKEINTERFACE)
+{
+  cpool_idx = readbe16(buf);
+  readbe16(buf); // TODO: should be 0; need to check it
+}
+
+
+JavaInstruction::New::New(const u8 * &buf) : JavaInstruction(OPCODE_NEW)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::NewArray::NewArray(const u8 * &buf) : JavaInstruction(OPCODE_NEWARRAY)
+{
+  a_type = readbe8(buf);
+}
+
+
+JavaInstruction::ANewArray::ANewArray(const u8 * &buf) : JavaInstruction(OPCODE_ANEWARRAY)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::ArrayLength::ArrayLength() : JavaInstruction(OPCODE_ARRAYLENGTH) { }
+
+
+JavaInstruction::AThrow::AThrow() : JavaInstruction(OPCODE_ATHROW) { }
+
+
+JavaInstruction::CheckCast::CheckCast(const u8 * &buf) : JavaInstruction(OPCODE_CHECKCAST)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::InstanceOf::InstanceOf(const u8 * &buf) : JavaInstruction(OPCODE_INSTANCEOF)
+{
+  cpool_idx = readbe16(buf);
+}
+
+
+JavaInstruction::MonitorEnter::MonitorEnter() : JavaInstruction(OPCODE_MONITOENTER) { }
+
+
+JavaInstruction::MonitorExit::MonitorExit() : JavaInstruction(OPCODE_MONITOEXIT) { }
 
 
 #endif
