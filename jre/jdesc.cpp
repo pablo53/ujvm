@@ -180,6 +180,33 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_ALOAD_3:
     std::cout << CLR_KEYWORD "ALOAD_3" CLR_RESET;
     break;
+  case OPCODE_POP:
+    std::cout << CLR_KEYWORD "POP" CLR_RESET;
+    break;
+  case OPCODE_POP2:
+    std::cout << CLR_KEYWORD "POP2" CLR_RESET;
+    break;
+  case OPCODE_DUP:
+    std::cout << CLR_KEYWORD "DUP" CLR_RESET;
+    break;
+  case OPCODE_DUP_X1:
+    std::cout << CLR_KEYWORD "DUP_X1" CLR_RESET;
+    break;
+  case OPCODE_DUP_X2:
+    std::cout << CLR_KEYWORD "DUP_X2" CLR_RESET;
+    break;
+  case OPCODE_DUP2:
+    std::cout << CLR_KEYWORD "DUP2" CLR_RESET;
+    break;
+  case OPCODE_DUP2_X1:
+    std::cout << CLR_KEYWORD "DUP2_X1" CLR_RESET;
+    break;
+  case OPCODE_DUP2_X2:
+    std::cout << CLR_KEYWORD "DUP2_X2" CLR_RESET;
+    break;
+  case OPCODE_SWAP:
+    std::cout << CLR_KEYWORD "SWAP" CLR_RESET;
+    break;
   case OPCODE_I2L:
     std::cout << CLR_KEYWORD "I2L" CLR_RESET;
     break;

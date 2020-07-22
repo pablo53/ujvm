@@ -79,6 +79,33 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_ALOAD_3:
     jinst = new ALoad3();
     break;
+  case OPCODE_POP:
+    jinst = new Pop();
+    break;
+  case OPCODE_POP2:
+    jinst = new Pop2();
+    break;
+  case OPCODE_DUP:
+    jinst = new Dup();
+    break;
+  case OPCODE_DUP_X1:
+    jinst = new DupX1();
+    break;
+  case OPCODE_DUP_X2:
+    jinst = new DupX2();
+    break;
+  case OPCODE_DUP2:
+    jinst = new Dup2();
+    break;
+  case OPCODE_DUP2_X1:
+    jinst = new Dup2X1();
+    break;
+  case OPCODE_DUP2_X2:
+    jinst = new Dup2X2();
+    break;
+  case OPCODE_SWAP:
+    jinst = new Swap();
+    break;
   case OPCODE_I2L:
     jinst = new I2L();
     break;
@@ -293,6 +320,25 @@ JavaInstruction::ALoad2::ALoad2() : JavaInstruction(OPCODE_ALOAD_2) { }
 
 
 JavaInstruction::ALoad3::ALoad3() : JavaInstruction(OPCODE_ALOAD_3) { }
+
+
+JavaInstruction::Pop::Pop() : JavaInstruction(OPCODE_POP) { }
+
+JavaInstruction::Pop2::Pop2() : JavaInstruction(OPCODE_POP2) { }
+
+JavaInstruction::Dup::Dup() : JavaInstruction(OPCODE_DUP) { }
+
+JavaInstruction::DupX1::DupX1() : JavaInstruction(OPCODE_DUP_X1) { }
+
+JavaInstruction::DupX2::DupX2() : JavaInstruction(OPCODE_DUP_X2) { }
+
+JavaInstruction::Dup2::Dup2() : JavaInstruction(OPCODE_DUP2) { }
+
+JavaInstruction::Dup2X1::Dup2X1() : JavaInstruction(OPCODE_DUP2_X1) { }
+
+JavaInstruction::Dup2X2::Dup2X2() : JavaInstruction(OPCODE_DUP2_X2) { }
+
+JavaInstruction::Swap::Swap() : JavaInstruction(OPCODE_SWAP) { }
 
 
 JavaInstruction::I2L::I2L() : JavaInstruction(OPCODE_I2L) { }

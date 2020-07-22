@@ -27,6 +27,15 @@
 #define OPCODE_ALOAD_1       0x2b
 #define OPCODE_ALOAD_2       0x2c
 #define OPCODE_ALOAD_3       0x2d
+#define OPCODE_POP           0x57
+#define OPCODE_POP2          0x58
+#define OPCODE_DUP           0x59
+#define OPCODE_DUP_X1        0x5a
+#define OPCODE_DUP_X2        0x5b
+#define OPCODE_DUP2          0x5c
+#define OPCODE_DUP2_X1       0x5d
+#define OPCODE_DUP2_X2       0x5e
+#define OPCODE_SWAP          0x5f
 #define OPCODE_I2L           0x85
 #define OPCODE_I2F           0x86
 #define OPCODE_I2D           0x87
@@ -95,6 +104,15 @@ class JavaInstruction
   class ALoad1;
   class ALoad2;
   class ALoad3;
+  class Pop;
+  class Pop2;
+  class Dup;
+  class DupX1;
+  class DupX2;
+  class Dup2;
+  class Dup2X1;
+  class Dup2X2;
+  class Swap;
   class I2L;
   class I2F;
   class I2D;
@@ -322,6 +340,71 @@ class JavaInstruction::ALoad3 : public JavaInstruction
   ALoad3();
   friend class JavaInstruction;
 };
+
+
+class JavaInstruction::Pop : public JavaInstruction
+{
+  protected:
+  Pop();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Pop2 : public JavaInstruction
+{
+  protected:
+  Pop2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Dup : public JavaInstruction
+{
+  protected:
+  Dup();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DupX1 : public JavaInstruction
+{
+  protected:
+  DupX1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DupX2 : public JavaInstruction
+{
+  protected:
+  DupX2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Dup2 : public JavaInstruction
+{
+  protected:
+  Dup2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Dup2X1 : public JavaInstruction
+{
+  protected:
+  Dup2X1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Dup2X2 : public JavaInstruction
+{
+  protected:
+  Dup2X2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Swap : public JavaInstruction
+{
+  protected:
+  Swap();
+  friend class JavaInstruction;
+};
+
 
 class JavaInstruction::I2L : public JavaInstruction
 {
