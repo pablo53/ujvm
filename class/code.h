@@ -35,6 +35,8 @@
 #define OPCODE_IF_ICMPLE     0xa4
 #define OPCODE_IF_ACMPEQ     0xa5
 #define OPCODE_IF_ACMPNE     0xa6
+#define OPCODE_GOTO          0xa7
+#define OPCODE_JSR           0xa8
 #define OPCODE_IRETURN       0xac
 #define OPCODE_LRETURN       0xad
 #define OPCODE_FRETURN       0xae
@@ -79,6 +81,8 @@ class JavaInstruction
   class ALoad3;
   class IfICmp;
   class IfACmp;
+  class Goto;
+  class Jsr;
   class IReturn;
   class LReturn;
   class FReturn;
@@ -378,6 +382,32 @@ class JavaInstruction::IfACmp::Ne : public JavaInstruction::IfACmp
 {
   protected:
   Ne(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Goto : public JavaInstruction
+{
+  public:
+  u16 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  Goto(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Jsr : public JavaInstruction
+{
+  public:
+  u16 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  Jsr(const u8 * &);
   friend class JavaInstruction;
 };
 

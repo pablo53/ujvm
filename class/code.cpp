@@ -103,6 +103,12 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_IF_ACMPNE:
     jinst = new IfACmp::Ne(buf);
     break;
+  case OPCODE_GOTO:
+    jinst = new Goto(buf);
+    break;
+  case OPCODE_JSR:
+    jinst = new Jsr(buf);
+    break;
   case OPCODE_IRETURN:
     jinst = new IReturn();
     break;
@@ -287,6 +293,38 @@ u32 JavaInstruction::IfACmp::get_branch(u32 n, u32 offset)
 JavaInstruction::IfACmp::Eq::Eq(const u8 * &buf) : JavaInstruction::IfACmp(OPCODE_IF_ACMPEQ, buf) { }
 
 JavaInstruction::IfACmp::Ne::Ne(const u8 * &buf) : JavaInstruction::IfACmp(OPCODE_IF_ACMPNE, buf) { }
+
+
+JavaInstruction::Goto::Goto(const u8 * &buf) : JavaInstruction(OPCODE_GOTO)
+{
+  branch = readbe16(buf);
+}
+
+u32 JavaInstruction::Goto::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::Goto::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
+
+
+JavaInstruction::Jsr::Jsr(const u8 * &buf) : JavaInstruction(OPCODE_JSR)
+{
+  branch = readbe16(buf);
+}
+
+u32 JavaInstruction::Jsr::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::Jsr::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
 
 
 JavaInstruction::IReturn::IReturn() : JavaInstruction(OPCODE_IRETURN) { }
