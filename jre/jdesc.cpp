@@ -184,56 +184,56 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
     {
       std::cout << CLR_KEYWORD "IF_ICMPEQ" CLR_RESET;
       JavaInstruction::IfICmp::Eq *jinstr = (JavaInstruction::IfICmp::Eq *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ICMPNE:
     {
       std::cout << CLR_KEYWORD "IF_ICMPNE" CLR_RESET;
       JavaInstruction::IfICmp::Ne *jinstr = (JavaInstruction::IfICmp::Ne *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ICMPLT:
     {
       std::cout << CLR_KEYWORD "IF_ICMPLT" CLR_RESET;
       JavaInstruction::IfICmp::Lt *jinstr = (JavaInstruction::IfICmp::Lt *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ICMPGE:
     {
       std::cout << CLR_KEYWORD "IF_ICMPGE" CLR_RESET;
       JavaInstruction::IfICmp::Ge *jinstr = (JavaInstruction::IfICmp::Ge *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ICMPGT:
     {
       std::cout << CLR_KEYWORD "IF_ICMPGT" CLR_RESET;
       JavaInstruction::IfICmp::Gt *jinstr = (JavaInstruction::IfICmp::Gt *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ICMPLE:
     {
       std::cout << CLR_KEYWORD "IF_ICMPLE" CLR_RESET;
       JavaInstruction::IfICmp::Le *jinstr = (JavaInstruction::IfICmp::Le *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ACMPEQ:
     {
       std::cout << CLR_KEYWORD "IF_ACMPEQ" CLR_RESET;
       JavaInstruction::IfACmp::Eq *jinstr = (JavaInstruction::IfACmp::Eq *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IF_ACMPNE:
     {
       std::cout << CLR_KEYWORD "IF_ACMPNE" CLR_RESET;
       JavaInstruction::IfACmp::Ne *jinstr = (JavaInstruction::IfACmp::Ne *)instr;
-      std::cout << " " << HEX(8, jinstr->branch); // absolute jump
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
   case OPCODE_IRETURN:

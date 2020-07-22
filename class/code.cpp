@@ -253,7 +253,7 @@ u32 JavaInstruction::IfICmp::get_branch_cnt()
 
 u32 JavaInstruction::IfICmp::get_branch(u32 n, u32 offset)
 {
-  return (n == JavaInstruction::get_branch_cnt()) ? (u32)branch : JavaInstruction::get_branch(n, offset);
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
 }
 
 JavaInstruction::IfICmp::Eq::Eq(const u8 * &buf) : JavaInstruction::IfICmp(OPCODE_IF_ICMPEQ, buf) { }
@@ -281,7 +281,7 @@ u32 JavaInstruction::IfACmp::get_branch_cnt()
 
 u32 JavaInstruction::IfACmp::get_branch(u32 n, u32 offset)
 {
-  return (n == JavaInstruction::get_branch_cnt()) ? (u32)branch : JavaInstruction::get_branch(n, offset);
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
 }
 
 JavaInstruction::IfACmp::Eq::Eq(const u8 * &buf) : JavaInstruction::IfACmp(OPCODE_IF_ACMPEQ, buf) { }

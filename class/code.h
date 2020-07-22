@@ -290,7 +290,7 @@ class JavaInstruction::ALoad3 : public JavaInstruction
 class JavaInstruction::IfICmp : public JavaInstruction
 {
   public:
-  u16 branch;
+  s16 branch;
 
   virtual u32 get_branch_cnt();
   virtual u32 get_branch(u32 n, u32 offset);
