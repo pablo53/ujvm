@@ -207,6 +207,121 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_SWAP:
     std::cout << CLR_KEYWORD "SWAP" CLR_RESET;
     break;
+  case OPCODE_IADD:
+    std::cout << CLR_KEYWORD "IADD" CLR_RESET;
+    break;
+  case OPCODE_LADD:
+    std::cout << CLR_KEYWORD "LADD" CLR_RESET;
+    break;
+  case OPCODE_FADD:
+    std::cout << CLR_KEYWORD "FADD" CLR_RESET;
+    break;
+  case OPCODE_DADD:
+    std::cout << CLR_KEYWORD "DADD" CLR_RESET;
+    break;
+  case OPCODE_ISUB:
+    std::cout << CLR_KEYWORD "ISUB" CLR_RESET;
+    break;
+  case OPCODE_LSUB:
+    std::cout << CLR_KEYWORD "LSUB" CLR_RESET;
+    break;
+  case OPCODE_FSUB:
+    std::cout << CLR_KEYWORD "FSUB" CLR_RESET;
+    break;
+  case OPCODE_DSUB:
+    std::cout << CLR_KEYWORD "DSUB" CLR_RESET;
+    break;
+  case OPCODE_IMUL:
+    std::cout << CLR_KEYWORD "IMUL" CLR_RESET;
+    break;
+  case OPCODE_LMUL:
+    std::cout << CLR_KEYWORD "LMUL" CLR_RESET;
+    break;
+  case OPCODE_FMUL:
+    std::cout << CLR_KEYWORD "FMUL" CLR_RESET;
+    break;
+  case OPCODE_DMUL:
+    std::cout << CLR_KEYWORD "DMUL" CLR_RESET;
+    break;
+  case OPCODE_IDIV:
+    std::cout << CLR_KEYWORD "IDIV" CLR_RESET;
+    break;
+  case OPCODE_LDIV:
+    std::cout << CLR_KEYWORD "LDIV" CLR_RESET;
+    break;
+  case OPCODE_FDIV:
+    std::cout << CLR_KEYWORD "FDIV" CLR_RESET;
+    break;
+  case OPCODE_DDIV:
+    std::cout << CLR_KEYWORD "DDIV" CLR_RESET;
+    break;
+  case OPCODE_IREM:
+    std::cout << CLR_KEYWORD "IREM" CLR_RESET;
+    break;
+  case OPCODE_LREM:
+    std::cout << CLR_KEYWORD "LREM" CLR_RESET;
+    break;
+  case OPCODE_FREM:
+    std::cout << CLR_KEYWORD "FREM" CLR_RESET;
+    break;
+  case OPCODE_DREM:
+    std::cout << CLR_KEYWORD "DREM" CLR_RESET;
+    break;
+  case OPCODE_INEG:
+    std::cout << CLR_KEYWORD "INEG" CLR_RESET;
+    break;
+  case OPCODE_LNEG:
+    std::cout << CLR_KEYWORD "LNEG" CLR_RESET;
+    break;
+  case OPCODE_FNEG:
+    std::cout << CLR_KEYWORD "FNEG" CLR_RESET;
+    break;
+  case OPCODE_DNEG:
+    std::cout << CLR_KEYWORD "DNEG" CLR_RESET;
+    break;
+  case OPCODE_ISHL:
+    std::cout << CLR_KEYWORD "ISHL" CLR_RESET;
+    break;
+  case OPCODE_LSHL:
+    std::cout << CLR_KEYWORD "LSHL" CLR_RESET;
+    break;
+  case OPCODE_ISHR:
+    std::cout << CLR_KEYWORD "ISHR" CLR_RESET;
+    break;
+  case OPCODE_LSHR:
+    std::cout << CLR_KEYWORD "LSHR" CLR_RESET;
+    break;
+  case OPCODE_IUSHR:
+    std::cout << CLR_KEYWORD "IUSHR" CLR_RESET;
+    break;
+  case OPCODE_LUSHR:
+    std::cout << CLR_KEYWORD "LUSHR" CLR_RESET;
+    break;
+  case OPCODE_IAND:
+    std::cout << CLR_KEYWORD "IAND" CLR_RESET;
+    break;
+  case OPCODE_LAND:
+    std::cout << CLR_KEYWORD "LAND" CLR_RESET;
+    break;
+  case OPCODE_IOR:
+    std::cout << CLR_KEYWORD "IOR" CLR_RESET;
+    break;
+  case OPCODE_LOR:
+    std::cout << CLR_KEYWORD "LOR" CLR_RESET;
+    break;
+  case OPCODE_IXOR:
+    std::cout << CLR_KEYWORD "IXOR" CLR_RESET;
+    break;
+  case OPCODE_LXOR:
+    std::cout << CLR_KEYWORD "LXOR" CLR_RESET;
+    break;
+  case OPCODE_IINC:
+    {
+      std::cout << CLR_KEYWORD "IINC" CLR_RESET;
+      JavaInstruction::IInc *jinstr = (JavaInstruction::IInc *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var << ", " << std::dec << jinstr->const_val; // relative jump
+    }
+    break;
   case OPCODE_I2L:
     std::cout << CLR_KEYWORD "I2L" CLR_RESET;
     break;
