@@ -37,6 +37,7 @@
 #define OPCODE_IF_ACMPNE     0xa6
 #define OPCODE_GOTO          0xa7
 #define OPCODE_JSR           0xa8
+#define OPCODE_RET           0xa9
 #define OPCODE_IRETURN       0xac
 #define OPCODE_LRETURN       0xad
 #define OPCODE_FRETURN       0xae
@@ -83,6 +84,7 @@ class JavaInstruction
   class IfACmp;
   class Goto;
   class Jsr;
+  class Ret;
   class IReturn;
   class LReturn;
   class FReturn;
@@ -411,8 +413,25 @@ class JavaInstruction::Jsr : public JavaInstruction
   friend class JavaInstruction;
 };
 
+class JavaInstruction::Ret : public JavaInstruction
+{
+  public:
+  u8 ret_addr_var;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  Ret(const u8 * &);
+  friend class JavaInstruction;
+};
+
 class JavaInstruction::IReturn : public JavaInstruction
 {
+  public:
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
   protected:
   IReturn();
   friend class JavaInstruction;
@@ -420,6 +439,10 @@ class JavaInstruction::IReturn : public JavaInstruction
 
 class JavaInstruction::LReturn : public JavaInstruction
 {
+  public:
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
   protected:
   LReturn();
   friend class JavaInstruction;
@@ -427,6 +450,10 @@ class JavaInstruction::LReturn : public JavaInstruction
 
 class JavaInstruction::FReturn : public JavaInstruction
 {
+  public:
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
   protected:
   FReturn();
   friend class JavaInstruction;
@@ -434,6 +461,10 @@ class JavaInstruction::FReturn : public JavaInstruction
 
 class JavaInstruction::DReturn : public JavaInstruction
 {
+  public:
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
   protected:
   DReturn();
   friend class JavaInstruction;
@@ -441,6 +472,10 @@ class JavaInstruction::DReturn : public JavaInstruction
 
 class JavaInstruction::AReturn : public JavaInstruction
 {
+  public:
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
   protected:
   AReturn();
   friend class JavaInstruction;
@@ -448,6 +483,10 @@ class JavaInstruction::AReturn : public JavaInstruction
 
 class JavaInstruction::Return : public JavaInstruction
 {
+  public:
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
   protected:
   Return();
   friend class JavaInstruction;

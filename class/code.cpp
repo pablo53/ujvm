@@ -109,6 +109,9 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_JSR:
     jinst = new Jsr(buf);
     break;
+  case OPCODE_RET:
+    jinst = new Ret(buf);
+    break;
   case OPCODE_IRETURN:
     jinst = new IReturn();
     break;
@@ -327,22 +330,98 @@ u32 JavaInstruction::Jsr::get_branch(u32 n, u32 offset)
 }
 
 
+JavaInstruction::Ret::Ret(const u8 * &buf) : JavaInstruction(OPCODE_RET)
+{
+  ret_addr_var = readbe8(buf);
+}
+
+u32 JavaInstruction::Ret::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::Ret::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
+
+
 JavaInstruction::IReturn::IReturn() : JavaInstruction(OPCODE_IRETURN) { }
+
+u32 JavaInstruction::IReturn::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::IReturn::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
 
 
 JavaInstruction::LReturn::LReturn() : JavaInstruction(OPCODE_LRETURN) { }
 
+u32 JavaInstruction::LReturn::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::LReturn::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
+
 
 JavaInstruction::FReturn::FReturn() : JavaInstruction(OPCODE_FRETURN) { }
+
+u32 JavaInstruction::FReturn::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::FReturn::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
 
 
 JavaInstruction::DReturn::DReturn() : JavaInstruction(OPCODE_DRETURN) { }
 
+u32 JavaInstruction::DReturn::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::DReturn::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
+
 
 JavaInstruction::AReturn::AReturn() : JavaInstruction(OPCODE_ARETURN) { }
 
+u32 JavaInstruction::AReturn::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::AReturn::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
+
 
 JavaInstruction::Return::Return() : JavaInstruction(OPCODE_RETURN) { }
+
+u32 JavaInstruction::Return::get_branch_cnt()
+{
+  return 0;
+}
+
+u32 JavaInstruction::Return::get_branch(u32 n, u32 offset)
+{
+  return (u32) -1; // should never be required
+}
 
 
 JavaInstruction::InvokeVirtual::InvokeVirtual(const u8 * &buf) : JavaInstruction(OPCODE_INVOKEVIRTUAL)

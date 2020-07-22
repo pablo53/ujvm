@@ -250,6 +250,13 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
+  case OPCODE_RET:
+    {
+      std::cout << CLR_KEYWORD "RET" CLR_RESET;
+      JavaInstruction::Ret *jinstr = (JavaInstruction::Ret *)instr;
+      std::cout << " *" << std::dec << jinstr->ret_addr_var;
+    }
+    break;
   case OPCODE_IRETURN:
     std::cout << CLR_KEYWORD "IRETURN" CLR_RESET;
     break;
