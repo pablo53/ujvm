@@ -236,6 +236,20 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
     }
     break;
+  case OPCODE_GOTO:
+    {
+      std::cout << CLR_KEYWORD "GOTO" CLR_RESET;
+      JavaInstruction::Goto *jinstr = (JavaInstruction::Goto *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_JSR:
+    {
+      std::cout << CLR_KEYWORD "JSR" CLR_RESET;
+      JavaInstruction::Jsr *jinstr = (JavaInstruction::Jsr *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
   case OPCODE_IRETURN:
     std::cout << CLR_KEYWORD "IRETURN" CLR_RESET;
     break;
