@@ -79,6 +79,51 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_ALOAD_3:
     jinst = new ALoad3();
     break;
+  case OPCODE_I2L:
+    jinst = new I2L();
+    break;
+  case OPCODE_I2F:
+    jinst = new I2F();
+    break;
+  case OPCODE_I2D:
+    jinst = new I2D();
+    break;
+  case OPCODE_L2I:
+    jinst = new L2I();
+    break;
+  case OPCODE_L2F:
+    jinst = new L2F();
+    break;
+  case OPCODE_L2D:
+    jinst = new L2D();
+    break;
+  case OPCODE_F2I:
+    jinst = new F2I();
+    break;
+  case OPCODE_F2L:
+    jinst = new F2L();
+    break;
+  case OPCODE_F2D:
+    jinst = new F2D();
+    break;
+  case OPCODE_D2I:
+    jinst = new D2I();
+    break;
+  case OPCODE_D2L:
+    jinst = new D2L();
+    break;
+  case OPCODE_D2F:
+    jinst = new D2F();
+    break;
+  case OPCODE_I2B:
+    jinst = new I2B();
+    break;
+  case OPCODE_I2C:
+    jinst = new I2C();
+    break;
+  case OPCODE_I2S:
+    jinst = new I2S();
+    break;
   case OPCODE_IF_ICMPEQ:
     jinst = new IfICmp::Eq(buf);
     break;
@@ -248,6 +293,37 @@ JavaInstruction::ALoad2::ALoad2() : JavaInstruction(OPCODE_ALOAD_2) { }
 
 
 JavaInstruction::ALoad3::ALoad3() : JavaInstruction(OPCODE_ALOAD_3) { }
+
+
+JavaInstruction::I2L::I2L() : JavaInstruction(OPCODE_I2L) { }
+
+JavaInstruction::I2F::I2F() : JavaInstruction(OPCODE_I2F) { }
+
+JavaInstruction::I2D::I2D() : JavaInstruction(OPCODE_I2D) { }
+
+JavaInstruction::L2I::L2I() : JavaInstruction(OPCODE_L2I) { }
+
+JavaInstruction::L2F::L2F() : JavaInstruction(OPCODE_L2F) { }
+
+JavaInstruction::L2D::L2D() : JavaInstruction(OPCODE_L2D) { }
+
+JavaInstruction::F2I::F2I() : JavaInstruction(OPCODE_F2I) { }
+
+JavaInstruction::F2L::F2L() : JavaInstruction(OPCODE_F2L) { }
+
+JavaInstruction::F2D::F2D() : JavaInstruction(OPCODE_F2D) { }
+
+JavaInstruction::D2I::D2I() : JavaInstruction(OPCODE_D2I) { }
+
+JavaInstruction::D2L::D2L() : JavaInstruction(OPCODE_D2L) { }
+
+JavaInstruction::D2F::D2F() : JavaInstruction(OPCODE_D2F) { }
+
+JavaInstruction::I2B::I2B() : JavaInstruction(OPCODE_I2B) { }
+
+JavaInstruction::I2C::I2C() : JavaInstruction(OPCODE_I2C) { }
+
+JavaInstruction::I2S::I2S() : JavaInstruction(OPCODE_I2S) { }
 
 
 JavaInstruction::IfICmp::IfICmp(u8 opcode, const u8 * &buf) : JavaInstruction(opcode)

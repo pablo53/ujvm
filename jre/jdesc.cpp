@@ -180,6 +180,51 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_ALOAD_3:
     std::cout << CLR_KEYWORD "ALOAD_3" CLR_RESET;
     break;
+  case OPCODE_I2L:
+    std::cout << CLR_KEYWORD "I2L" CLR_RESET;
+    break;
+  case OPCODE_I2F:
+    std::cout << CLR_KEYWORD "I2F" CLR_RESET;
+    break;
+  case OPCODE_I2D:
+    std::cout << CLR_KEYWORD "I2D" CLR_RESET;
+    break;
+  case OPCODE_L2I:
+    std::cout << CLR_KEYWORD "L2I" CLR_RESET;
+    break;
+  case OPCODE_L2F:
+    std::cout << CLR_KEYWORD "L2F" CLR_RESET;
+    break;
+  case OPCODE_L2D:
+    std::cout << CLR_KEYWORD "L2D" CLR_RESET;
+    break;
+  case OPCODE_F2I:
+    std::cout << CLR_KEYWORD "F2I" CLR_RESET;
+    break;
+  case OPCODE_F2L:
+    std::cout << CLR_KEYWORD "F2L" CLR_RESET;
+    break;
+  case OPCODE_F2D:
+    std::cout << CLR_KEYWORD "F2D" CLR_RESET;
+    break;
+  case OPCODE_D2I:
+    std::cout << CLR_KEYWORD "D2I" CLR_RESET;
+    break;
+  case OPCODE_D2L:
+    std::cout << CLR_KEYWORD "D2L" CLR_RESET;
+    break;
+  case OPCODE_D2F:
+    std::cout << CLR_KEYWORD "D2F" CLR_RESET;
+    break;
+  case OPCODE_I2B:
+    std::cout << CLR_KEYWORD "I2B" CLR_RESET;
+    break;
+  case OPCODE_I2C:
+    std::cout << CLR_KEYWORD "I2C" CLR_RESET;
+    break;
+  case OPCODE_I2S:
+    std::cout << CLR_KEYWORD "I2S" CLR_RESET;
+    break;
   case OPCODE_IF_ICMPEQ:
     {
       std::cout << CLR_KEYWORD "IF_ICMPEQ" CLR_RESET;

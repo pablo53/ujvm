@@ -27,6 +27,21 @@
 #define OPCODE_ALOAD_1       0x2b
 #define OPCODE_ALOAD_2       0x2c
 #define OPCODE_ALOAD_3       0x2d
+#define OPCODE_I2L           0x85
+#define OPCODE_I2F           0x86
+#define OPCODE_I2D           0x87
+#define OPCODE_L2I           0x88
+#define OPCODE_L2F           0x89
+#define OPCODE_L2D           0x8a
+#define OPCODE_F2I           0x8b
+#define OPCODE_F2L           0x8c
+#define OPCODE_F2D           0x8d
+#define OPCODE_D2I           0x8e
+#define OPCODE_D2L           0x8f
+#define OPCODE_D2F           0x90
+#define OPCODE_I2B           0x91
+#define OPCODE_I2C           0x92
+#define OPCODE_I2S           0x93
 #define OPCODE_IF_ICMPEQ     0x9f
 #define OPCODE_IF_ICMPNE     0xa0
 #define OPCODE_IF_ICMPLT     0xa1
@@ -80,6 +95,21 @@ class JavaInstruction
   class ALoad1;
   class ALoad2;
   class ALoad3;
+  class I2L;
+  class I2F;
+  class I2D;
+  class L2I;
+  class L2F;
+  class L2D;
+  class F2I;
+  class F2L;
+  class F2D;
+  class D2I;
+  class D2L;
+  class D2F;
+  class I2B;
+  class I2C;
+  class I2S;
   class IfICmp;
   class IfACmp;
   class Goto;
@@ -292,6 +322,112 @@ class JavaInstruction::ALoad3 : public JavaInstruction
   ALoad3();
   friend class JavaInstruction;
 };
+
+class JavaInstruction::I2L : public JavaInstruction
+{
+  protected:
+  I2L();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::I2F : public JavaInstruction
+{
+  protected:
+  I2F();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::I2D : public JavaInstruction
+{
+  protected:
+  I2D();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::L2I : public JavaInstruction
+{
+  protected:
+  L2I();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::L2F : public JavaInstruction
+{
+  protected:
+  L2F();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::L2D : public JavaInstruction
+{
+  protected:
+  L2D();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::F2I : public JavaInstruction
+{
+  protected:
+  F2I();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::F2L : public JavaInstruction
+{
+  protected:
+  F2L();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::F2D : public JavaInstruction
+{
+  protected:
+  F2D();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::D2I : public JavaInstruction
+{
+  protected:
+  D2I();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::D2L : public JavaInstruction
+{
+  protected:
+  D2L();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::D2F : public JavaInstruction
+{
+  protected:
+  D2F();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::I2B : public JavaInstruction
+{
+  protected:
+  I2B();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::I2C : public JavaInstruction
+{
+  protected:
+  I2C();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::I2S : public JavaInstruction
+{
+  protected:
+  I2S();
+  friend class JavaInstruction;
+};
+
 
 class JavaInstruction::IfICmp : public JavaInstruction
 {
