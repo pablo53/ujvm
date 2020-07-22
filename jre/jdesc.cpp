@@ -595,11 +595,11 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
     }
     break;
-  case OPCODE_MONITOENTER:
-    std::cout << CLR_KEYWORD "MONITOENTER" CLR_RESET;
+  case OPCODE_MONITORENTER:
+    std::cout << CLR_KEYWORD "MONITORENTER" CLR_RESET;
     break;
-  case OPCODE_MONITOEXIT:
-    std::cout << CLR_KEYWORD "MONITOEXIT" CLR_RESET;
+  case OPCODE_MONITOREXIT:
+    std::cout << CLR_KEYWORD "MONITOREXIT" CLR_RESET;
     break;
   // TODO
   default:

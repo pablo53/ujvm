@@ -121,8 +121,8 @@
 #define OPCODE_ATHROW           0xbf
 #define OPCODE_CHECKCAST        0xc0
 #define OPCODE_INSTANCEOF       0xc1
-#define OPCODE_MONITOENTER      0xc2
-#define OPCODE_MONITOEXIT       0xc3
+#define OPCODE_MONITORENTER     0xc2
+#define OPCODE_MONITOREXIT      0xc3
 
 #define T_BOOLEAN  4
 #define T_CHAR     5

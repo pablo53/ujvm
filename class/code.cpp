@@ -250,10 +250,10 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_INSTANCEOF:
     jinst = new InstanceOf(buf);
     break;
-  case OPCODE_MONITOENTER:
+  case OPCODE_MONITORENTER:
     jinst = new MonitorEnter();
     break;
-  case OPCODE_MONITOEXIT:
+  case OPCODE_MONITOREXIT:
     jinst = new MonitorExit();
     break;
   default:
@@ -763,10 +763,10 @@ JavaInstruction::InstanceOf::InstanceOf(const u8 * &buf) : JavaInstruction(OPCOD
 }
 
 
-JavaInstruction::MonitorEnter::MonitorEnter() : JavaInstruction(OPCODE_MONITOENTER) { }
+JavaInstruction::MonitorEnter::MonitorEnter() : JavaInstruction(OPCODE_MONITORENTER) { }
 
 
-JavaInstruction::MonitorExit::MonitorExit() : JavaInstruction(OPCODE_MONITOEXIT) { }
+JavaInstruction::MonitorExit::MonitorExit() : JavaInstruction(OPCODE_MONITOREXIT) { }
 
 
 #endif
