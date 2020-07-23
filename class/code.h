@@ -56,6 +56,39 @@
 #define OPCODE_BALOAD           0x33
 #define OPCODE_CALOAD           0x34
 #define OPCODE_SALOAD           0x35
+#define OPCODE_ISTORE           0x36
+#define OPCODE_LSTORE           0x37
+#define OPCODE_FSTORE           0x38
+#define OPCODE_DSTORE           0x39
+#define OPCODE_ASTORE           0x3a
+#define OPCODE_ISTORE_0         0x3b
+#define OPCODE_ISTORE_1         0x3c
+#define OPCODE_ISTORE_2         0x3d
+#define OPCODE_ISTORE_3         0x3e
+#define OPCODE_LSTORE_0         0x3f
+#define OPCODE_LSTORE_1         0x40
+#define OPCODE_LSTORE_2         0x41
+#define OPCODE_LSTORE_3         0x42
+#define OPCODE_FSTORE_0         0x43
+#define OPCODE_FSTORE_1         0x44
+#define OPCODE_FSTORE_2         0x45
+#define OPCODE_FSTORE_3         0x46
+#define OPCODE_DSTORE_0         0x47
+#define OPCODE_DSTORE_1         0x48
+#define OPCODE_DSTORE_2         0x49
+#define OPCODE_DSTORE_3         0x4a
+#define OPCODE_ASTORE_0         0x4b
+#define OPCODE_ASTORE_1         0x4c
+#define OPCODE_ASTORE_2         0x4d
+#define OPCODE_ASTORE_3         0x4e
+#define OPCODE_IASTORE          0x4f
+#define OPCODE_LASTORE          0x50
+#define OPCODE_FASTORE          0x51
+#define OPCODE_DASTORE          0x52
+#define OPCODE_AASTORE          0x53
+#define OPCODE_BASTORE          0x54
+#define OPCODE_CASTORE          0x55
+#define OPCODE_SASTORE          0x56
 #define OPCODE_POP              0x57
 #define OPCODE_POP2             0x58
 #define OPCODE_DUP              0x59
@@ -223,6 +256,39 @@ class JavaInstruction
   class BALoad;
   class CALoad;
   class SALoad;
+  class IStore;
+  class LStore;
+  class FStore;
+  class DStore;
+  class AStore;
+  class IStore0;
+  class IStore1;
+  class IStore2;
+  class IStore3;
+  class LStore0;
+  class LStore1;
+  class LStore2;
+  class LStore3;
+  class FStore0;
+  class FStore1;
+  class FStore2;
+  class FStore3;
+  class DStore0;
+  class DStore1;
+  class DStore2;
+  class DStore3;
+  class AStore0;
+  class AStore1;
+  class AStore2;
+  class AStore3;
+  class IAStore;
+  class LAStore;
+  class FAStore;
+  class DAStore;
+  class AAStore;
+  class BAStore;
+  class CAStore;
+  class SAStore;
   class Pop;
   class Pop2;
   class Dup;
@@ -729,6 +795,254 @@ class JavaInstruction::SALoad : public JavaInstruction
 {
   protected:
   SALoad();
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::IStore : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  IStore(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LStore : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  LStore(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FStore : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  FStore(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DStore : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  DStore(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AStore : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  AStore(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IStore0 : public JavaInstruction
+{
+  protected:
+  IStore0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IStore1 : public JavaInstruction
+{
+  protected:
+  IStore1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IStore2 : public JavaInstruction
+{
+  protected:
+  IStore2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IStore3 : public JavaInstruction
+{
+  protected:
+  IStore3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LStore0 : public JavaInstruction
+{
+  protected:
+  LStore0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LStore1 : public JavaInstruction
+{
+  protected:
+  LStore1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LStore2 : public JavaInstruction
+{
+  protected:
+  LStore2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LStore3 : public JavaInstruction
+{
+  protected:
+  LStore3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FStore0 : public JavaInstruction
+{
+  protected:
+  FStore0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FStore1 : public JavaInstruction
+{
+  protected:
+  FStore1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FStore2 : public JavaInstruction
+{
+  protected:
+  FStore2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FStore3 : public JavaInstruction
+{
+  protected:
+  FStore3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DStore0 : public JavaInstruction
+{
+  protected:
+  DStore0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DStore1 : public JavaInstruction
+{
+  protected:
+  DStore1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DStore2 : public JavaInstruction
+{
+  protected:
+  DStore2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DStore3 : public JavaInstruction
+{
+  protected:
+  DStore3();
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::AStore0 : public JavaInstruction
+{
+  protected:
+  AStore0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AStore1 : public JavaInstruction
+{
+  protected:
+  AStore1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AStore2 : public JavaInstruction
+{
+  protected:
+  AStore2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AStore3 : public JavaInstruction
+{
+  protected:
+  AStore3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IAStore : public JavaInstruction
+{
+  protected:
+  IAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LAStore : public JavaInstruction
+{
+  protected:
+  LAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FAStore : public JavaInstruction
+{
+  protected:
+  FAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DAStore : public JavaInstruction
+{
+  protected:
+  DAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AAStore : public JavaInstruction
+{
+  protected:
+  AAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::BAStore : public JavaInstruction
+{
+  protected:
+  BAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::CAStore : public JavaInstruction
+{
+  protected:
+  CAStore();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::SAStore : public JavaInstruction
+{
+  protected:
+  SAStore();
   friend class JavaInstruction;
 };
 

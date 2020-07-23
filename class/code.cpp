@@ -166,6 +166,105 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_SALOAD:
     jinst = new SALoad();
     break;
+  case OPCODE_ISTORE:
+    jinst = new IStore(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_LSTORE:
+    jinst = new LStore(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_FSTORE:
+    jinst = new FStore(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_DSTORE:
+    jinst = new DStore(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_ASTORE:
+    jinst = new AStore(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_ISTORE_0:
+    jinst = new IStore0();
+    break;
+  case OPCODE_ISTORE_1:
+    jinst = new IStore1();
+    break;
+  case OPCODE_ISTORE_2:
+    jinst = new IStore2();
+    break;
+  case OPCODE_ISTORE_3:
+    jinst = new IStore3();
+    break;
+  case OPCODE_LSTORE_0:
+    jinst = new LStore0();
+    break;
+  case OPCODE_LSTORE_1:
+    jinst = new LStore1();
+    break;
+  case OPCODE_LSTORE_2:
+    jinst = new LStore2();
+    break;
+  case OPCODE_LSTORE_3:
+    jinst = new LStore3();
+    break;
+  case OPCODE_FSTORE_0:
+    jinst = new FStore0();
+    break;
+  case OPCODE_FSTORE_1:
+    jinst = new FStore1();
+    break;
+  case OPCODE_FSTORE_2:
+    jinst = new FStore2();
+    break;
+  case OPCODE_FSTORE_3:
+    jinst = new FStore3();
+    break;
+  case OPCODE_DSTORE_0:
+    jinst = new DStore0();
+    break;
+  case OPCODE_DSTORE_1:
+    jinst = new DStore1();
+    break;
+  case OPCODE_DSTORE_2:
+    jinst = new DStore2();
+    break;
+  case OPCODE_DSTORE_3:
+    jinst = new DStore3();
+    break;
+  case OPCODE_ASTORE_0:
+    jinst = new AStore0();
+    break;
+  case OPCODE_ASTORE_1:
+    jinst = new AStore1();
+    break;
+  case OPCODE_ASTORE_2:
+    jinst = new AStore2();
+    break;
+  case OPCODE_ASTORE_3:
+    jinst = new AStore3();
+    break;
+  case OPCODE_IASTORE:
+    jinst = new IAStore();
+    break;
+  case OPCODE_LASTORE:
+    jinst = new LAStore();
+    break;
+  case OPCODE_FASTORE:
+    jinst = new FAStore();
+    break;
+  case OPCODE_DASTORE:
+    jinst = new DAStore();
+    break;
+  case OPCODE_AASTORE:
+    jinst = new AAStore();
+    break;
+  case OPCODE_BASTORE:
+    jinst = new BAStore();
+    break;
+  case OPCODE_CASTORE:
+    jinst = new CAStore();
+    break;
+  case OPCODE_SASTORE:
+    jinst = new SAStore();
+    break;
   case OPCODE_POP:
     jinst = new Pop();
     break;
@@ -528,6 +627,94 @@ JavaInstruction::BALoad::BALoad() : JavaInstruction(OPCODE_BALOAD) { }
 JavaInstruction::CALoad::CALoad() : JavaInstruction(OPCODE_CALOAD) { }
 
 JavaInstruction::SALoad::SALoad() : JavaInstruction(OPCODE_SALOAD) { }
+
+
+JavaInstruction::IStore::IStore(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_ISTORE)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::LStore::LStore(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_LSTORE)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::FStore::FStore(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_FSTORE)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::DStore::DStore(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_DSTORE)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::AStore::AStore(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_ASTORE)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+
+JavaInstruction::IStore0::IStore0() : JavaInstruction(OPCODE_ISTORE_0) { }
+
+JavaInstruction::IStore1::IStore1() : JavaInstruction(OPCODE_ISTORE_1) { }
+
+JavaInstruction::IStore2::IStore2() : JavaInstruction(OPCODE_ISTORE_2) { }
+
+JavaInstruction::IStore3::IStore3() : JavaInstruction(OPCODE_ISTORE_3) { }
+
+
+JavaInstruction::LStore0::LStore0() : JavaInstruction(OPCODE_LSTORE_0) { }
+
+JavaInstruction::LStore1::LStore1() : JavaInstruction(OPCODE_LSTORE_1) { }
+
+JavaInstruction::LStore2::LStore2() : JavaInstruction(OPCODE_LSTORE_2) { }
+
+JavaInstruction::LStore3::LStore3() : JavaInstruction(OPCODE_LSTORE_3) { }
+
+
+JavaInstruction::FStore0::FStore0() : JavaInstruction(OPCODE_FSTORE_0) { }
+
+JavaInstruction::FStore1::FStore1() : JavaInstruction(OPCODE_FSTORE_1) { }
+
+JavaInstruction::FStore2::FStore2() : JavaInstruction(OPCODE_FSTORE_2) { }
+
+JavaInstruction::FStore3::FStore3() : JavaInstruction(OPCODE_FSTORE_3) { }
+
+
+JavaInstruction::DStore0::DStore0() : JavaInstruction(OPCODE_DSTORE_0) { }
+
+JavaInstruction::DStore1::DStore1() : JavaInstruction(OPCODE_DSTORE_1) { }
+
+JavaInstruction::DStore2::DStore2() : JavaInstruction(OPCODE_DSTORE_2) { }
+
+JavaInstruction::DStore3::DStore3() : JavaInstruction(OPCODE_DSTORE_3) { }
+
+
+JavaInstruction::AStore0::AStore0() : JavaInstruction(OPCODE_ASTORE_0) { }
+
+JavaInstruction::AStore1::AStore1() : JavaInstruction(OPCODE_ASTORE_1) { }
+
+JavaInstruction::AStore2::AStore2() : JavaInstruction(OPCODE_ASTORE_2) { }
+
+JavaInstruction::AStore3::AStore3() : JavaInstruction(OPCODE_ASTORE_3) { }
+
+
+JavaInstruction::IAStore::IAStore() : JavaInstruction(OPCODE_IASTORE) { }
+
+JavaInstruction::LAStore::LAStore() : JavaInstruction(OPCODE_LASTORE) { }
+
+JavaInstruction::FAStore::FAStore() : JavaInstruction(OPCODE_FASTORE) { }
+
+JavaInstruction::DAStore::DAStore() : JavaInstruction(OPCODE_DASTORE) { }
+
+JavaInstruction::AAStore::AAStore() : JavaInstruction(OPCODE_AASTORE) { }
+
+JavaInstruction::BAStore::BAStore() : JavaInstruction(OPCODE_BASTORE) { }
+
+JavaInstruction::CAStore::CAStore() : JavaInstruction(OPCODE_CASTORE) { }
+
+JavaInstruction::SAStore::SAStore() : JavaInstruction(OPCODE_SASTORE) { }
 
 
 JavaInstruction::Pop::Pop() : JavaInstruction(OPCODE_POP) { }
