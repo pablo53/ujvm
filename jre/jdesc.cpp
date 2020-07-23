@@ -202,6 +202,89 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " 0x" << HEX(4, jinstr->shortint_val);
     }
     break;
+  case OPCODE_ILOAD:
+    {
+      std::cout << CLR_KEYWORD "ILOAD" CLR_RESET;
+      JavaInstruction::ILoad *jinstr = (JavaInstruction::ILoad *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_LLOAD:
+    {
+      std::cout << CLR_KEYWORD "LLOAD" CLR_RESET;
+      JavaInstruction::LLoad *jinstr = (JavaInstruction::LLoad *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_FLOAD:
+    {
+      std::cout << CLR_KEYWORD "FLOAD" CLR_RESET;
+      JavaInstruction::FLoad *jinstr = (JavaInstruction::FLoad *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_DLOAD:
+    {
+      std::cout << CLR_KEYWORD "DLOAD" CLR_RESET;
+      JavaInstruction::DLoad *jinstr = (JavaInstruction::DLoad *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_ALOAD:
+    {
+      std::cout << CLR_KEYWORD "ALOAD" CLR_RESET;
+      JavaInstruction::ALoad *jinstr = (JavaInstruction::ALoad *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_ILOAD_0:
+    std::cout << CLR_KEYWORD "ILOAD_0" CLR_RESET;
+    break;
+  case OPCODE_ILOAD_1:
+    std::cout << CLR_KEYWORD "ILOAD_1" CLR_RESET;
+    break;
+  case OPCODE_ILOAD_2:
+    std::cout << CLR_KEYWORD "ILOAD_2" CLR_RESET;
+    break;
+  case OPCODE_ILOAD_3:
+    std::cout << CLR_KEYWORD "ILOAD_3" CLR_RESET;
+    break;
+  case OPCODE_LLOAD_0:
+    std::cout << CLR_KEYWORD "LLOAD_0" CLR_RESET;
+    break;
+  case OPCODE_LLOAD_1:
+    std::cout << CLR_KEYWORD "LLOAD_1" CLR_RESET;
+    break;
+  case OPCODE_LLOAD_2:
+    std::cout << CLR_KEYWORD "LLOAD_2" CLR_RESET;
+    break;
+  case OPCODE_LLOAD_3:
+    std::cout << CLR_KEYWORD "LLOAD_3" CLR_RESET;
+    break;
+  case OPCODE_FLOAD_0:
+    std::cout << CLR_KEYWORD "FLOAD_0" CLR_RESET;
+    break;
+  case OPCODE_FLOAD_1:
+    std::cout << CLR_KEYWORD "FLOAD_1" CLR_RESET;
+    break;
+  case OPCODE_FLOAD_2:
+    std::cout << CLR_KEYWORD "FLOAD_2" CLR_RESET;
+    break;
+  case OPCODE_FLOAD_3:
+    std::cout << CLR_KEYWORD "FLOAD_3" CLR_RESET;
+    break;
+  case OPCODE_DLOAD_0:
+    std::cout << CLR_KEYWORD "DLOAD_0" CLR_RESET;
+    break;
+  case OPCODE_DLOAD_1:
+    std::cout << CLR_KEYWORD "DLOAD_1" CLR_RESET;
+    break;
+  case OPCODE_DLOAD_2:
+    std::cout << CLR_KEYWORD "DLOAD_2" CLR_RESET;
+    break;
+  case OPCODE_DLOAD_3:
+    std::cout << CLR_KEYWORD "DLOAD_3" CLR_RESET;
+    break;
   case OPCODE_ALOAD_0:
     std::cout << CLR_KEYWORD "ALOAD_0" CLR_RESET;
     break;
@@ -213,6 +296,30 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
     break;
   case OPCODE_ALOAD_3:
     std::cout << CLR_KEYWORD "ALOAD_3" CLR_RESET;
+    break;
+  case OPCODE_IALOAD:
+    std::cout << CLR_KEYWORD "IALOAD" CLR_RESET;
+    break;
+  case OPCODE_LALOAD:
+    std::cout << CLR_KEYWORD "LALOAD" CLR_RESET;
+    break;
+  case OPCODE_FALOAD:
+    std::cout << CLR_KEYWORD "FALOAD" CLR_RESET;
+    break;
+  case OPCODE_DALOAD:
+    std::cout << CLR_KEYWORD "DALOAD" CLR_RESET;
+    break;
+  case OPCODE_AALOAD:
+    std::cout << CLR_KEYWORD "AALOAD" CLR_RESET;
+    break;
+  case OPCODE_BALOAD:
+    std::cout << CLR_KEYWORD "BALOAD" CLR_RESET;
+    break;
+  case OPCODE_CALOAD:
+    std::cout << CLR_KEYWORD "CALOAD" CLR_RESET;
+    break;
+  case OPCODE_SALOAD:
+    std::cout << CLR_KEYWORD "SALOAD" CLR_RESET;
     break;
   case OPCODE_POP:
     std::cout << CLR_KEYWORD "POP" CLR_RESET;
