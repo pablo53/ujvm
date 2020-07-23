@@ -67,6 +67,69 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_SIPUSH:
     jinst = new SIPush(buf);
     break;
+  case OPCODE_ILOAD:
+    jinst = new ILoad(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_LLOAD:
+    jinst = new LLoad(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_FLOAD:
+    jinst = new FLoad(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_DLOAD:
+    jinst = new DLoad(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_ALOAD:
+    jinst = new ALoad(buf, false); // TODO: use WIDE instruction when necessary
+    break;
+  case OPCODE_ILOAD_0:
+    jinst = new ILoad0();
+    break;
+  case OPCODE_ILOAD_1:
+    jinst = new ILoad1();
+    break;
+  case OPCODE_ILOAD_2:
+    jinst = new ILoad2();
+    break;
+  case OPCODE_ILOAD_3:
+    jinst = new ILoad3();
+    break;
+  case OPCODE_LLOAD_0:
+    jinst = new LLoad0();
+    break;
+  case OPCODE_LLOAD_1:
+    jinst = new LLoad1();
+    break;
+  case OPCODE_LLOAD_2:
+    jinst = new LLoad2();
+    break;
+  case OPCODE_LLOAD_3:
+    jinst = new LLoad3();
+    break;
+  case OPCODE_FLOAD_0:
+    jinst = new FLoad0();
+    break;
+  case OPCODE_FLOAD_1:
+    jinst = new FLoad1();
+    break;
+  case OPCODE_FLOAD_2:
+    jinst = new FLoad2();
+    break;
+  case OPCODE_FLOAD_3:
+    jinst = new FLoad3();
+    break;
+  case OPCODE_DLOAD_0:
+    jinst = new DLoad0();
+    break;
+  case OPCODE_DLOAD_1:
+    jinst = new DLoad1();
+    break;
+  case OPCODE_DLOAD_2:
+    jinst = new DLoad2();
+    break;
+  case OPCODE_DLOAD_3:
+    jinst = new DLoad3();
+    break;
   case OPCODE_ALOAD_0:
     jinst = new ALoad0();
     break;
@@ -78,6 +141,30 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
     break;
   case OPCODE_ALOAD_3:
     jinst = new ALoad3();
+    break;
+  case OPCODE_IALOAD:
+    jinst = new IALoad();
+    break;
+  case OPCODE_LALOAD:
+    jinst = new LALoad();
+    break;
+  case OPCODE_FALOAD:
+    jinst = new FALoad();
+    break;
+  case OPCODE_DALOAD:
+    jinst = new DALoad();
+    break;
+  case OPCODE_AALOAD:
+    jinst = new AALoad();
+    break;
+  case OPCODE_BALOAD:
+    jinst = new BALoad();
+    break;
+  case OPCODE_CALOAD:
+    jinst = new CALoad();
+    break;
+  case OPCODE_SALOAD:
+    jinst = new SALoad();
     break;
   case OPCODE_POP:
     jinst = new Pop();
@@ -355,16 +442,92 @@ JavaInstruction::SIPush::SIPush(const u8 * &buf) : JavaInstruction(OPCODE_SIPUSH
 }
 
 
-JavaInstruction::ALoad0::ALoad0() : JavaInstruction(OPCODE_ALOAD_0) { }
+JavaInstruction::ILoad::ILoad(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_ILOAD)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
 
+JavaInstruction::LLoad::LLoad(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_LLOAD)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::FLoad::FLoad(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_FLOAD)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::DLoad::DLoad(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_DLOAD)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+JavaInstruction::ALoad::ALoad(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_ALOAD)
+{
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+}
+
+
+JavaInstruction::ILoad0::ILoad0() : JavaInstruction(OPCODE_ILOAD_0) { }
+
+JavaInstruction::ILoad1::ILoad1() : JavaInstruction(OPCODE_ILOAD_1) { }
+
+JavaInstruction::ILoad2::ILoad2() : JavaInstruction(OPCODE_ILOAD_2) { }
+
+JavaInstruction::ILoad3::ILoad3() : JavaInstruction(OPCODE_ILOAD_3) { }
+
+
+JavaInstruction::LLoad0::LLoad0() : JavaInstruction(OPCODE_LLOAD_0) { }
+
+JavaInstruction::LLoad1::LLoad1() : JavaInstruction(OPCODE_LLOAD_1) { }
+
+JavaInstruction::LLoad2::LLoad2() : JavaInstruction(OPCODE_LLOAD_2) { }
+
+JavaInstruction::LLoad3::LLoad3() : JavaInstruction(OPCODE_LLOAD_3) { }
+
+
+JavaInstruction::FLoad0::FLoad0() : JavaInstruction(OPCODE_FLOAD_0) { }
+
+JavaInstruction::FLoad1::FLoad1() : JavaInstruction(OPCODE_FLOAD_1) { }
+
+JavaInstruction::FLoad2::FLoad2() : JavaInstruction(OPCODE_FLOAD_2) { }
+
+JavaInstruction::FLoad3::FLoad3() : JavaInstruction(OPCODE_FLOAD_3) { }
+
+
+JavaInstruction::DLoad0::DLoad0() : JavaInstruction(OPCODE_DLOAD_0) { }
+
+JavaInstruction::DLoad1::DLoad1() : JavaInstruction(OPCODE_DLOAD_1) { }
+
+JavaInstruction::DLoad2::DLoad2() : JavaInstruction(OPCODE_DLOAD_2) { }
+
+JavaInstruction::DLoad3::DLoad3() : JavaInstruction(OPCODE_DLOAD_3) { }
+
+
+JavaInstruction::ALoad0::ALoad0() : JavaInstruction(OPCODE_ALOAD_0) { }
 
 JavaInstruction::ALoad1::ALoad1() : JavaInstruction(OPCODE_ALOAD_1) { }
 
-
 JavaInstruction::ALoad2::ALoad2() : JavaInstruction(OPCODE_ALOAD_2) { }
 
-
 JavaInstruction::ALoad3::ALoad3() : JavaInstruction(OPCODE_ALOAD_3) { }
+
+
+JavaInstruction::IALoad::IALoad() : JavaInstruction(OPCODE_IALOAD) { }
+
+JavaInstruction::LALoad::LALoad() : JavaInstruction(OPCODE_LALOAD) { }
+
+JavaInstruction::FALoad::FALoad() : JavaInstruction(OPCODE_FALOAD) { }
+
+JavaInstruction::DALoad::DALoad() : JavaInstruction(OPCODE_DALOAD) { }
+
+JavaInstruction::AALoad::AALoad() : JavaInstruction(OPCODE_AALOAD) { }
+
+JavaInstruction::BALoad::BALoad() : JavaInstruction(OPCODE_BALOAD) { }
+
+JavaInstruction::CALoad::CALoad() : JavaInstruction(OPCODE_CALOAD) { }
+
+JavaInstruction::SALoad::SALoad() : JavaInstruction(OPCODE_SALOAD) { }
 
 
 JavaInstruction::Pop::Pop() : JavaInstruction(OPCODE_POP) { }

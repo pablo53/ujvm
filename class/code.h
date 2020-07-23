@@ -23,10 +23,39 @@
 #define OPCODE_DCONST_1         0x0f
 #define OPCODE_BIPUSH           0x10
 #define OPCODE_SIPUSH           0x11
+#define OPCODE_ILOAD            0x15
+#define OPCODE_LLOAD            0x16
+#define OPCODE_FLOAD            0x17
+#define OPCODE_DLOAD            0x18
+#define OPCODE_ALOAD            0x19
+#define OPCODE_ILOAD_0          0x1a
+#define OPCODE_ILOAD_1          0x1b
+#define OPCODE_ILOAD_2          0x1c
+#define OPCODE_ILOAD_3          0x1d
+#define OPCODE_LLOAD_0          0x1e
+#define OPCODE_LLOAD_1          0x1f
+#define OPCODE_LLOAD_2          0x20
+#define OPCODE_LLOAD_3          0x21
+#define OPCODE_FLOAD_0          0x22
+#define OPCODE_FLOAD_1          0x23
+#define OPCODE_FLOAD_2          0x24
+#define OPCODE_FLOAD_3          0x25
+#define OPCODE_DLOAD_0          0x26
+#define OPCODE_DLOAD_1          0x27
+#define OPCODE_DLOAD_2          0x28
+#define OPCODE_DLOAD_3          0x29
 #define OPCODE_ALOAD_0          0x2a
 #define OPCODE_ALOAD_1          0x2b
 #define OPCODE_ALOAD_2          0x2c
 #define OPCODE_ALOAD_3          0x2d
+#define OPCODE_IALOAD           0x2e
+#define OPCODE_LALOAD           0x2f
+#define OPCODE_FALOAD           0x30
+#define OPCODE_DALOAD           0x31
+#define OPCODE_AALOAD           0x32
+#define OPCODE_BALOAD           0x33
+#define OPCODE_CALOAD           0x34
+#define OPCODE_SALOAD           0x35
 #define OPCODE_POP              0x57
 #define OPCODE_POP2             0x58
 #define OPCODE_DUP              0x59
@@ -161,10 +190,39 @@ class JavaInstruction
   class DConst;
   class BIPush;
   class SIPush;
+  class ILoad;
+  class LLoad;
+  class FLoad;
+  class DLoad;
+  class ALoad;
+  class ILoad0;
+  class ILoad1;
+  class ILoad2;
+  class ILoad3;
+  class LLoad0;
+  class LLoad1;
+  class LLoad2;
+  class LLoad3;
+  class FLoad0;
+  class FLoad1;
+  class FLoad2;
+  class FLoad3;
+  class DLoad0;
+  class DLoad1;
+  class DLoad2;
+  class DLoad3;
   class ALoad0;
   class ALoad1;
   class ALoad2;
   class ALoad3;
+  class IALoad;
+  class LALoad;
+  class FALoad;
+  class DALoad;
+  class AALoad;
+  class BALoad;
+  class CALoad;
+  class SALoad;
   class Pop;
   class Pop2;
   class Dup;
@@ -426,6 +484,170 @@ class JavaInstruction::SIPush : public JavaInstruction
   friend class JavaInstruction;
 };
 
+
+class JavaInstruction::ILoad : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  ILoad(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LLoad : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  LLoad(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FLoad : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  FLoad(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DLoad : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  DLoad(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ALoad : public JavaInstruction
+{
+  public:
+  u16 local_var; /* for non-wide version, only 1 byte (lower u8) is read */
+
+  protected:
+  ALoad(const u8 *&, bool);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ILoad0 : public JavaInstruction
+{
+  protected:
+  ILoad0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ILoad1 : public JavaInstruction
+{
+  protected:
+  ILoad1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ILoad2 : public JavaInstruction
+{
+  protected:
+  ILoad2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::ILoad3 : public JavaInstruction
+{
+  protected:
+  ILoad3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LLoad0 : public JavaInstruction
+{
+  protected:
+  LLoad0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LLoad1 : public JavaInstruction
+{
+  protected:
+  LLoad1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LLoad2 : public JavaInstruction
+{
+  protected:
+  LLoad2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LLoad3 : public JavaInstruction
+{
+  protected:
+  LLoad3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FLoad0 : public JavaInstruction
+{
+  protected:
+  FLoad0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FLoad1 : public JavaInstruction
+{
+  protected:
+  FLoad1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FLoad2 : public JavaInstruction
+{
+  protected:
+  FLoad2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FLoad3 : public JavaInstruction
+{
+  protected:
+  FLoad3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DLoad0 : public JavaInstruction
+{
+  protected:
+  DLoad0();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DLoad1 : public JavaInstruction
+{
+  protected:
+  DLoad1();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DLoad2 : public JavaInstruction
+{
+  protected:
+  DLoad2();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DLoad3 : public JavaInstruction
+{
+  protected:
+  DLoad3();
+  friend class JavaInstruction;
+};
+
+
 class JavaInstruction::ALoad0 : public JavaInstruction
 {
   protected:
@@ -451,6 +673,62 @@ class JavaInstruction::ALoad3 : public JavaInstruction
 {
   protected:
   ALoad3();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IALoad : public JavaInstruction
+{
+  protected:
+  IALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LALoad : public JavaInstruction
+{
+  protected:
+  LALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FALoad : public JavaInstruction
+{
+  protected:
+  FALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DALoad : public JavaInstruction
+{
+  protected:
+  DALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::AALoad : public JavaInstruction
+{
+  protected:
+  AALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::BALoad : public JavaInstruction
+{
+  protected:
+  BALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::CALoad : public JavaInstruction
+{
+  protected:
+  CALoad();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::SALoad : public JavaInstruction
+{
+  protected:
+  SALoad();
   friend class JavaInstruction;
 };
 
