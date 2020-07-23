@@ -321,6 +321,125 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_SALOAD:
     std::cout << CLR_KEYWORD "SALOAD" CLR_RESET;
     break;
+  case OPCODE_ISTORE:
+    {
+      std::cout << CLR_KEYWORD "ISTORE" CLR_RESET;
+      JavaInstruction::IStore *jinstr = (JavaInstruction::IStore *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_LSTORE:
+    {
+      std::cout << CLR_KEYWORD "LSTORE" CLR_RESET;
+      JavaInstruction::LStore *jinstr = (JavaInstruction::LStore *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_FSTORE:
+    {
+      std::cout << CLR_KEYWORD "FSTORE" CLR_RESET;
+      JavaInstruction::FStore *jinstr = (JavaInstruction::FStore *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_DSTORE:
+    {
+      std::cout << CLR_KEYWORD "DSTORE" CLR_RESET;
+      JavaInstruction::DStore *jinstr = (JavaInstruction::DStore *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_ASTORE:
+    {
+      std::cout << CLR_KEYWORD "ASTORE" CLR_RESET;
+      JavaInstruction::AStore *jinstr = (JavaInstruction::AStore *)instr;
+      std::cout << " *" << std::dec << jinstr->local_var;
+    }
+    break;
+  case OPCODE_ISTORE_0:
+    std::cout << CLR_KEYWORD "ISTORE_0" CLR_RESET;
+    break;
+  case OPCODE_ISTORE_1:
+    std::cout << CLR_KEYWORD "ISTORE_1" CLR_RESET;
+    break;
+  case OPCODE_ISTORE_2:
+    std::cout << CLR_KEYWORD "ISTORE_2" CLR_RESET;
+    break;
+  case OPCODE_ISTORE_3:
+    std::cout << CLR_KEYWORD "ISTORE_3" CLR_RESET;
+    break;
+  case OPCODE_LSTORE_0:
+    std::cout << CLR_KEYWORD "LSTORE_0" CLR_RESET;
+    break;
+  case OPCODE_LSTORE_1:
+    std::cout << CLR_KEYWORD "LSTORE_1" CLR_RESET;
+    break;
+  case OPCODE_LSTORE_2:
+    std::cout << CLR_KEYWORD "LSTORE_2" CLR_RESET;
+    break;
+  case OPCODE_LSTORE_3:
+    std::cout << CLR_KEYWORD "LSTORE_3" CLR_RESET;
+    break;
+  case OPCODE_FSTORE_0:
+    std::cout << CLR_KEYWORD "FSTORE_0" CLR_RESET;
+    break;
+  case OPCODE_FSTORE_1:
+    std::cout << CLR_KEYWORD "FSTORE_1" CLR_RESET;
+    break;
+  case OPCODE_FSTORE_2:
+    std::cout << CLR_KEYWORD "FSTORE_2" CLR_RESET;
+    break;
+  case OPCODE_FSTORE_3:
+    std::cout << CLR_KEYWORD "FSTORE_3" CLR_RESET;
+    break;
+  case OPCODE_DSTORE_0:
+    std::cout << CLR_KEYWORD "DSTORE_0" CLR_RESET;
+    break;
+  case OPCODE_DSTORE_1:
+    std::cout << CLR_KEYWORD "DSTORE_1" CLR_RESET;
+    break;
+  case OPCODE_DSTORE_2:
+    std::cout << CLR_KEYWORD "DSTORE_2" CLR_RESET;
+    break;
+  case OPCODE_DSTORE_3:
+    std::cout << CLR_KEYWORD "DSTORE_3" CLR_RESET;
+    break;
+  case OPCODE_ASTORE_0:
+    std::cout << CLR_KEYWORD "ASTORE_0" CLR_RESET;
+    break;
+  case OPCODE_ASTORE_1:
+    std::cout << CLR_KEYWORD "ASTORE_1" CLR_RESET;
+    break;
+  case OPCODE_ASTORE_2:
+    std::cout << CLR_KEYWORD "ASTORE_2" CLR_RESET;
+    break;
+  case OPCODE_ASTORE_3:
+    std::cout << CLR_KEYWORD "ASTORE_3" CLR_RESET;
+    break;
+  case OPCODE_IASTORE:
+    std::cout << CLR_KEYWORD "IASTORE" CLR_RESET;
+    break;
+  case OPCODE_LASTORE:
+    std::cout << CLR_KEYWORD "LASTORE" CLR_RESET;
+    break;
+  case OPCODE_FASTORE:
+    std::cout << CLR_KEYWORD "FASTORE" CLR_RESET;
+    break;
+  case OPCODE_DASTORE:
+    std::cout << CLR_KEYWORD "DASTORE" CLR_RESET;
+    break;
+  case OPCODE_AASTORE:
+    std::cout << CLR_KEYWORD "AASTORE" CLR_RESET;
+    break;
+  case OPCODE_BASTORE:
+    std::cout << CLR_KEYWORD "BASTORE" CLR_RESET;
+    break;
+  case OPCODE_CASTORE:
+    std::cout << CLR_KEYWORD "CASTORE" CLR_RESET;
+    break;
+  case OPCODE_SASTORE:
+    std::cout << CLR_KEYWORD "SASTORE" CLR_RESET;
+    break;
   case OPCODE_POP:
     std::cout << CLR_KEYWORD "POP" CLR_RESET;
     break;
