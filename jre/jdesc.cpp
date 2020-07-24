@@ -642,6 +642,48 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_DCMPG:
     std::cout << CLR_KEYWORD "DCMPG" CLR_RESET;
     break;
+  case OPCODE_IFEQ:
+    {
+      std::cout << CLR_KEYWORD "IFEQ" CLR_RESET;
+      JavaInstruction::If::Eq *jinstr = (JavaInstruction::If::Eq *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_IFNE:
+    {
+      std::cout << CLR_KEYWORD "IFNE" CLR_RESET;
+      JavaInstruction::If::Ne *jinstr = (JavaInstruction::If::Ne *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_IFLT:
+    {
+      std::cout << CLR_KEYWORD "IFLT" CLR_RESET;
+      JavaInstruction::If::Lt *jinstr = (JavaInstruction::If::Lt *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_IFGE:
+    {
+      std::cout << CLR_KEYWORD "IFGE" CLR_RESET;
+      JavaInstruction::If::Ge *jinstr = (JavaInstruction::If::Ge *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_IFGT:
+    {
+      std::cout << CLR_KEYWORD "IFGT" CLR_RESET;
+      JavaInstruction::If::Gt *jinstr = (JavaInstruction::If::Gt *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_IFLE:
+    {
+      std::cout << CLR_KEYWORD "IFLE" CLR_RESET;
+      JavaInstruction::If::Le *jinstr = (JavaInstruction::If::Le *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
   case OPCODE_IF_ICMPEQ:
     {
       std::cout << CLR_KEYWORD "IF_ICMPEQ" CLR_RESET;
