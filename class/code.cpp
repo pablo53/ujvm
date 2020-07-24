@@ -352,6 +352,24 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_DCMPG:
     jinst = new DCmpG();
     break;
+  case OPCODE_IFEQ:
+    jinst = new If::Eq(buf);
+    break;
+  case OPCODE_IFNE:
+    jinst = new If::Ne(buf);
+    break;
+  case OPCODE_IFLT:
+    jinst = new If::Lt(buf);
+    break;
+  case OPCODE_IFGE:
+    jinst = new If::Ge(buf);
+    break;
+  case OPCODE_IFGT:
+    jinst = new If::Gt(buf);
+    break;
+  case OPCODE_IFLE:
+    jinst = new If::Le(buf);
+    break;
   case OPCODE_IF_ICMPEQ:
     jinst = new IfICmp::Eq(buf);
     break;
@@ -870,6 +888,35 @@ JavaInstruction::FCmpG::FCmpG() : JavaInstruction(OPCODE_FCMPG) { }
 JavaInstruction::DCmpL::DCmpL() : JavaInstruction(OPCODE_DCMPL) { }
 
 JavaInstruction::DCmpG::DCmpG() : JavaInstruction(OPCODE_DCMPG) { }
+
+
+JavaInstruction::If::If(u8 opcode, const u8 * &buf) : JavaInstruction(opcode)
+{
+  branch = readbe16(buf);
+}
+
+u32 JavaInstruction::If::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::If::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
+
+JavaInstruction::If::Eq::Eq(const u8 * &buf) : JavaInstruction::If(OPCODE_IFEQ, buf) { }
+
+JavaInstruction::If::Ne::Ne(const u8 * &buf) : JavaInstruction::If(OPCODE_IFNE, buf) { }
+
+JavaInstruction::If::Lt::Lt(const u8 * &buf) : JavaInstruction::If(OPCODE_IFLT, buf) { }
+
+JavaInstruction::If::Ge::Ge(const u8 * &buf) : JavaInstruction::If(OPCODE_IFGE, buf) { }
+
+JavaInstruction::If::Gt::Gt(const u8 * &buf) : JavaInstruction::If(OPCODE_IFGT, buf) { }
+
+JavaInstruction::If::Le::Le(const u8 * &buf) : JavaInstruction::If(OPCODE_IFLE, buf) { }
+
 
 JavaInstruction::IfICmp::IfICmp(u8 opcode, const u8 * &buf) : JavaInstruction(opcode)
 {

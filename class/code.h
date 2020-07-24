@@ -155,6 +155,12 @@
 #define OPCODE_FCMPG            0x96
 #define OPCODE_DCMPL            0x97
 #define OPCODE_DCMPG            0x98
+#define OPCODE_IFEQ             0x99
+#define OPCODE_IFNE             0x9a
+#define OPCODE_IFLT             0x9b
+#define OPCODE_IFGE             0x9c
+#define OPCODE_IFGT             0x9d
+#define OPCODE_IFLE             0x9e
 #define OPCODE_IF_ICMPEQ        0x9f
 #define OPCODE_IF_ICMPNE        0xa0
 #define OPCODE_IF_ICMPLT        0xa1
@@ -360,6 +366,7 @@ class JavaInstruction
   class FCmpG;
   class DCmpL;
   class DCmpG;
+  class If;
   class IfICmp;
   class IfACmp;
   class Goto;
@@ -1523,6 +1530,70 @@ class JavaInstruction::DCmpG : public JavaInstruction
 {
   protected:
   DCmpG();
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::If : public JavaInstruction
+{
+  public:
+  u16 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  If(u8, const u8 * &);
+  friend class JavaInstruction;
+
+  public:
+  class Eq;
+  class Ne;
+  class Lt;
+  class Ge;
+  class Gt;
+  class Le;
+};
+
+class JavaInstruction::If::Eq : public JavaInstruction::If
+{
+  protected:
+  Eq(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::If::Ne : public JavaInstruction::If
+{
+  protected:
+  Ne(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::If::Lt : public JavaInstruction::If
+{
+  protected:
+  Lt(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::If::Ge : public JavaInstruction::If
+{
+  protected:
+  Ge(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::If::Gt : public JavaInstruction::If
+{
+  protected:
+  Gt(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::If::Le : public JavaInstruction::If
+{
+  protected:
+  Le(const u8 * &);
   friend class JavaInstruction;
 };
 
