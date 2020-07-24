@@ -67,6 +67,15 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_SIPUSH:
     jinst = new SIPush(buf);
     break;
+  case OPCODE_LDC:
+    jinst = new Ldc(buf);
+    break;
+  case OPCODE_LDC_W:
+    jinst = new LdcW(buf);
+    break;
+  case OPCODE_LDC2_W:
+    jinst = new Ldc2W(buf);
+    break;
   case OPCODE_ILOAD:
     jinst = new ILoad(buf, false); // TODO: use WIDE instruction when necessary
     break;
@@ -560,6 +569,22 @@ JavaInstruction::DConst::_0::_0() : JavaInstruction::DConst(OPCODE_DCONST_0) { }
 
 
 JavaInstruction::DConst::_1::_1() : JavaInstruction::DConst(OPCODE_DCONST_1) { }
+
+
+JavaInstruction::Ldc::Ldc(const u8 * &buf) : JavaInstruction(OPCODE_LDC)
+{
+  cpool_idx = readbe8(buf);
+}
+
+JavaInstruction::LdcW::LdcW(const u8 * &buf) : JavaInstruction(OPCODE_LDC_W)
+{
+  cpool_idx = readbe16(buf);
+}
+
+JavaInstruction::Ldc2W::Ldc2W(const u8 * &buf) : JavaInstruction(OPCODE_LDC2_W)
+{
+  cpool_idx = readbe16(buf);
+}
 
 
 JavaInstruction::BIPush::BIPush(const u8 * &buf) : JavaInstruction(OPCODE_BIPUSH)

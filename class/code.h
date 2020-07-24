@@ -23,6 +23,9 @@
 #define OPCODE_DCONST_1         0x0f
 #define OPCODE_BIPUSH           0x10
 #define OPCODE_SIPUSH           0x11
+#define OPCODE_LDC              0x12
+#define OPCODE_LDC_W            0x13
+#define OPCODE_LDC2_W           0x14
 #define OPCODE_ILOAD            0x15
 #define OPCODE_LLOAD            0x16
 #define OPCODE_FLOAD            0x17
@@ -234,6 +237,9 @@ class JavaInstruction
   class DConst;
   class BIPush;
   class SIPush;
+  class Ldc;
+  class LdcW;
+  class Ldc2W;
   class ILoad;
   class LLoad;
   class FLoad;
@@ -564,6 +570,36 @@ class JavaInstruction::SIPush : public JavaInstruction
 
   protected:
   SIPush(const u8 *&);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Ldc : public JavaInstruction
+{
+  public:
+  u8 cpool_idx;
+
+  protected:
+  Ldc(const u8 *&);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LdcW : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  LdcW(const u8 *&);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::Ldc2W : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+
+  protected:
+  Ldc2W(const u8 *&);
   friend class JavaInstruction;
 };
 
