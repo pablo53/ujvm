@@ -337,6 +337,21 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_I2S:
     jinst = new I2S();
     break;
+  case OPCODE_LCMP:
+    jinst = new LCmp();
+    break;
+  case OPCODE_FCMPL:
+    jinst = new FCmpL();
+    break;
+  case OPCODE_FCMPG:
+    jinst = new FCmpG();
+    break;
+  case OPCODE_DCMPL:
+    jinst = new DCmpL();
+    break;
+  case OPCODE_DCMPG:
+    jinst = new DCmpG();
+    break;
   case OPCODE_IF_ICMPEQ:
     jinst = new IfICmp::Eq(buf);
     break;
@@ -845,6 +860,16 @@ JavaInstruction::I2C::I2C() : JavaInstruction(OPCODE_I2C) { }
 
 JavaInstruction::I2S::I2S() : JavaInstruction(OPCODE_I2S) { }
 
+
+JavaInstruction::LCmp::LCmp() : JavaInstruction(OPCODE_LCMP) { }
+
+JavaInstruction::FCmpL::FCmpL() : JavaInstruction(OPCODE_FCMPL) { }
+
+JavaInstruction::FCmpG::FCmpG() : JavaInstruction(OPCODE_FCMPG) { }
+
+JavaInstruction::DCmpL::DCmpL() : JavaInstruction(OPCODE_DCMPL) { }
+
+JavaInstruction::DCmpG::DCmpG() : JavaInstruction(OPCODE_DCMPG) { }
 
 JavaInstruction::IfICmp::IfICmp(u8 opcode, const u8 * &buf) : JavaInstruction(opcode)
 {

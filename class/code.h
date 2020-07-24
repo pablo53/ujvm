@@ -150,6 +150,11 @@
 #define OPCODE_I2B              0x91
 #define OPCODE_I2C              0x92
 #define OPCODE_I2S              0x93
+#define OPCODE_LCMP             0x94
+#define OPCODE_FCMPL            0x95
+#define OPCODE_FCMPG            0x96
+#define OPCODE_DCMPL            0x97
+#define OPCODE_DCMPG            0x98
 #define OPCODE_IF_ICMPEQ        0x9f
 #define OPCODE_IF_ICMPNE        0xa0
 #define OPCODE_IF_ICMPLT        0xa1
@@ -350,6 +355,11 @@ class JavaInstruction
   class I2B;
   class I2C;
   class I2S;
+  class LCmp;
+  class FCmpL;
+  class FCmpG;
+  class DCmpL;
+  class DCmpG;
   class IfICmp;
   class IfACmp;
   class Goto;
@@ -1478,6 +1488,41 @@ class JavaInstruction::I2S : public JavaInstruction
 {
   protected:
   I2S();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LCmp : public JavaInstruction
+{
+  protected:
+  LCmp();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FCmpL : public JavaInstruction
+{
+  protected:
+  FCmpL();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::FCmpG : public JavaInstruction
+{
+  protected:
+  FCmpG();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DCmpL : public JavaInstruction
+{
+  protected:
+  DCmpL();
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::DCmpG : public JavaInstruction
+{
+  protected:
+  DCmpG();
   friend class JavaInstruction;
 };
 
