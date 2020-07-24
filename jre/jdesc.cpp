@@ -627,6 +627,21 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_I2S:
     std::cout << CLR_KEYWORD "I2S" CLR_RESET;
     break;
+  case OPCODE_LCMP:
+    std::cout << CLR_KEYWORD "LCMP" CLR_RESET;
+    break;
+  case OPCODE_FCMPL:
+    std::cout << CLR_KEYWORD "FCMPL" CLR_RESET;
+    break;
+  case OPCODE_FCMPG:
+    std::cout << CLR_KEYWORD "FCMPG" CLR_RESET;
+    break;
+  case OPCODE_DCMPL:
+    std::cout << CLR_KEYWORD "DCMPL" CLR_RESET;
+    break;
+  case OPCODE_DCMPG:
+    std::cout << CLR_KEYWORD "DCMPG" CLR_RESET;
+    break;
   case OPCODE_IF_ICMPEQ:
     {
       std::cout << CLR_KEYWORD "IF_ICMPEQ" CLR_RESET;
