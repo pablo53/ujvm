@@ -202,6 +202,27 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " 0x" << HEX(4, jinstr->shortint_val);
     }
     break;
+  case OPCODE_LDC:
+    {
+      std::cout << CLR_KEYWORD "LDC" CLR_RESET;
+      JavaInstruction::Ldc *jinstr = (JavaInstruction::Ldc *)instr;
+      std::cout << " [" << std::dec << (u16)jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_LDC_W:
+    {
+      std::cout << CLR_KEYWORD "LDC_W" CLR_RESET;
+      JavaInstruction::LdcW *jinstr = (JavaInstruction::LdcW *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
+  case OPCODE_LDC2_W:
+    {
+      std::cout << CLR_KEYWORD "LDC2_W" CLR_RESET;
+      JavaInstruction::Ldc2W *jinstr = (JavaInstruction::Ldc2W *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
+    }
+    break;
   case OPCODE_ILOAD:
     {
       std::cout << CLR_KEYWORD "ILOAD" CLR_RESET;
