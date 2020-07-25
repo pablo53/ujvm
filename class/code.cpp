@@ -301,6 +301,114 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset, bool wide) 
   case OPCODE_SWAP:
     jinst = new Swap();
     break;
+  case OPCODE_IADD:
+    jinst = new IAdd();
+    break;
+  case OPCODE_LADD:
+    jinst = new LAdd();
+    break;
+  case OPCODE_FADD:
+    jinst = new FAdd();
+    break;
+  case OPCODE_DADD:
+    jinst = new DAdd();
+    break;
+  case OPCODE_ISUB:
+    jinst = new ISub();
+    break;
+  case OPCODE_LSUB:
+    jinst = new LSub();
+    break;
+  case OPCODE_FSUB:
+    jinst = new FSub();
+    break;
+  case OPCODE_DSUB:
+    jinst = new DSub();
+    break;
+  case OPCODE_IMUL:
+    jinst = new IMul();
+    break;
+  case OPCODE_LMUL:
+    jinst = new LMul();
+    break;
+  case OPCODE_FMUL:
+    jinst = new FMul();
+    break;
+  case OPCODE_DMUL:
+    jinst = new DMul();
+    break;
+  case OPCODE_IDIV:
+    jinst = new IDiv();
+    break;
+  case OPCODE_LDIV:
+    jinst = new LDiv();
+    break;
+  case OPCODE_FDIV:
+    jinst = new FDiv();
+    break;
+  case OPCODE_DDIV:
+    jinst = new DDiv();
+    break;
+  case OPCODE_IREM:
+    jinst = new IRem();
+    break;
+  case OPCODE_LREM:
+    jinst = new LRem();
+    break;
+  case OPCODE_FREM:
+    jinst = new FRem();
+    break;
+  case OPCODE_DREM:
+    jinst = new DRem();
+    break;
+  case OPCODE_INEG:
+    jinst = new INeg();
+    break;
+  case OPCODE_LNEG:
+    jinst = new LNeg();
+    break;
+  case OPCODE_FNEG:
+    jinst = new FNeg();
+    break;
+  case OPCODE_DNEG:
+    jinst = new DNeg();
+    break;
+  case OPCODE_ISHL:
+    jinst = new IShl();
+    break;
+  case OPCODE_LSHL:
+    jinst = new LShl();
+    break;
+  case OPCODE_ISHR:
+    jinst = new IShr();
+    break;
+  case OPCODE_LSHR:
+    jinst = new LShr();
+    break;
+  case OPCODE_IUSHR:
+    jinst = new IUShr();
+    break;
+  case OPCODE_LUSHR:
+    jinst = new LUShr();
+    break;
+  case OPCODE_IAND:
+    jinst = new IAnd();
+    break;
+  case OPCODE_LAND:
+    jinst = new LAnd();
+    break;
+  case OPCODE_IOR:
+    jinst = new IOr();
+    break;
+  case OPCODE_LOR:
+    jinst = new LOr();
+    break;
+  case OPCODE_IXOR:
+    jinst = new IXor();
+    break;
+  case OPCODE_LXOR:
+    jinst = new LXor();
+    break;
   case OPCODE_IINC:
     jinst = new IInc(buf, wide);
     break;
