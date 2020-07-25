@@ -782,6 +782,26 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " *" << std::dec << jinstr->ret_addr_var;
     }
     break;
+  case OPCODE_TABLESWITCH:
+    {
+      std::cout << CLR_KEYWORD "OPCODE_TABLESWITCH" CLR_RESET;
+      JavaInstruction::TableSwitch *jinstr = (JavaInstruction::TableSwitch *)instr;
+      std::cout << " " << std::dec << jinstr->lower_idx << ".." << std::dec << jinstr->upper_idx;
+      std::cout << std::endl << INDENT(indent + 11) << "default: " << HEX(8, (s32)pc + jinstr->default_branch);
+      u32 cnt = jinstr->upper_idx - jinstr->lower_idx + 1;
+      for (u32 i = jinstr->lower_idx; i <= jinstr->upper_idx; i++)
+        std::cout << std::endl << INDENT(indent + 11) << std::dec << i << ": " << HEX(8, (s32)pc + jinstr->branches[i - jinstr->lower_idx]);
+    }
+    break;
+  case OPCODE_LOOKUPSWITCH:
+    {
+      std::cout << CLR_KEYWORD "OPCODE_LOOKUPSWITCH" CLR_RESET;
+      JavaInstruction::LookUpSwitch *jinstr = (JavaInstruction::LookUpSwitch *)instr;
+      std::cout << std::endl << INDENT(indent + 11) << "default: " << HEX(8, (s32)pc + jinstr->default_branch);
+      for (u32 i = 0; i <= jinstr->npairs; i++)
+        std::cout << std::endl << INDENT(indent + 11) << std::dec << jinstr->matches[i] << ": " << HEX(8, (s32)pc + jinstr->branches[i]);
+    }
+    break;
   case OPCODE_IRETURN:
     std::cout << CLR_KEYWORD "IRETURN" CLR_RESET;
     break;

@@ -1789,6 +1789,7 @@ class JavaInstruction::TableSwitch : public JavaInstruction
   u32 upper_idx;
   u32 * branches;
 
+  virtual ~TableSwitch();
   virtual u32 get_branch_cnt();
   virtual u32 get_branch(u32 n, u32 offset);
 
@@ -1805,6 +1806,7 @@ class JavaInstruction::LookUpSwitch : public JavaInstruction
   s32 * matches;
   u32 * branches;
   
+  virtual ~LookUpSwitch();
   virtual u32 get_branch_cnt();
   virtual u32 get_branch(u32 n, u32 offset);
 

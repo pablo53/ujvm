@@ -1073,6 +1073,11 @@ JavaInstruction::TableSwitch::TableSwitch(const u8 * &buf, u32 offset) : JavaIns
     branches[i] = readbe32(buf);
 }
 
+JavaInstruction::TableSwitch::~TableSwitch()
+{
+  delete branches;
+}
+
 u32 JavaInstruction::TableSwitch::get_branch_cnt()
 {
   return upper_idx - lower_idx + 1;
@@ -1097,6 +1102,12 @@ JavaInstruction::LookUpSwitch::LookUpSwitch(const u8 * &buf, u32 offset) : JavaI
     matches[i] = readbe32s(buf);
     branches[i] = readbe32(buf);
   }
+}
+
+JavaInstruction::LookUpSwitch::~LookUpSwitch()
+{
+  delete branches;
+  delete matches;
 }
 
 u32 JavaInstruction::LookUpSwitch::get_branch_cnt()
