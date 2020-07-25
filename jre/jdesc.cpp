@@ -797,8 +797,9 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
     {
       std::cout << CLR_KEYWORD "LOOKUPSWITCH" CLR_RESET;
       JavaInstruction::LookUpSwitch *jinstr = (JavaInstruction::LookUpSwitch *)instr;
+      std::cout << " " << std::dec << jinstr->npairs;
       std::cout << std::endl << INDENT(indent + 11) << "default: " << HEX(8, (s32)pc + jinstr->default_branch);
-      for (u32 i = 0; i <= jinstr->npairs; i++)
+      for (u32 i = 0; i < jinstr->npairs; i++)
         std::cout << std::endl << INDENT(indent + 11) << std::dec << jinstr->matches[i] << ": " << HEX(8, (s32)pc + jinstr->branches[i]);
     }
     break;
