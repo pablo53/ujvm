@@ -784,7 +784,7 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
     break;
   case OPCODE_TABLESWITCH:
     {
-      std::cout << CLR_KEYWORD "OPCODE_TABLESWITCH" CLR_RESET;
+      std::cout << CLR_KEYWORD "TABLESWITCH" CLR_RESET;
       JavaInstruction::TableSwitch *jinstr = (JavaInstruction::TableSwitch *)instr;
       std::cout << " " << std::dec << jinstr->lower_idx << ".." << std::dec << jinstr->upper_idx;
       std::cout << std::endl << INDENT(indent + 11) << "default: " << HEX(8, (s32)pc + jinstr->default_branch);
@@ -795,7 +795,7 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
     break;
   case OPCODE_LOOKUPSWITCH:
     {
-      std::cout << CLR_KEYWORD "OPCODE_LOOKUPSWITCH" CLR_RESET;
+      std::cout << CLR_KEYWORD "LOOKUPSWITCH" CLR_RESET;
       JavaInstruction::LookUpSwitch *jinstr = (JavaInstruction::LookUpSwitch *)instr;
       std::cout << std::endl << INDENT(indent + 11) << "default: " << HEX(8, (s32)pc + jinstr->default_branch);
       for (u32 i = 0; i <= jinstr->npairs; i++)
@@ -897,6 +897,13 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
       std::cout << " " << std::dec << jinstr->a_type << " (";
       desc_jclass_atype(jinstr->a_type);
       std::cout << ")";
+    }
+    break;
+  case OPCODE_ANEWARRAY:
+    {
+      std::cout << CLR_KEYWORD "ANEWARRAY" CLR_RESET;
+      JavaInstruction::ANewArray *jinstr = (JavaInstruction::ANewArray *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "]";
     }
     break;
   case OPCODE_ARRAYLENGTH:
