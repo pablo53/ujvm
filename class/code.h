@@ -2031,7 +2031,7 @@ class JavaInstruction::MultiANewArray : public JavaInstruction
 class JavaInstruction::IfNull : public JavaInstruction
 {
   public:
-  u32 branch;
+  u16 branch;
 
   virtual u32 get_branch_cnt();
   virtual u32 get_branch(u32 n, u32 offset);
@@ -2044,7 +2044,7 @@ class JavaInstruction::IfNull : public JavaInstruction
 class JavaInstruction::IfNonNull : public JavaInstruction
 {
   public:
-  u32 branch;
+  u16 branch;
 
   virtual u32 get_branch_cnt();
   virtual u32 get_branch(u32 n, u32 offset);

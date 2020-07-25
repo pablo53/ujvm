@@ -905,7 +905,41 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_MONITOREXIT:
     std::cout << CLR_KEYWORD "MONITOREXIT" CLR_RESET;
     break;
-  // TODO
+  case OPCODE_MULTIANEWARRAY:
+    {
+      std::cout << CLR_KEYWORD "MULTIANEWARRAY" CLR_RESET;
+      JavaInstruction::MultiANewArray *jinstr = (JavaInstruction::MultiANewArray *)instr;
+      std::cout << " [" << std::dec << jinstr->cpool_idx << "], " << std::dec << (u16)jinstr->dimensions;
+    }
+    break;
+  case OPCODE_IFNULL:
+    {
+      std::cout << CLR_KEYWORD "IFNULL" CLR_RESET;
+      JavaInstruction::IfNull *jinstr = (JavaInstruction::IfNull *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_IFNONNULL:
+    {
+      std::cout << CLR_KEYWORD "IFNONNULL" CLR_RESET;
+      JavaInstruction::IfNonNull *jinstr = (JavaInstruction::IfNonNull *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_GOTO_W:
+    {
+      std::cout << CLR_KEYWORD "GOTO_W" CLR_RESET;
+      JavaInstruction::GotoW *jinstr = (JavaInstruction::GotoW *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
+  case OPCODE_JSR_W:
+    {
+      std::cout << CLR_KEYWORD "JSR_W" CLR_RESET;
+      JavaInstruction::JsrW *jinstr = (JavaInstruction::JsrW *)instr;
+      std::cout << " " << HEX(8, (s32)pc + jinstr->branch); // relative jump
+    }
+    break;
   default:
     std::cout << CLR_ERR "[Unknown instruction/opcode]" CLR_RESET;
     break;
