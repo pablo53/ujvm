@@ -7,7 +7,7 @@
 #include "../defs/types.h"
 #include "../classfmt/stm.h"
 
-JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
+JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset, bool wide) // TODO: not all opcodes are allowed to be WIDE pefixed
 {
   JavaInstruction *jinst = nullptr;
   const u8 * buf0 = buf; /* Initial position of the buffer cursor. */
@@ -77,19 +77,19 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
     jinst = new Ldc2W(buf);
     break;
   case OPCODE_ILOAD:
-    jinst = new ILoad(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new ILoad(buf, wide);
     break;
   case OPCODE_LLOAD:
-    jinst = new LLoad(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new LLoad(buf, wide);
     break;
   case OPCODE_FLOAD:
-    jinst = new FLoad(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new FLoad(buf, wide);
     break;
   case OPCODE_DLOAD:
-    jinst = new DLoad(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new DLoad(buf, wide);
     break;
   case OPCODE_ALOAD:
-    jinst = new ALoad(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new ALoad(buf, wide);
     break;
   case OPCODE_ILOAD_0:
     jinst = new ILoad0();
@@ -176,19 +176,19 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
     jinst = new SALoad();
     break;
   case OPCODE_ISTORE:
-    jinst = new IStore(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new IStore(buf, wide);
     break;
   case OPCODE_LSTORE:
-    jinst = new LStore(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new LStore(buf, wide);
     break;
   case OPCODE_FSTORE:
-    jinst = new FStore(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new FStore(buf, wide);
     break;
   case OPCODE_DSTORE:
-    jinst = new DStore(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new DStore(buf, wide);
     break;
   case OPCODE_ASTORE:
-    jinst = new AStore(buf, false); // TODO: use WIDE instruction when necessary
+    jinst = new AStore(buf, wide);
     break;
   case OPCODE_ISTORE_0:
     jinst = new IStore0();
@@ -301,6 +301,9 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
   case OPCODE_SWAP:
     jinst = new Swap();
     break;
+  case OPCODE_IINC:
+    jinst = new IInc(buf, wide);
+    break;
   case OPCODE_I2L:
     jinst = new I2L();
     break;
@@ -410,7 +413,7 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
     jinst = new Jsr(buf);
     break;
   case OPCODE_RET:
-    jinst = new Ret(buf);
+    jinst = new Ret(buf, wide);
     break;
   case OPCODE_TABLESWITCH:
     jinst = new TableSwitch(buf, offset);
@@ -489,6 +492,9 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
     break;
   case OPCODE_MONITOREXIT:
     jinst = new MonitorExit();
+    break;
+  case OPCODE_WIDE:
+    jinst = new Wide(buf, offset);
     break;
   case OPCODE_MULTIANEWARRAY:
     jinst = new MultiANewArray(buf);
@@ -887,10 +893,10 @@ JavaInstruction::IXor::IXor() : JavaInstruction(OPCODE_IXOR) { }
 
 JavaInstruction::LXor::LXor() : JavaInstruction(OPCODE_LXOR) { }
 
-JavaInstruction::IInc::IInc(const u8 * &buf) : JavaInstruction(OPCODE_IINC)
+JavaInstruction::IInc::IInc(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_IINC)
 {
-  local_var = readbe8(buf);
-  const_val = readbe8s(buf);
+  local_var = wide ? readbe16(buf) : readbe8(buf);
+  const_val = wide ? readbe16s(buf) : readbe8s(buf);
 }
 
 
@@ -1044,9 +1050,9 @@ u32 JavaInstruction::Jsr::get_branch(u32 n, u32 offset)
 }
 
 
-JavaInstruction::Ret::Ret(const u8 * &buf) : JavaInstruction(OPCODE_RET)
+JavaInstruction::Ret::Ret(const u8 * &buf, bool wide) : JavaInstruction(OPCODE_RET)
 {
-  ret_addr_var = readbe8(buf);
+  ret_addr_var = wide ? readbe16(buf) : readbe8(buf);
 }
 
 u32 JavaInstruction::Ret::get_branch_cnt()
@@ -1296,6 +1302,12 @@ JavaInstruction::MonitorEnter::MonitorEnter() : JavaInstruction(OPCODE_MONITOREN
 
 
 JavaInstruction::MonitorExit::MonitorExit() : JavaInstruction(OPCODE_MONITOREXIT) { }
+
+
+JavaInstruction::Wide::Wide(const u8 * &buf, u32 offset) : JavaInstruction(OPCODE_WIDE)
+{
+  instr = JavaInstruction::from(buf, offset + 1, true); /* offset incremented by 1 due to WIDE opcode having already been consumed */
+}
 
 
 JavaInstruction::MultiANewArray::MultiANewArray(const u8 * &buf) : JavaInstruction(OPCODE_MULTIANEWARRAY)

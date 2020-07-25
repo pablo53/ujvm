@@ -201,6 +201,7 @@
 #define OPCODE_INSTANCEOF       0xc1
 #define OPCODE_MONITORENTER     0xc2
 #define OPCODE_MONITOREXIT      0xc3
+#define OPCODE_WIDE             0xc4
 #define OPCODE_MULTIANEWARRAY   0xc5
 #define OPCODE_IFNULL           0xc6
 #define OPCODE_IFNONNULL        0xc7
@@ -222,7 +223,7 @@ class JavaInstruction
   u8 opcode;
   u32 instr_length; /* automatically computed by the static constructor */
 
-  static JavaInstruction * from(const u8 * &, u32); /* Static constructor, reading from buffer. Returns also the ownership. */ // TODO: add buffer length parameter
+  static JavaInstruction * from(const u8 * &, u32, bool = false); /* Static constructor, reading from buffer. Returns also the ownership. */ // TODO: add buffer length parameter
   JavaInstruction() = delete;
   JavaInstruction(const JavaInstruction &) = delete;
   JavaInstruction(JavaInstruction &&) = delete;
@@ -411,6 +412,7 @@ class JavaInstruction
   class InstanceOf;
   class MonitorEnter;
   class MonitorExit;
+  class Wide;
   class MultiANewArray;
   class IfNull;
   class IfNonNull;
@@ -1433,11 +1435,11 @@ class JavaInstruction::LXor : public JavaInstruction
 class JavaInstruction::IInc : public JavaInstruction
 {
   public:
-  u8 local_var;
-  s8 const_val; /* signed byte */
+  u16 local_var; /* U8 - for no WIDE */
+  s16 const_val; /* signed byte; S8 - for non WIDE */
 
   protected:
-  IInc(const u8 * &);
+  IInc(const u8 * &, bool);
   friend class JavaInstruction;
 };
 
@@ -1771,13 +1773,13 @@ class JavaInstruction::Jsr : public JavaInstruction
 class JavaInstruction::Ret : public JavaInstruction
 {
   public:
-  u8 ret_addr_var;
+  u16 ret_addr_var; /* u16 - for WIDE prefixed instruction, u8 - otherwise */
 
   virtual u32 get_branch_cnt();
   virtual u32 get_branch(u32 n, u32 offset);
 
   protected:
-  Ret(const u8 * &);
+  Ret(const u8 * &, bool);
   friend class JavaInstruction;
 };
 
@@ -2051,6 +2053,17 @@ class JavaInstruction::MonitorExit : public JavaInstruction
 {
   protected:
   MonitorExit();
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::Wide : public JavaInstruction
+{
+  public:
+  JavaInstruction * instr; /* get wrapped (wide) instruction */
+
+  protected:
+  Wide(const u8 * &, u32); /* wrapped instruction will be read internally from the buffer */
   friend class JavaInstruction;
 };
 
