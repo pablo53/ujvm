@@ -1062,7 +1062,7 @@ u32 JavaInstruction::Ret::get_branch(u32 n, u32 offset)
 
 JavaInstruction::TableSwitch::TableSwitch(const u8 * &buf, u32 offset) : JavaInstruction(OPCODE_TABLESWITCH)
 {
-  while (offset++ & 0x00000003)
+  while (++offset & 0x00000003) // initially, offset point to the opcode - it must be incremented first to point one byte after the opcode
     readbe8(buf); /* align to 4-bytes */
   default_branch = readbe32(buf);
   lower_idx = readbe32(buf);
@@ -1091,7 +1091,7 @@ u32 JavaInstruction::TableSwitch::get_branch(u32 n, u32 offset)
 
 JavaInstruction::LookUpSwitch::LookUpSwitch(const u8 * &buf, u32 offset) : JavaInstruction(OPCODE_LOOKUPSWITCH)
 {
-  while (offset++ & 0x00000003)
+  while (++offset & 0x00000003) // initially, offset point to the opcode - it must be incremented first to point one byte after the opcode
     readbe8(buf); /* align to 4-bytes */
   default_branch = readbe32(buf);
   npairs = readbe32(buf);
