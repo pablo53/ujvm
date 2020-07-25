@@ -133,11 +133,10 @@ static void desc_jclass_type(JavaType * jtype)
     std::cout << "[]";
 }
 
-static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent = 0)
+static void desc_jclass_code_jinstr_nopc(u32 pc, JavaInstruction * instr, int indent)
 {
   if (!instr)
     return; /* no instruction here to print */
-  std::cout << INDENT(indent) << HEX(8, pc) << ":  ";
   switch (instr->opcode)
   {
   case OPCODE_NOP:
@@ -933,6 +932,14 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
   case OPCODE_MONITOREXIT:
     std::cout << CLR_KEYWORD "MONITOREXIT" CLR_RESET;
     break;
+  case OPCODE_WIDE:
+    {
+      std::cout << CLR_KEYWORD "WIDE" CLR_RESET;
+      JavaInstruction::Wide *jinstr = (JavaInstruction::Wide *)instr;
+      std::cout << std::endl << INDENT(11);
+      desc_jclass_code_jinstr_nopc(pc + 1, jinstr->instr, indent);
+    }
+    break;
   case OPCODE_MULTIANEWARRAY:
     {
       std::cout << CLR_KEYWORD "MULTIANEWARRAY" CLR_RESET;
@@ -972,6 +979,14 @@ static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent 
     std::cout << CLR_ERR "[Unknown instruction/opcode]" CLR_RESET;
     break;
   }
+}
+
+static void desc_jclass_code_jinstr(u32 pc, JavaInstruction * instr, int indent = 0)
+{
+  if (!instr)
+    return; /* no instruction here to print */
+  std::cout << INDENT(indent) << HEX(8, pc) << ":  ";
+  desc_jclass_code_jinstr_nopc(pc, instr, indent);
 }
 
 static void desc_jclass_attributes(u16 attr_cnt, JavaAttribute ** &attributes, JavaClass &klz, int indent = 0);
