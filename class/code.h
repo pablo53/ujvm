@@ -199,6 +199,11 @@
 #define OPCODE_INSTANCEOF       0xc1
 #define OPCODE_MONITORENTER     0xc2
 #define OPCODE_MONITOREXIT      0xc3
+#define OPCODE_MULTIANEWARRAY   0xc5
+#define OPCODE_IFNULL           0xc6
+#define OPCODE_IFNONNULL        0xc7
+#define OPCODE_GOTO_W           0xc8
+#define OPCODE_JSR_W            0xc9
 
 #define T_BOOLEAN  4
 #define T_CHAR     5
@@ -402,6 +407,11 @@ class JavaInstruction
   class InstanceOf;
   class MonitorEnter;
   class MonitorExit;
+  class MultiANewArray;
+  class IfNull;
+  class IfNonNull;
+  class GotoW;
+  class JsrW;
 };
 
 class JavaInstruction::Nop : public JavaInstruction
@@ -2003,6 +2013,70 @@ class JavaInstruction::MonitorExit : public JavaInstruction
 {
   protected:
   MonitorExit();
+  friend class JavaInstruction;
+};
+
+
+class JavaInstruction::MultiANewArray : public JavaInstruction
+{
+  public:
+  u16 cpool_idx;
+  u8 dimensions;
+
+  protected:
+  MultiANewArray(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IfNull : public JavaInstruction
+{
+  public:
+  u32 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  IfNull(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::IfNonNull : public JavaInstruction
+{
+  public:
+  u32 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  IfNonNull(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::GotoW : public JavaInstruction
+{
+  public:
+  u32 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  GotoW(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::JsrW : public JavaInstruction
+{
+  public:
+  u32 branch;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  JsrW(const u8 * &);
   friend class JavaInstruction;
 };
 

@@ -484,6 +484,21 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
   case OPCODE_MONITOREXIT:
     jinst = new MonitorExit();
     break;
+  case OPCODE_MULTIANEWARRAY:
+    jinst = new MultiANewArray(buf);
+    break;
+  case OPCODE_IFNULL:
+    jinst = new IfNull(buf);
+    break;
+  case OPCODE_IFNONNULL:
+    jinst = new IfNonNull(buf);
+    break;
+  case OPCODE_GOTO_W:
+    jinst = new GotoW(buf);
+    break;
+  case OPCODE_JSR_W:
+    jinst = new JsrW(buf);
+    break;
   default:
     // TODO: unknown instruction
     break;
@@ -1214,6 +1229,77 @@ JavaInstruction::MonitorEnter::MonitorEnter() : JavaInstruction(OPCODE_MONITOREN
 
 
 JavaInstruction::MonitorExit::MonitorExit() : JavaInstruction(OPCODE_MONITOREXIT) { }
+
+
+JavaInstruction::MultiANewArray::MultiANewArray(const u8 * &buf) : JavaInstruction(OPCODE_MULTIANEWARRAY)
+{
+  cpool_idx = readbe16(buf);
+  dimensions = readbe8(buf);
+}
+
+
+JavaInstruction::IfNull::IfNull(const u8 * &buf) : JavaInstruction(OPCODE_IFNULL)
+{
+  branch = readbe16(buf);
+}
+
+u32 JavaInstruction::IfNull::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::IfNull::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
+
+
+JavaInstruction::IfNonNull::IfNonNull(const u8 * &buf) : JavaInstruction(OPCODE_IFNONNULL)
+{
+  branch = readbe16(buf);
+}
+
+u32 JavaInstruction::IfNonNull::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::IfNonNull::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
+
+
+JavaInstruction::GotoW::GotoW(const u8 * &buf) : JavaInstruction(OPCODE_GOTO_W)
+{
+  branch = readbe32(buf);
+}
+
+u32 JavaInstruction::GotoW::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::GotoW::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
+
+
+JavaInstruction::JsrW::JsrW(const u8 * &buf) : JavaInstruction(OPCODE_JSR_W)
+{
+  branch = readbe32(buf);
+}
+
+u32 JavaInstruction::JsrW::get_branch_cnt()
+{
+  return JavaInstruction::get_branch_cnt() + 1;
+}
+
+u32 JavaInstruction::JsrW::get_branch(u32 n, u32 offset)
+{
+  return (n == JavaInstruction::get_branch_cnt()) ? (u32)((s32)offset + (s32)branch) : JavaInstruction::get_branch(n, offset);
+}
 
 
 #endif
