@@ -124,7 +124,7 @@ void JavaAttributeCode::decode_instr(u32 offset) // TODO: improve to be non-recu
   if (instr[offset])
     return; /* This instruction has been already decoded. */
   const u8 * curs = &code[offset];
-  instr[offset] = JavaInstruction::from(curs);
+  instr[offset] = JavaInstruction::from(curs, offset);
   if (!instr[offset])
     return; // TODO: sth's wrong, possibly unknown instruction or OutOfMemoryError
   u32 branch_cnt = instr[offset]->get_branch_cnt();

@@ -7,7 +7,7 @@
 #include "../defs/types.h"
 #include "../classfmt/stm.h"
 
-JavaInstruction * JavaInstruction::from(const u8 * &buf)
+JavaInstruction * JavaInstruction::from(const u8 * &buf, u32 offset)
 {
   JavaInstruction *jinst = nullptr;
   const u8 * buf0 = buf; /* Initial position of the buffer cursor. */
@@ -411,6 +411,12 @@ JavaInstruction * JavaInstruction::from(const u8 * &buf)
     break;
   case OPCODE_RET:
     jinst = new Ret(buf);
+    break;
+  case OPCODE_TABLESWITCH:
+    jinst = new TableSwitch(buf, offset);
+    break;
+  case OPCODE_LOOKUPSWITCH:
+    jinst = new LookUpSwitch(buf, offset);
     break;
   case OPCODE_IRETURN:
     jinst = new IReturn();
@@ -1051,6 +1057,56 @@ u32 JavaInstruction::Ret::get_branch_cnt()
 u32 JavaInstruction::Ret::get_branch(u32 n, u32 offset)
 {
   return (u32) -1; // should never be required
+}
+
+
+JavaInstruction::TableSwitch::TableSwitch(const u8 * &buf, u32 offset) : JavaInstruction(OPCODE_TABLESWITCH)
+{
+  while (offset++ & 0x00000003)
+    readbe8(buf); /* align to 4-bytes */
+  default_branch = readbe32(buf);
+  lower_idx = readbe32(buf);
+  upper_idx = readbe32(buf);
+  u32 cnt = get_branch_cnt();
+  branches = cnt ? new u32[cnt] : nullptr; // TODO: check, if not OutOfMemeoryError
+  for (u32 i = 0; i < cnt; i++)
+    branches[i] = readbe32(buf);
+}
+
+u32 JavaInstruction::TableSwitch::get_branch_cnt()
+{
+  return upper_idx - lower_idx + 1;
+}
+
+u32 JavaInstruction::TableSwitch::get_branch(u32 n, u32 offset)
+{
+  return (n < get_branch_cnt()) ? (u32)((s32)offset + (s32)branches[n]) : (u32)-1;
+}
+
+
+JavaInstruction::LookUpSwitch::LookUpSwitch(const u8 * &buf, u32 offset) : JavaInstruction(OPCODE_LOOKUPSWITCH)
+{
+  while (offset++ & 0x00000003)
+    readbe8(buf); /* align to 4-bytes */
+  default_branch = readbe32(buf);
+  npairs = readbe32(buf);
+  matches = npairs ? new s32[npairs] : nullptr; // TODO: check, if not OutOfMemeoryError
+  branches = npairs ? new u32[npairs] : nullptr; // TODO: check, if not OutOfMemeoryError
+  for (u32 i = 0; i < npairs; i++)
+  {
+    matches[i] = readbe32s(buf);
+    branches[i] = readbe32(buf);
+  }
+}
+
+u32 JavaInstruction::LookUpSwitch::get_branch_cnt()
+{
+  return npairs + 1;
+}
+
+u32 JavaInstruction::LookUpSwitch::get_branch(u32 n, u32 offset)
+{
+  return (n < get_branch_cnt()) ? (u32)((s32)offset + (s32)branches[n]) : (u32)-1;
 }
 
 

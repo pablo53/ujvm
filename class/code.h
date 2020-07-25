@@ -175,6 +175,8 @@
 #define OPCODE_GOTO             0xa7
 #define OPCODE_JSR              0xa8
 #define OPCODE_RET              0xa9
+#define OPCODE_TABLESWITCH      0xaa
+#define OPCODE_LOOKUPSWITCH     0xab
 #define OPCODE_IRETURN          0xac
 #define OPCODE_LRETURN          0xad
 #define OPCODE_FRETURN          0xae
@@ -220,7 +222,7 @@ class JavaInstruction
   u8 opcode;
   u32 instr_length; /* automatically computed by the static constructor */
 
-  static JavaInstruction * from(const u8 * &); /* Static constructor, reading from buffer. Returns also the ownership. */ // TODO: add buffer length parameter
+  static JavaInstruction * from(const u8 * &, u32); /* Static constructor, reading from buffer. Returns also the ownership. */ // TODO: add buffer length parameter
   JavaInstruction() = delete;
   JavaInstruction(const JavaInstruction &) = delete;
   JavaInstruction(JavaInstruction &&) = delete;
@@ -383,6 +385,8 @@ class JavaInstruction
   class Goto;
   class Jsr;
   class Ret;
+  class TableSwitch;
+  class LookUpSwitch;
   class IReturn;
   class LReturn;
   class FReturn;
@@ -1774,6 +1778,38 @@ class JavaInstruction::Ret : public JavaInstruction
 
   protected:
   Ret(const u8 * &);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::TableSwitch : public JavaInstruction
+{
+  public:
+  u32 default_branch;
+  u32 lower_idx;
+  u32 upper_idx;
+  u32 * branches;
+
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  TableSwitch(const u8 * &, u32);
+  friend class JavaInstruction;
+};
+
+class JavaInstruction::LookUpSwitch : public JavaInstruction
+{
+  public:
+  u32 default_branch;
+  u32 npairs;
+  s32 * matches;
+  u32 * branches;
+  
+  virtual u32 get_branch_cnt();
+  virtual u32 get_branch(u32 n, u32 offset);
+
+  protected:
+  LookUpSwitch(const u8 * &, u32);
   friend class JavaInstruction;
 };
 

@@ -31,5 +31,19 @@ s8 readbe8s(const u8 * &buf)
   return *(buf++);
 }
 
+s16 readbe16s(const u8 * &buf)
+{
+  s16 val = readbe8s(buf) << 8;
+  val |= readbe8s(buf);
+  return val;
+}
+
+s32 readbe32s(const u8 * &buf)
+{
+  s32 val = readbe16s(buf) << 16;
+  val |= readbe16s(buf);
+  return val;
+}
+
 
 #endif
