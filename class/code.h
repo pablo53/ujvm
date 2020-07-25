@@ -1444,7 +1444,6 @@ class JavaInstruction::IInc : public JavaInstruction
 };
 
 
-
 class JavaInstruction::I2L : public JavaInstruction
 {
   protected:
