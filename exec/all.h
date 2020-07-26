@@ -3,6 +3,8 @@
 
 
 #include "exectx.h"
+#include "frame.h"
+#include "thread.h"
 
 
 #endif

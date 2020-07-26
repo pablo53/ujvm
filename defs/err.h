@@ -7,6 +7,7 @@
 #define ERR_OUT_OF_MEM  -100
 #define ERR_END_OF_FILE -101
 #define ERR_NOT_FOUND   -102
+#define ERR_JVM_OPER    -103
 
 
 #endif

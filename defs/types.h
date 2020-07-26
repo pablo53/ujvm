@@ -15,5 +15,7 @@ using s64 = std::int64_t; // long
 using f32 = float;
 using f64 = double;
 using size_t = std::size_t;
+using ref_t = u64; // Java object instance ID (address)
+using addr_t = u32; // Bytecode address
 
 #endif

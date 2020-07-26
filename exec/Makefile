@@ -7,11 +7,17 @@ LDFLAGS=$(if $(filter $(ARCH), 32), -m elf_i386, -m elf_x86_64)
 
 all: all.o
 
-all.o: exectx.o
+all.o: exectx.o frame.o thread.o
 	$(LD) $(LDFLAGS) -r $^ -o $@
 	rm -f $(filter %.o,$^)
 
 exectx.o: exectx.cpp exectx.h ../defs/types.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+frame.o: frame.cpp frame.h ../defs/types.h ../defs/err.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+thread.o: thread.cpp thread.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 ../tools/%:
