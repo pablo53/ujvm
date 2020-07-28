@@ -12,7 +12,7 @@ java: java.cpp ujvm.h ujvm.o jre/all.h jre/all.o
 	$(CC) $(CFLAGSSTD) $< $(filter %.o, $^) -o $@
 	strip --strip-unneeded java
 
-ujvm.o: main.o classfmt/all.o class/all.o classldr/all.o exec/all.o cpp2c/all.o
+ujvm.o: main.o classfmt/all.o class/all.o classldr/all.o exec/all.o alg/all.o cpp2c/all.o
 	$(LD) $(LDFLAGS) -r $(filter %.o, $^) -o $@
 	rm -f $^
 
@@ -21,6 +21,9 @@ main.o: main.cpp main.h
 
 exec/all.o:
 	(cd exec; make)
+
+alg/all.o:
+	(cd alg; make)
 
 classldr/all.o:
 	(cd classldr; make)
@@ -43,6 +46,7 @@ tools/%:
 clean:
 	rm -f *.o java
 	(cd exec; make clean)
+	(cd alg; make clean)
 	(cd class; make clean)
 	(cd classfmt; make clean)
 	(cd cpp2c; make clean)
