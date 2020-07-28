@@ -56,6 +56,7 @@ JavaClass::~JavaClass()
   for (u16 i = 0; i < attr_cnt; i++)
     delete attributes[i];
   delete[] attributes;
+  delete this_class;
 }
 
 JavaClass * resolve_class_from_cpool(const ClassFile &clsfile, const u16 cpool_idx, JavaClassLoader * classldr)
