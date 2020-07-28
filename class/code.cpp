@@ -1189,7 +1189,7 @@ JavaInstruction::TableSwitch::TableSwitch(const u8 * &buf, u32 offset) : JavaIns
 
 JavaInstruction::TableSwitch::~TableSwitch()
 {
-  delete branches;
+  delete[] branches;
 }
 
 u32 JavaInstruction::TableSwitch::get_branch_cnt()
@@ -1220,8 +1220,8 @@ JavaInstruction::LookUpSwitch::LookUpSwitch(const u8 * &buf, u32 offset) : JavaI
 
 JavaInstruction::LookUpSwitch::~LookUpSwitch()
 {
-  delete branches;
-  delete matches;
+  delete[] branches;
+  delete[] matches;
 }
 
 u32 JavaInstruction::LookUpSwitch::get_branch_cnt()
