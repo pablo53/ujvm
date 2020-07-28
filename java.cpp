@@ -30,6 +30,7 @@ int main(int args, char *argv[])
   if (!name1) { std::cerr << "1st Java Class name not found!" << std::endl << std::flush; return ERR_NOT_FOUND; } /* do not care about freeing resources... */
 
   JavaUtf8 name = *name1; /* implicit conversion with suitable constructor */
+  delete name1;
 
   JavaClass *jklz = class_loader->resolveClassByName(&name);
   if (!jklz) { std::cerr << "Class not found!" << std::endl << std::flush; return ERR_NOT_FOUND; } /* should ot occur; do not care about freeing resources... */
