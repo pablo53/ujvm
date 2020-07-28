@@ -36,6 +36,7 @@ JavaField::JavaField(const FieldInfo & fld, ClassFile &cls, JavaClassLoader * cl
 JavaField::~JavaField()
 {
   delete name;
+  delete jtype;
   for (u16 i = 0; i < attr_cnt; i++)
     delete attributes[i];
   delete[] attributes;
