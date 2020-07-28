@@ -19,6 +19,12 @@ CPUtf8Info::CPUtf8Info()
   bytes = nullptr;
 }
 
+CPUtf8Info::~CPUtf8Info()
+{
+  delete[] bytes;
+  bytes = nullptr;
+}
+
 int CPUtf8Info::from(const u8 * &buf)
 {
   length = readbe16(buf);

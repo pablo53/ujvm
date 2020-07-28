@@ -42,6 +42,9 @@ class CPUtf8Info : public CPInfo
   u8 * bytes;
 
   CPUtf8Info();
+  CPUtf8Info(const CPUtf8Info &) = delete;
+  CPUtf8Info(CPUtf8Info &&) = delete;
+  ~CPUtf8Info();
   virtual int from(const u8 * &buf);
 };
 
