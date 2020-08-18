@@ -12,3 +12,8 @@ uJVM - Micro Java Virtual Machine
 ## Remarks for 64-bit Ubuntu 18.04:
   install:
   ```sudo apt-get install gcc-multilib g++-multilib```
+
+
+## Unit testing
+  On Ubuntu 18.04, install CPPUnit:
+  ```sudo apt-get install libcppunit-dev```
