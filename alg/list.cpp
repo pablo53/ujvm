@@ -55,5 +55,17 @@ List * List::append(void * element)
   }
 }
 
+List * List::prepend(void * element)
+{
+  ListContainer *container = new ListContainer(element);
+  if (!head)
+    head = tail = container;
+  else
+  {
+    container->next = head;
+    head = container;
+  }
+}
+
 
 #endif

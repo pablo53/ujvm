@@ -26,6 +26,7 @@ class List
   List(List &&) = delete;
   ~List();
   List * append(void *);
+  List * prepend(void *);
 
   static List * create(void (*)(void *) = nullptr);
 
