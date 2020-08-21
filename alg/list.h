@@ -5,10 +5,10 @@
 class ListContainer
 {
   public:
-  void * element; /* ownership here */
+  const void * element; /* ownership here */
   ListContainer * next;
 
-  ListContainer(void *, ListContainer * = nullptr);
+  ListContainer(const void *, ListContainer * = nullptr);
   ListContainer() = delete;
   ListContainer(const ListContainer &) = delete;
   ListContainer(ListContainer &&) = delete;
@@ -20,18 +20,18 @@ class List
   public:
   ListContainer * head;
   ListContainer * tail;
-  void (*predelete)(void *); /* a function to be called on non null element before destructing the list; this should be usually deallocating memory from the element */
+  void (*predelete)(const void *); /* a function to be called on non null element before destructing the list; this should be usually deallocating memory from the element */
 
   List(const List &) = delete;
   List(List &&) = delete;
   ~List();
-  List * append(void *);
-  List * prepend(void *);
+  List * append(const void *);
+  List * prepend(const void *);
 
-  static List * create(void (*)(void *) = nullptr);
+  static List * create(void (*)(const void *) = nullptr);
 
   protected:
-  List(ListContainer *, ListContainer *, void (*)(void *) = nullptr);
+  List(ListContainer *, ListContainer *, void (*)(const void *) = nullptr);
 };
 
 #endif

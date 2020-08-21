@@ -4,7 +4,7 @@
 
 #include "list.h"
 
-ListContainer::ListContainer(void * element, ListContainer * next)
+ListContainer::ListContainer(const void * element, ListContainer * next)
 {
   this->element = element;
   this->next = next;
@@ -15,7 +15,7 @@ ListContainer::~ListContainer()
   /* this is "void List::predelete(void *)"" that should clean up this->element */
 }
 
-List::List(ListContainer * head, ListContainer * tail, void (*predelete)(void *))
+List::List(ListContainer * head, ListContainer * tail, void (*predelete)(const void *))
 {
   this->head = head;
   this->tail = tail;
@@ -38,12 +38,12 @@ List::~List()
   }
 }
 
-List * List::create(void (*predelete)(void *))
+List * List::create(void (*predelete)(const void *))
 {
   return new List(nullptr, nullptr, predelete); /* returns also ownership */
 }
 
-List * List::append(void * element)
+List * List::append(const void * element)
 {
   ListContainer *container = new ListContainer(element);
   if (!tail)
@@ -55,7 +55,7 @@ List * List::append(void * element)
   }
 }
 
-List * List::prepend(void * element)
+List * List::prepend(const void * element)
 {
   ListContainer *container = new ListContainer(element);
   if (!head)
