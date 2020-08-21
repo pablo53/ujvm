@@ -19,6 +19,7 @@ class Utf8Buffer
   u16 chars_left() const; /* how many chars left there are to the end of buffer */
   jchar peek(u16 = 0) const; /* default deepness = 0 means the next jchar that would normally be read; returns 0, if cannot peek that deep (check with chars_left method first!) */
   jchar next(); /* reads the next jchar from buffer; returns 0, if there are no more characters left (check with chars_left method first!) */
+  int read_number(u64 &); /* reads the next number, until digits are found; returns 0 on success */
   u16 get_length() const;
 };
 

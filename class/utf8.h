@@ -6,6 +6,10 @@
 #include "../defs/utf8.h"
 #include "../classfmt/cpool.h"
 
+#define JCHAR_ZERO '0'
+#define JCHAR_NINE '9'
+#define IS_DIGIT(c) ((c) >= JCHAR_ZERO && (c) <= JCHAR_NINE)
+
 using jchar = u8;
 
 class JavaUtf8

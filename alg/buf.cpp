@@ -5,6 +5,7 @@
 #include "buf.h"
 
 #include "../defs/types.h"
+#include "../defs/err.h"
 #include "../class/utf8.h"
 
 
@@ -27,6 +28,21 @@ jchar Utf8Buffer::peek(u16 deepness) const
 jchar Utf8Buffer::next()
 {
   return chars_left() ? utf8->get_jchar(curs++) : 0;
+}
+
+int Utf8Buffer::read_number(u64 & number)
+{
+  static u64 max_intm_num = U64_MAX / 10;
+  number = 0;
+  jchar ch = peek();
+  while (chars_left() && IS_DIGIT(ch) && number <= max_intm_num)
+  {
+    next(); /* consume */
+    number *= 10;
+    number += ch - JCHAR_ZERO;
+  }
+  ch = peek();
+  return IS_DIGIT(ch) ? ERR_NUMBER_TOO_LARGE : NOERR;
 }
 
 u16 Utf8Buffer::get_length() const
