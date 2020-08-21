@@ -35,6 +35,8 @@ int Utf8Buffer::read_number(u64 & number)
   static u64 max_intm_num = U64_MAX / 10;
   number = 0;
   jchar ch = peek();
+  if (!IS_DIGIT(ch))
+    return ERR_NOT_A_NUMBER;
   while (chars_left() && IS_DIGIT(ch) && number <= max_intm_num)
   {
     next(); /* consume */

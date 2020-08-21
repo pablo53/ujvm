@@ -18,4 +18,9 @@ using size_t = std::size_t;
 using ref_t = u64; // Java object instance ID (address)
 using addr_t = u32; // Bytecode address
 
+#define U8_MAX  UINT8_MAX
+#define U16_MAX UINT16_MAX
+#define U32_MAX UINT32_MAX
+#define U64_MAX UINT64_MAX
+
 #endif
