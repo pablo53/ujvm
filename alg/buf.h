@@ -21,7 +21,7 @@ class Utf8Buffer
   jchar next(); /* reads the next jchar from buffer; returns 0, if there are no more characters left (check with chars_left method first!) */
   int read_number(u64 &); /* reads the next number, until digits are found; returns 0 on success */
   u16 get_length() const;
-  JavaUtf8 * take_until(bool (*)(jchar)); /* reads the buffer until predicate is true; returns UTF8 string with ownership */
+  JavaUtf8 * take_until(bool (*)(jchar, void *), void * = nullptr); /* reads the buffer until predicate is true; returns UTF8 string with ownership */
 };
 
 

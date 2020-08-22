@@ -52,10 +52,10 @@ u16 Utf8Buffer::get_length() const
   return utf8->get_length();
 }
 
-JavaUtf8 * Utf8Buffer::take_until(bool (*predicate)(jchar))
+JavaUtf8 * Utf8Buffer::take_until(bool (*predicate)(jchar, void *), void * ctx)
 {
   u16 curs0 = this->curs;
-  while (chars_left() && predicate(peek()))
+  while (chars_left() && predicate(peek(), ctx))
     next();
   if (this->curs == curs0)
     return nullptr; /* nothing has been read */
