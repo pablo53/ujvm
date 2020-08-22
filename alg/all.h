@@ -3,6 +3,8 @@
 
 
 #include "list.h"
+#include "buf.h"
+#include "regexp.h"
 
 
 #endif
