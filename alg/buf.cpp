@@ -52,5 +52,14 @@ u16 Utf8Buffer::get_length() const
   return utf8->get_length();
 }
 
+JavaUtf8 * Utf8Buffer::take_until(bool (*predicate)(jchar))
+{
+  u16 curs0 = this->curs;
+  while (chars_left() && predicate(peek()))
+    next();
+  if (this->curs == curs0)
+    return nullptr; /* nothing has been read */
+  return new JavaUtf8(utf8->substring(curs0, this->curs)); /* returns ownership */ // TODO: extract substring more efficiently
+}
 
 #endif
