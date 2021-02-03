@@ -11,6 +11,7 @@
 #include "flags.h"
 #include "generic.h"
 #include "code.h"
+#include "signature.h"
 
 
 #endif
