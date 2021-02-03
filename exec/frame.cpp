@@ -124,7 +124,7 @@ inline int VarContainer::peek2(u64 &val, u8 typ, u32 idx)
   u8 typ2 = types[idx + 1];
   if (FRAME_IS_SECOND(typ) || !FRAME_IS_DOUBLE_SIZE(typ) || !FRAME_IS_SECOND(typ2) || (FRAME_FIRST(typ) != typ))
     return ERR_JVM_OPER;
-  val = ((u64)values[idx]) | ((u64)((values[idx + 1] << 32) & 0xffffffff00000000L));
+  val = ((u64)values[idx]) | ((u64)((((u64)values[idx + 1]) << 32) & 0xffffffff00000000L));
   return NOERR;
 }
 

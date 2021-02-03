@@ -53,6 +53,7 @@ List * List::append(const void * element)
     tail->next = container;
     tail = container;
   }
+  return this;
 }
 
 List * List::prepend(const void * element)
@@ -65,6 +66,7 @@ List * List::prepend(const void * element)
     container->next = head;
     head = container;
   }
+  return this;
 }
 
 
