@@ -35,6 +35,25 @@ class RegTreeNode
   static RegTreeNode * from(Utf8Buffer &, const RegTreeNode * = nullptr); /* returns with ownership */
 };
 
+class RegTreeSequenceNode : public RegTreeNode
+{
+  public:
+  List * node_list; /* list of RegTreeNode alternatives */
+
+  RegTreeSequenceNode(const RegTreeSequenceNode &) = delete;
+  RegTreeSequenceNode(RegTreeSequenceNode &&) = delete;
+  virtual ~RegTreeSequenceNode();
+
+  protected:
+  RegTreeSequenceNode(); /* creates and initializes an empty sequence */
+  static RegTreeSequenceNode * from(Utf8Buffer &); /* Returns null, if buffer content does not match */
+
+  private:
+  static void predelete(const void *);
+
+  friend class RegTreeNode;
+};
+
 class RegTreeRangeNode : public RegTreeNode
 {
   public:

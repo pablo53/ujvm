@@ -58,17 +58,73 @@ RegTreeNode::~RegTreeNode()
 RegTreeNode * RegTreeNode::from(const JavaUtf8 * utf8)
 {
   Utf8Buffer buf(utf8);
-  RegTreeNode *node = from(buf, nullptr);
+  RegTreeNode *node = RegTreeSequenceNode::from(buf);
   return node;
 }
 
+typedef RegTreeNode * (*from_f_t)(Utf8Buffer &, const RegTreeNode *);
+
 RegTreeNode * RegTreeNode::from(Utf8Buffer & buf, const RegTreeNode * parent)
 {
-  u16 len = buf.get_length();
-  if (buf.curs >= len)
+  if (!buf.chars_left())
     return nullptr;
-
+  RegTreeNode * node;
+  u16 curs = buf.curs;
+  static from_f_t froms[] =
+  {
+    (from_f_t)RegTreeSetNode::from,
+    (from_f_t)RegTreeGroupNode::from,
+    nullptr
+  };
+  int i = 0;
+  from_f_t from = froms[i++];
+  while (from)
+  {
+    node = from(buf, parent);
+    if (node)
+      return node;
+    else if (buf.curs > curs)
+      return nullptr;
+    from = froms[i++];
+  }
   return nullptr; // TODO
+}
+
+
+RegTreeSequenceNode::RegTreeSequenceNode() : RegTreeNode(nullptr)
+{
+  node_list = List::create(predelete);
+}
+
+RegTreeSequenceNode::~RegTreeSequenceNode()
+{
+  delete node_list;
+}
+
+void RegTreeSequenceNode::predelete(const void * ptr)
+{
+  delete (RegTreeNode *)ptr;
+}
+
+RegTreeSequenceNode * RegTreeSequenceNode::from(Utf8Buffer & buf)
+{
+  if (!buf.chars_left())
+    return nullptr;
+  RegTreeSequenceNode * node = new RegTreeSequenceNode();
+  RegTreeNode *last, *next = nullptr;
+  do
+  {
+    last = next;
+    next = RegTreeNode::from(buf, node);
+    if (next)
+      node->node_list->append(next);
+  } while (buf.chars_left() && next);
+  if (buf.chars_left()) /* early exit from the loop means some error has occurred */
+  {
+    delete node;
+    node = nullptr;
+  }
+  return node;
 }
 
 
