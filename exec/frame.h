@@ -44,6 +44,47 @@ class VarContainer
   int peek(u32 &val, u8 &typ, u32 idx); /* type must not be long or double */
   int peek2(u64 &val, u8 typ, u32 idx); /* type can be long or double only */
 
+  public:
+//  void push_byte(s8 val);
+//   void push_char(u16 val);
+//   void push_short(s16 val);
+//   void push_int(s32 val);
+//   void push_long(s64 val); /* in fact, it will occupy 2 vars */
+//   void push_float(f32 val);
+//   void push_double(f64 val); /* in fact, it will occupy 2 vars */
+//   void push_ref(ref_t ref); /* a reference to a Java object (instance) */
+//   void push_retaddr(u32 idx, addr_t addr); /* return address */
+
+//   s8 pop_byte(u32 idx);
+//   u16 pop_char(u32 idx);
+//   s16 pop_short(u32 idx);
+//   s32 pop_int(u32 idx);
+//   s64 pop_long(u32 idx); /* in fact, it will return from 2 consecutive vars */
+//   f32 pop_float(u32 idx);
+//   f64 pop_double(u32 idx); /* in fact, it will return from 2 consecutive vars */
+//   ref_t pop_ref(u32 idx); /* a reference to a Java object (instance) */
+//   addr_t pop_retaddr(u32 idx); /* return address */
+
+//   void poke_byte(u32 idx, s8 val);
+//   void poke_char(u32 idx, u16 val);
+//   void poke_short(u32 idx, s16 val);
+//   void poke_int(u32 idx, s32 val);
+//   void poke_long(u32 idx, s64 val); /* in fact, it will occupy 2 vars */
+//   void poke_float(u32 idx, f32 val);
+//   void poke_double(u32 idx, f64 val); /* in fact, it will occupy 2 vars */
+//   void poke_ref(u32 idx, ref_t ref); /* a reference to a Java object (instance) */
+//   void poke_retaddr(u32 idx, addr_t addr); /* return address */
+
+//   s8 peek_byte(u32 idx = -1);
+//   u16 peek_char(u32 idx = -1);
+//   s16 peek_short(u32 idx = -1);
+//   s32 peek_int(u32 idx = -1);
+//   s64 peek_long(u32 idx = -1); /* in fact, it will return from 2 consecutive vars */
+//   f32 peek_float(u32 idx = -1);
+//   f64 peek_double(u32 idx = -1); /* in fact, it will return from 2 consecutive vars */
+//   ref_t peek_ref(u32 idx = -1); /* a reference to a Java object (instance) */
+//   addr_t peek_retaddr(u32 idx = -1); /* return address */
+
   protected:
   VarContainer(u32); /* pass: max size */
   VarContainer(const VarContainer &) = delete;
