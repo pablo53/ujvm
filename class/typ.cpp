@@ -4,6 +4,7 @@
 
 #include "typ.h"
 
+#include "const.h"
 #include "utf8.h"
 #include "../classldr/cloader.h"
 

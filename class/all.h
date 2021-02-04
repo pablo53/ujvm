@@ -2,6 +2,7 @@
 #define _CLASS_ALL_H
 
 
+#include "const.h"
 #include "class.h"
 #include "utf8.h"
 #include "attr.h"

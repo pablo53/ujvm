@@ -31,5 +31,21 @@ class IdentifierSignatureNode : public SignatureNode
     IdentifierSignatureNode(JavaUtf8 *);
 };
 
+class BaseTypeSignatureNode : public SignatureNode
+{
+    public:
+    jchar type_symbol;
+
+    BaseTypeSignatureNode(const BaseTypeSignatureNode &) = delete;
+    BaseTypeSignatureNode(BaseTypeSignatureNode &&) = delete;
+    virtual ~BaseTypeSignatureNode();
+
+    protected:
+    static BaseTypeSignatureNode * from(Utf8Buffer &); /* returns BaseTypeSignatureNode with ownership */
+
+    private:
+    BaseTypeSignatureNode(jchar);
+};
+
 
 #endif

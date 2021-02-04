@@ -4,6 +4,7 @@
 
 #include "method.h"
 
+#include "const.h"
 #include "attr.h"
 #include "class.h"
 #include "typ.h"

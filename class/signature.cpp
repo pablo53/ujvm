@@ -4,27 +4,35 @@
 
 #include "signature.h"
 
+#include "const.h"
 #include "../defs/types.h"
 #include "../defs/utf8.h"
 #include "../alg/buf.h"
 
 
-#define CHAR_SEMICOLON ';'
-#define CHAR_ARRAY '['
-#define CHAR_SEP '/'
-#define CHAR_BRA '<'
-#define CHAR_KET '>'
-#define CHAR_COLON ':'
-
 inline bool is_identifier_char(jchar ch)
 {
     return !(
-        ch == CHAR_SEMICOLON ||
-        ch == CHAR_ARRAY ||
-        ch == CHAR_SEP ||
-        ch == CHAR_BRA ||
-        ch == CHAR_KET ||
-        ch == CHAR_COLON
+        ch == SIGN_CLASS_TERM ||
+        ch == SIGN_ARRAY ||
+        ch == SIGN_SEPARATOR ||
+        ch == SIGN_TYPE_BEGIN ||
+        ch == SIGN_TYPE_END ||
+        ch == SIGN_BOUND
+    );
+}
+
+inline bool is_base_type_char(jchar ch)
+{
+    return !(
+        ch == SIGN_BYTE ||
+        ch == SIGN_CHAR ||
+        ch == SIGN_DOUBLE ||
+        ch == SIGN_FLOAT ||
+        ch == SIGN_INT ||
+        ch == SIGN_LONG ||
+        ch == SIGN_SHORT ||
+        ch == SIGN_BOOL
     );
 }
 
@@ -36,6 +44,7 @@ SignatureNode::SignatureNode()
 SignatureNode::~SignatureNode()
 {
 }
+
 
 IdentifierSignatureNode::IdentifierSignatureNode(JavaUtf8 * identifier) : SignatureNode()
 {
@@ -60,6 +69,30 @@ IdentifierSignatureNode * IdentifierSignatureNode::from(Utf8Buffer & buf)
 IdentifierSignatureNode::~IdentifierSignatureNode()
 {
     delete identifier;
+}
+
+
+BaseTypeSignatureNode::BaseTypeSignatureNode(jchar type_symbol) : SignatureNode()
+{
+    this->type_symbol = type_symbol;
+}
+
+BaseTypeSignatureNode * BaseTypeSignatureNode::from(Utf8Buffer & buf)
+{
+    BaseTypeSignatureNode * node = nullptr;
+
+    if (buf.chars_left())
+    {
+        jchar next = buf.peek();
+        if (is_base_type_char(next))
+            node = new BaseTypeSignatureNode(next);
+    }
+
+    return node;
+}
+
+BaseTypeSignatureNode::~BaseTypeSignatureNode()
+{
 }
 
 
