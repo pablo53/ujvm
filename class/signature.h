@@ -29,6 +29,24 @@ class IdentifierSignatureNode : public SignatureNode
 
     private:
     IdentifierSignatureNode(JavaUtf8 *);
+
+    friend class TypeVariableSignatureNode;
+};
+
+class TypeVariableSignatureNode : public SignatureNode
+{
+    public:
+    IdentifierSignatureNode * identifier_node; /* with ownership */
+
+    TypeVariableSignatureNode(const TypeVariableSignatureNode &) = delete;
+    TypeVariableSignatureNode(TypeVariableSignatureNode &&) = delete;
+    virtual ~TypeVariableSignatureNode();
+
+    protected:
+    static TypeVariableSignatureNode * from(Utf8Buffer &); /* returns TypeVariableSignatureNode with ownership */
+
+    private:
+    TypeVariableSignatureNode(IdentifierSignatureNode *);
 };
 
 class BaseTypeSignatureNode : public SignatureNode

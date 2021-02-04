@@ -72,6 +72,40 @@ IdentifierSignatureNode::~IdentifierSignatureNode()
 }
 
 
+
+
+TypeVariableSignatureNode::TypeVariableSignatureNode(IdentifierSignatureNode * identifier_node) : SignatureNode()
+{
+    this->identifier_node = identifier_node;
+}
+
+TypeVariableSignatureNode * TypeVariableSignatureNode::from(Utf8Buffer & buf)
+{
+    if (!buf.chars_left())
+        return nullptr;
+    jchar next = buf.peek();
+    if (!(next == SIGN_TYPEVAR))
+        return nullptr;
+    u16 curs = buf.curs;
+    buf.next(); /* consume type variable starting marker (SIGN_TYPEVAR) */
+
+    IdentifierSignatureNode *identifier_node = IdentifierSignatureNode::from(buf);
+    if (identifier_node)
+        if (buf.chars_left())
+            if (buf.next() == SIGN_CLASS_TERM)
+                return new TypeVariableSignatureNode(identifier_node);
+
+    delete identifier_node;
+    buf.curs = curs; /* rewind */
+    return nullptr;
+}
+
+TypeVariableSignatureNode::~TypeVariableSignatureNode()
+{
+    delete identifier_node;
+}
+
+
 BaseTypeSignatureNode::BaseTypeSignatureNode(jchar type_symbol) : SignatureNode()
 {
     this->type_symbol = type_symbol;

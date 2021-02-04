@@ -15,6 +15,7 @@
 #define SIGN_BOOL        'Z'
 #define SIGN_VOID        'V'
 #define SIGN_CLASS       'L'
+#define SIGN_TYPEVAR     'T'
 #define SIGN_CLASS_TERM  ';'
 #define SIGN_BYTE        'B'
 #define SIGN_CHAR        'C'
