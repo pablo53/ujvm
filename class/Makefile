@@ -35,7 +35,7 @@ generic.o: generic.cpp generic.h utf8.h class.h
 utf8.o: utf8.cpp utf8.h ../classfmt/cpool.h ../defs/types.h ../defs/utf8.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-signature.o: signature.cpp signature.h const.h ../defs/types.h ../defs/utf8.h ../alg/buf.h
+signature.o: signature.cpp signature.h const.h ../defs/types.h ../defs/utf8.h ../alg/buf.h ../alg/list.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 ../tools/%:

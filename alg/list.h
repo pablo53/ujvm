@@ -2,6 +2,9 @@
 #define _ALG_LIST_CPP
 
 
+#include "../defs/types.h"
+
+
 class ListContainer
 {
   public:
@@ -27,6 +30,7 @@ class List
   ~List();
   List * append(const void *);
   List * prepend(const void *);
+  u64 size(); /* number of elements, no more than U64_MAX */
 
   static List * create(void (*)(const void *) = nullptr);
 

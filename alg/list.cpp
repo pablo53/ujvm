@@ -4,6 +4,9 @@
 
 #include "list.h"
 
+#include "../defs/types.h"
+
+
 ListContainer::ListContainer(const void * element, ListContainer * next)
 {
   this->element = element;
@@ -24,17 +27,15 @@ List::List(ListContainer * head, ListContainer * tail, void (*predelete)(const v
 
 List::~List()
 {
-  if (predelete)
+  ListContainer *curs = this->head;
+  ListContainer *next;
+  while (curs)
   {
-    ListContainer *curs = this->head;
-    ListContainer *next;
-    while (curs)
-    {
-      next = curs->next;
+    next = curs->next;
+    if (predelete)
       predelete(curs->element);
-      delete curs;
-      curs = next;
-    }
+    delete curs;
+    curs = next;
   }
 }
 
@@ -67,6 +68,18 @@ List * List::prepend(const void * element)
     head = container;
   }
   return this;
+}
+
+u64 List::size()
+{
+  ListContainer * cur = head;
+  u64 sz = 0;
+  while (cur)
+  {
+    if (!++sz)
+      return U64_MAX; /* overflow, return possible max */
+    cur = cur->next;
+  }
 }
 
 
