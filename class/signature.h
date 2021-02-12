@@ -34,6 +34,8 @@ class IdentifierSignatureNode : public SignatureNode
     friend class ClassTypeSignatureNode;
 };
 
+class RefTypeSignature;
+
 class TypeVariableSignatureNode : public SignatureNode
 {
     public:
@@ -48,7 +50,11 @@ class TypeVariableSignatureNode : public SignatureNode
 
     private:
     TypeVariableSignatureNode(IdentifierSignatureNode *);
+
+    friend class RefTypeSignature;
 };
+
+class ArrayTypeSignatureNode;
 
 class BaseTypeSignatureNode : public SignatureNode
 {
@@ -64,11 +70,11 @@ class BaseTypeSignatureNode : public SignatureNode
 
     private:
     BaseTypeSignatureNode(jchar);
+
+    friend class ArrayTypeSignatureNode;
 };
 
-
 class TypeArgumentsSignatureNode;
-
 
 class ClassTypeSignatureNode : public SignatureNode
 {
@@ -86,12 +92,78 @@ class ClassTypeSignatureNode : public SignatureNode
 
     private:
     ClassTypeSignatureNode(u8, IdentifierSignatureNode **, TypeArgumentsSignatureNode *);
+
+    friend class RefTypeSignature;
 };
 
+class ArrayTypeSignatureNode;
+class TypeArgumentSignatureNode;
 
-class TypeArgumentsSignatureNode
+class RefTypeSignature : public SignatureNode
 {
     public:
+    ClassTypeSignatureNode * class_type_node;
+    TypeVariableSignatureNode * type_variable_node;
+    ArrayTypeSignatureNode * array_type_node;
+
+    RefTypeSignature(const RefTypeSignature &) = delete;
+    RefTypeSignature(RefTypeSignature &&) = delete;
+    virtual ~RefTypeSignature();
+
+    protected:
+    static RefTypeSignature * from(Utf8Buffer &); /* returns RefTypeSignature with ownership */
+
+    private:
+    RefTypeSignature(ClassTypeSignatureNode * class_type_node, TypeVariableSignatureNode * type_variable_node, ArrayTypeSignatureNode * array_type_node);
+
+    friend class ArrayTypeSignatureNode;
+    friend class TypeArgumentSignatureNode;
+};
+
+class ArrayTypeSignatureNode : public SignatureNode
+{
+    public:
+    RefTypeSignature * ref_type_node;
+    BaseTypeSignatureNode * base_type_node;
+
+    ArrayTypeSignatureNode(const ArrayTypeSignatureNode &) = delete;
+    ArrayTypeSignatureNode(ArrayTypeSignatureNode &&) = delete;
+    virtual ~ArrayTypeSignatureNode();
+
+    protected:
+    static ArrayTypeSignatureNode * from(Utf8Buffer &); /* returns ArrayTypeSignatureNode with ownership */
+
+    private:
+    ArrayTypeSignatureNode(RefTypeSignature *, BaseTypeSignatureNode *);
+
+    friend class RefTypeSignature;
+};
+
+class TypeArgumentSignatureNode : public SignatureNode
+{
+    public:
+    jchar vartype; /* variance ('+' or '-') or asterisk ('*') */
+    RefTypeSignature * ref_type_node; /* if not asterisk */
+
+    TypeArgumentSignatureNode(const TypeArgumentSignatureNode &) = delete;
+    TypeArgumentSignatureNode(TypeArgumentSignatureNode &&) = delete;
+    virtual ~TypeArgumentSignatureNode();
+
+    protected:
+    static TypeArgumentSignatureNode * from(Utf8Buffer &); /* returns TypeArgumentSignatureNode with ownership */
+
+    private:
+    TypeArgumentSignatureNode(jchar, RefTypeSignature *);
+
+    friend class TypeArgumentsSignatureNode;
+};
+
+class TypeArgumentsSignatureNode : public SignatureNode
+{
+    public:
+    u8 no_typ_args; /* size of table type_arguments */
+    TypeArgumentSignatureNode ** type_arguments;
+
     TypeArgumentsSignatureNode(const TypeArgumentsSignatureNode &) = delete;
     TypeArgumentsSignatureNode(TypeArgumentsSignatureNode &&) = delete;
     virtual ~TypeArgumentsSignatureNode();
@@ -100,7 +172,7 @@ class TypeArgumentsSignatureNode
     static TypeArgumentsSignatureNode * from(Utf8Buffer &); /* returns TypeArgumentsSignatureNode with ownership */
 
     private:
-    TypeArgumentsSignatureNode(); // TODO
+    TypeArgumentsSignatureNode(u8, TypeArgumentSignatureNode **);
 
     friend class ClassTypeSignatureNode;
 };

@@ -197,19 +197,159 @@ ClassTypeSignatureNode::~ClassTypeSignatureNode()
 }
 
 
-TypeArgumentsSignatureNode::TypeArgumentsSignatureNode()
+RefTypeSignature::RefTypeSignature(ClassTypeSignatureNode * class_type_node, TypeVariableSignatureNode * type_variable_node, ArrayTypeSignatureNode * array_type_node)
+        : class_type_node(class_type_node), type_variable_node(type_variable_node), array_type_node(array_type_node)
 {
-    // TODO
+}
+
+RefTypeSignature * RefTypeSignature::from(Utf8Buffer & buf)
+{
+    u16 curs = buf.curs;
+    ClassTypeSignatureNode * class_type_node = ClassTypeSignatureNode::from(buf);
+    if (!class_type_node)
+        return new RefTypeSignature(class_type_node, nullptr, nullptr);
+    else
+        buf.curs = curs;
+    TypeVariableSignatureNode * type_variable_node = TypeVariableSignatureNode::from(buf);
+    if (!type_variable_node)
+        return new RefTypeSignature(nullptr, type_variable_node, nullptr);
+    else
+        buf.curs = curs;
+    ArrayTypeSignatureNode * array_type_node = ArrayTypeSignatureNode::from(buf);
+    if (!array_type_node)
+        return new RefTypeSignature(nullptr, nullptr, array_type_node);
+    else
+    {
+        buf.curs = curs;
+        return nullptr;
+    }
+}
+
+RefTypeSignature::~RefTypeSignature()
+{
+    delete class_type_node;
+    delete type_variable_node;
+    delete array_type_node;
+}
+
+
+ArrayTypeSignatureNode::ArrayTypeSignatureNode(RefTypeSignature * ref_type_node, BaseTypeSignatureNode * base_type_node)
+        : ref_type_node(ref_type_node), base_type_node(base_type_node)
+{
+}
+
+ArrayTypeSignatureNode * ArrayTypeSignatureNode::from(Utf8Buffer & buf)
+{
+    if (!buf.chars_left())
+        return nullptr;
+    jchar next = buf.peek();
+    if (!(next == SIGN_ARRAY))
+        return nullptr;
+    u16 curs = buf.curs;
+    buf.next(); /* consume type variable starting marker (SIGN_ARRAY) */
+    u16 curs2 = buf.curs;
+    RefTypeSignature * ref_type_node = RefTypeSignature::from(buf);
+    if (!ref_type_node)
+        return new ArrayTypeSignatureNode(ref_type_node, nullptr);
+    else
+        buf.curs = curs2;
+    BaseTypeSignatureNode * base_type_node = BaseTypeSignatureNode::from(buf);
+    if (!base_type_node)
+        return new ArrayTypeSignatureNode(nullptr, base_type_node);
+    else
+    {
+        buf.curs = curs;
+        return nullptr;
+    }
+}
+
+ArrayTypeSignatureNode::~ArrayTypeSignatureNode()
+{
+    delete ref_type_node;
+    delete base_type_node;
+}
+
+
+TypeArgumentSignatureNode::TypeArgumentSignatureNode(jchar vartype, RefTypeSignature * ref_type_node)
+        : vartype(vartype), ref_type_node(ref_type_node)
+{
+}
+
+TypeArgumentSignatureNode * TypeArgumentSignatureNode::from(Utf8Buffer & buf)
+{
+    if (!buf.chars_left())
+        return nullptr;
+    jchar next = buf.peek();
+    if ((next != SIGN_COVAR) && (next != SIGN_CONTRAVAR) && (next != SIGN_ANY))
+        return nullptr;
+    u16 curs = buf.curs;
+    buf.next(); /* consume variance type marker */
+    if (next == SIGN_ANY)
+        return new TypeArgumentSignatureNode(next, nullptr);
+    RefTypeSignature * ref_type_node = RefTypeSignature::from(buf);
+    if (ref_type_node)
+        return new TypeArgumentSignatureNode(next, ref_type_node);
+    else
+    {
+        buf.curs = curs;
+        return nullptr;
+    }
+}
+
+TypeArgumentSignatureNode::~TypeArgumentSignatureNode()
+{
+    delete ref_type_node;
+}
+
+
+TypeArgumentsSignatureNode::TypeArgumentsSignatureNode(u8 no_typ_args, TypeArgumentSignatureNode ** type_arguments)
+        : no_typ_args(no_typ_args), type_arguments(type_arguments)
+{
 }
 
 TypeArgumentsSignatureNode * TypeArgumentsSignatureNode::from(Utf8Buffer & buf)
 {
-    return nullptr; // TODO
+    if (!buf.chars_left())
+        return nullptr;
+    jchar next = buf.peek();
+    if (next != SIGN_TYPE_BEGIN)
+        return nullptr;
+    u16 curs = buf.curs;
+    buf.next(); /* consume opening char */
+    u8 no_typ_args = 0;
+    TypeArgumentSignatureNode * type_arguments[255];
+    bool test = true;
+    u16 curs2;
+    while (no_typ_args < 255)
+    {
+        curs2 = buf.curs;
+        type_arguments[no_typ_args] = TypeArgumentSignatureNode::from(buf);
+        if (!type_arguments[no_typ_args])
+        {
+            buf.curs = curs2; /* rewind after last unsuccessful read */
+            break;
+        }
+        no_typ_args++;
+    }
+    if (no_typ_args && buf.chars_left())
+        if (buf.next() == SIGN_TYPE_END)
+        {
+            TypeArgumentSignatureNode ** type_arguments = new TypeArgumentSignatureNode *[no_typ_args]; // TODO: check if not nullptr
+            return new TypeArgumentsSignatureNode(no_typ_args, type_arguments);
+        }
+
+    for (int i = 0; i < no_typ_args; i++)
+        delete type_arguments[i];
+    buf.curs = curs;
+
+    return nullptr;
 }
 
 TypeArgumentsSignatureNode::~TypeArgumentsSignatureNode()
 {
-    // TODO
+    for (int i = 0; i < no_typ_args; i++)
+        delete type_arguments[i];
+    delete[] type_arguments;
 }
 
 

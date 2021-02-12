@@ -10,6 +10,9 @@
 #define SIGN_BOUND       ':'
 #define SIGN_SEPARATOR   '/'
 #define SIGN_THROWS      '^'
+#define SIGN_COVAR       '+'
+#define SIGN_CONTRAVAR   '-'
+#define SIGN_ANY         '*'
 
 #define SIGN_ARRAY       '['
 #define SIGN_BOOL        'Z'
