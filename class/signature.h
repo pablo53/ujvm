@@ -25,7 +25,7 @@ class IdentifierSignatureNode : public SignatureNode
     virtual ~IdentifierSignatureNode();
 
     protected:
-    static IdentifierSignatureNode * from(Utf8Buffer &); /* returns IdentifierSignatureNode with ownership */
+    static IdentifierSignatureNode * from(Utf8Buffer &, bool = false); /* returns IdentifierSignatureNode with ownership */
 
     private:
     IdentifierSignatureNode(JavaUtf8 *);
@@ -81,7 +81,7 @@ class ClassTypeSignatureNode : public SignatureNode
     public:
     u8 no_id_nodes; /* size of array of identifier nodes, no more than 255 as per JVM specs */
     IdentifierSignatureNode ** identifier_nodes; /* with ownership */
-    TypeArgumentsSignatureNode * type_arguments_node; /* with ownership, can be nullptr */
+    TypeArgumentsSignatureNode ** type_arguments_nodes; /* with ownership */
 
     ClassTypeSignatureNode(const ClassTypeSignatureNode &) = delete;
     ClassTypeSignatureNode(ClassTypeSignatureNode &&) = delete;
@@ -91,7 +91,7 @@ class ClassTypeSignatureNode : public SignatureNode
     static ClassTypeSignatureNode * from(Utf8Buffer &); /* returns ClassTypeSignatureNode with ownership */
 
     private:
-    ClassTypeSignatureNode(u8, IdentifierSignatureNode **, TypeArgumentsSignatureNode *);
+    ClassTypeSignatureNode(u8, IdentifierSignatureNode **, TypeArgumentsSignatureNode **);
 
     friend class RefTypeSignature;
 };

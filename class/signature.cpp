@@ -52,19 +52,24 @@ IdentifierSignatureNode::IdentifierSignatureNode(JavaUtf8 * identifier) : Signat
     this->identifier = identifier;
 }
 
-IdentifierSignatureNode * IdentifierSignatureNode::from(Utf8Buffer & buf)
+IdentifierSignatureNode * IdentifierSignatureNode::from(Utf8Buffer & buf, bool allow_sep)
 {
-    IdentifierSignatureNode * node = nullptr;
-    
     JavaUtf8 * identifier =
         buf.take_until(
-            [](jchar ch, void * ctx) -> bool { return is_identifier_char(ch); },
+            allow_sep
+                ? [](jchar ch, void * ctx) -> bool { return is_identifier_char(ch) || (ch == SIGN_SEPARATOR); }
+                : [](jchar ch, void * ctx) -> bool { return is_identifier_char(ch); },
             nullptr
         );
     if (identifier)
-        node = new IdentifierSignatureNode(identifier);
+    {
+        if (identifier->get_length() > 0)
+            if ((identifier->get_jchar(0) != SIGN_SEPARATOR) && (identifier->get_jchar(identifier->get_length() - 1) != SIGN_SEPARATOR))
+                return new IdentifierSignatureNode(identifier);
+        delete identifier;
+    }
 
-    return node;
+    return nullptr;
 }
 
 IdentifierSignatureNode::~IdentifierSignatureNode()
@@ -129,11 +134,11 @@ BaseTypeSignatureNode::~BaseTypeSignatureNode()
 }
 
 
-ClassTypeSignatureNode::ClassTypeSignatureNode(u8 no_id_nodes, IdentifierSignatureNode ** identifier_nodes, TypeArgumentsSignatureNode * type_arguments_node) : SignatureNode()
+ClassTypeSignatureNode::ClassTypeSignatureNode(u8 no_id_nodes, IdentifierSignatureNode ** identifier_nodes, TypeArgumentsSignatureNode ** type_arguments_nodes) : SignatureNode()
 {
     this->no_id_nodes = no_id_nodes;
     this->identifier_nodes = identifier_nodes;
-    this->type_arguments_node = type_arguments_node;
+    this->type_arguments_nodes = type_arguments_nodes;
 }
 
 ClassTypeSignatureNode * ClassTypeSignatureNode::from(Utf8Buffer & buf)
@@ -147,53 +152,66 @@ ClassTypeSignatureNode * ClassTypeSignatureNode::from(Utf8Buffer & buf)
     buf.next(); /* consume type variable starting marker (SIGN_CLASS) */
     u8 no_id_nodes = 0;
     IdentifierSignatureNode* identifier_nodes[255];
-    IdentifierSignatureNode* identifier_node = nullptr;
-    TypeArgumentsSignatureNode* type_arguments_node = nullptr;
-    bool test;
-    bool check_more;
-    do
+    TypeArgumentsSignatureNode* type_arguments_nodes[255];
+    bool fail = false;
+    u16 curs2;
+    while (no_id_nodes < 255)
     {
-        identifier_node = IdentifierSignatureNode::from(buf);
-        test = identifier_node && (no_id_nodes < 255) && buf.chars_left();
-        if (test)
+        identifier_nodes[no_id_nodes] = IdentifierSignatureNode::from(buf, !no_id_nodes);
+        if (!identifier_nodes[no_id_nodes])
         {
-            next = buf.peek();
-            check_more = (next == SIGN_SEPARATOR);
-            if ((next == SIGN_SEPARATOR) || (next == SIGN_CLASS_TERM))
-                buf.next(); /* consume peeked char */
-            else
-            {
-                test = (type_arguments_node = TypeArgumentsSignatureNode::from(buf));
-                test = test && buf.chars_left();
-                if (test)
-                    test = (buf.next() == SIGN_CLASS_TERM);
-            }
+            fail = true;
+            break;
         }
-        if (!test)
+        curs2 = buf.curs;
+        type_arguments_nodes[no_id_nodes] = TypeArgumentsSignatureNode::from(buf);
+        if (!type_arguments_nodes[no_id_nodes])
+            buf.curs = curs2;
+        no_id_nodes++;
+        if (buf.chars_left())
         {
-            buf.curs = curs; /* Rewind the buffer */
-            delete type_arguments_node;
-            delete identifier_node;
-            for (int i = 0; i < no_id_nodes; i++)
-                delete identifier_nodes[i];
-            return nullptr;
+            next = buf.next();
+            if (next == SIGN_CLASS_TERM)
+                break;
+            else if (next != SIGN_NEST_SEP)
+                fail = true;
         }
-        identifier_nodes[no_id_nodes++] = identifier_node;
-    } while (check_more);
+        else
+            fail = true;
+        if (fail)
+            break;
+    }
+    if (fail)
+    {
+        for (int i = 0; i < no_id_nodes; i++)
+        {
+            delete identifier_nodes[i];
+            delete type_arguments_nodes[i];
+        }
+        buf.curs = curs;
+        return nullptr;
+    }
     IdentifierSignatureNode ** identifier_nodes_dynamic = new IdentifierSignatureNode*[no_id_nodes]; // TODO: check if not nullptr
+    TypeArgumentsSignatureNode ** type_arguments_nodes_dynamic = new TypeArgumentsSignatureNode*[no_id_nodes]; // TODO: check if not nullptr
     for (int i = 0; i < no_id_nodes; i++)
+    {
         identifier_nodes_dynamic[i] = identifier_nodes[i];
+        type_arguments_nodes_dynamic[i] = type_arguments_nodes[i];
+    }
     
-    return new ClassTypeSignatureNode(no_id_nodes, identifier_nodes_dynamic, type_arguments_node);
+    return new ClassTypeSignatureNode(no_id_nodes, identifier_nodes_dynamic, type_arguments_nodes_dynamic);
 }
 
 ClassTypeSignatureNode::~ClassTypeSignatureNode()
 {
     if (identifier_nodes)
         for (int i = 0; i < no_id_nodes; i++)
+        {
             delete identifier_nodes[i];
+            delete type_arguments_nodes[i];
+        }
     delete[] identifier_nodes;
-    delete type_arguments_node;
+    delete[] type_arguments_nodes;
 }
 
 

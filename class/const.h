@@ -9,6 +9,7 @@
 #define SIGN_TYPE_END    '>'
 #define SIGN_BOUND       ':'
 #define SIGN_SEPARATOR   '/'
+#define SIGN_NEST_SEP    '.'
 #define SIGN_THROWS      '^'
 #define SIGN_COVAR       '+'
 #define SIGN_CONTRAVAR   '-'
