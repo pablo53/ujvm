@@ -371,4 +371,42 @@ TypeArgumentsSignatureNode::~TypeArgumentsSignatureNode()
 }
 
 
+TypeParameterSignatureNode::TypeParameterSignatureNode(IdentifierSignatureNode * identifier_node, u8 no_iface_bounds, RefTypeSignature * class_bound_node, RefTypeSignature ** iface_bound_nodes)
+        : identifier_node(identifier_node), no_iface_bounds(no_iface_bounds), class_bound_node(class_bound_node), iface_bound_nodes(iface_bound_nodes)
+{
+}
+
+TypeParameterSignatureNode * TypeParameterSignatureNode::from(Utf8Buffer & buf)
+{
+    // TODO
+}
+
+TypeParameterSignatureNode::~TypeParameterSignatureNode()
+{
+    delete identifier_node;
+    delete class_bound_node;
+    for (int i = 0; i < no_iface_bounds; i++)
+        delete iface_bound_nodes[i];
+    delete[] iface_bound_nodes;
+}
+
+
+TypeParametersSignatureNode::TypeParametersSignatureNode(u8 no_typ_params, TypeParameterSignatureNode ** type_parameters)
+        : no_typ_params(no_typ_params), type_parameters(type_parameters)
+{
+}
+
+TypeParametersSignatureNode * TypeParametersSignatureNode::from(Utf8Buffer & buf)
+{
+    // TODO
+}
+
+TypeParametersSignatureNode::~TypeParametersSignatureNode()
+{
+    for (int i = 0; i < no_typ_params; i++)
+        delete type_parameters[i];
+    delete[] type_parameters;
+}
+
+
 #endif

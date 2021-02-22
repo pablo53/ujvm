@@ -177,5 +177,41 @@ class TypeArgumentsSignatureNode : public SignatureNode
     friend class ClassTypeSignatureNode;
 };
 
+class TypeParameterSignatureNode : public SignatureNode
+{
+    public:
+    IdentifierSignatureNode * identifier_node;
+    u8 no_iface_bounds; /* size of table iface_bound_nodes, max 255 */
+    RefTypeSignature * class_bound_node;
+    RefTypeSignature ** iface_bound_nodes;
+
+    TypeParameterSignatureNode(const TypeParameterSignatureNode &) = delete;
+    TypeParameterSignatureNode(TypeParameterSignatureNode &&) = delete;
+    virtual ~TypeParameterSignatureNode();
+
+    protected:
+    static TypeParameterSignatureNode * from(Utf8Buffer &); /* returns TypeParameterSignatureNode with ownership */
+
+    private:
+    TypeParameterSignatureNode(IdentifierSignatureNode *, u8, RefTypeSignature *, RefTypeSignature **);
+};
+
+class TypeParametersSignatureNode : public SignatureNode
+{
+    public:
+    u8 no_typ_params; /* size of table type_parameters. max 255 */
+    TypeParameterSignatureNode ** type_parameters;
+
+    TypeParametersSignatureNode(const TypeParametersSignatureNode &) = delete;
+    TypeParametersSignatureNode(TypeParametersSignatureNode &&) = delete;
+    virtual ~TypeParametersSignatureNode();
+
+    protected:
+    static TypeParametersSignatureNode * from(Utf8Buffer &); /* returns TypeParametersSignatureNode with ownership */
+
+    private:
+    TypeParametersSignatureNode(u8, TypeParameterSignatureNode **);
+};
+
 
 #endif
